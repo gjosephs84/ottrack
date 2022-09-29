@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+.main-table {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+.shift-table {
+  background-color: aquamarine;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+}
+
+.shift-form {
+  max-width: 300px;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 10px;
+}
+
+.shift {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  margin: 10px;
+  max-width: 300px;
+  background-color: #61dafb;
+}
+
+.shift-date {
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+}
+
+h4 {
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
