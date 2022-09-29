@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "offerings",
+  "info": {
+    "singularName": "offering",
+    "pluralName": "offerings",
+    "displayName": "Offering"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "shifts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shift.shift"
+    }
+  }
+}

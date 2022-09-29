@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shifts",
+  "info": {
+    "singularName": "shift",
+    "pluralName": "shifts",
+    "displayName": "Shift"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "startTime": {
+      "type": "time"
+    },
+    "endTime": {
+      "type": "time"
+    },
+    "startLocation": {
+      "type": "string"
+    },
+    "endLocation": {
+      "type": "string"
+    },
+    "admin_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    }
+  }
+}
