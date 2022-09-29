@@ -4,7 +4,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+
+//import the routes
+import Admin from './routes/admin';
+import CreateOffering from './routes/create-offering';
+import Employee from './routes/employee';
+import History from './routes/history';
+import Home from './routes/home';
+import Login from './routes/login';
+import SelectShifts from './routes/select-shifts';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
