@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
+import Register from "../components/register";
 
 // The graphql query
 const GET_SHIFTS = gql`
@@ -43,6 +44,7 @@ const Home = () => {
             Home Page
             <Link to="create-offering">Create Offering</Link>
             <DisplayData />
+            <Register />
 
         </div>
     );
