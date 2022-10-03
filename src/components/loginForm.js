@@ -1,11 +1,9 @@
 import React from "react";
 import axios from 'axios';
 
-const Register = () => {
-    const [name, setName]                       = React.useState("");
+const LoginForm = () => {
     const [email, setEmail]                     = React.useState("");
     const [password, setPassword]               = React.useState("");
-    const [confirmPassword, setConfirmPassword] = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
 
     /*
@@ -33,9 +31,8 @@ const Register = () => {
 
     const handleSubmit = () => {
         axios
-            .post('http://localhost:1337/api/auth/local/register', {
-                username: name,
-                email: email,
+            .post('http://localhost:1337/api/auth/local', {
+                identifier: email,
                 password: password
             })
             .then(response => {
@@ -49,19 +46,15 @@ const Register = () => {
 
     return (
         <div>
-            <h2>Register</h2>
-            <h4>Name:</h4>
-            <input type="text" placeholder="Enter your name" onChange={(e) => {handleChange(e, e.target.value, setName)}}/>
+            <h2>Login:</h2>
+
             <h4>Email:</h4>
             <input type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
             <h4>Password:</h4>
             <input type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/>
-            <h4>Confirm Password:</h4>
-            <input type="password" placeholder="Confirm your password" onChange={(e) => {handleChange(e, e.target.value, setConfirmPassword);
-            checkEnable(password, e.target.value)}}/>
-            <button onClick={handleSubmit} disabled={shouldDisable}>Submit</button>
+            <button onClick={handleSubmit}>Submit</button>
         </div>
     )
 }
 
-export default Register;
+export default LoginForm;
