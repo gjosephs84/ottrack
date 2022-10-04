@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
@@ -13,6 +14,7 @@ import History from './routes/history';
 import Home from './routes/home';
 import Login from './routes/login';
 import SelectShifts from './routes/select-shifts';
+import Signup from './routes/signup';
 
 // Initialize the Apollo Client to be able to work with graphql elsewhere in the app
 
@@ -51,10 +53,10 @@ root.render(
             <Route path="employee" element={<Employee />} />
             <Route path="select-shifts" element={<SelectShifts />} />
             <Route path="history" element={<History />} />
+            <Route path="signup" element={<Signup />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </ApolloProvider>
-  </React.StrictMode>,
-  document.querySelector('#root')
+  </React.StrictMode>
 );
