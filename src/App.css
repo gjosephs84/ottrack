@@ -36,6 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
 .main-table {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -72,4 +77,23 @@
 h4 {
   margin-top: 5px;
   margin-bottom: 2px;
+}
+
+.form-card {
+  background-color: #C2C0BF;
+  min-width: 250px;
+  max-width: 300px;
+  border-radius: 15px;
+}
+.form-card-header {
+  color: white;
+  background-color: #A31F34;
+  padding-top: 2px;
+  padding-left: 10px;
+  padding-bottom: 1px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.form-card-body {
+  padding: 5px;
 }

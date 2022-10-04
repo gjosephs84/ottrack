@@ -46,12 +46,10 @@ const LoginForm = () => {
 
     return (
         <div>
-            <h2>Login:</h2>
-
             <h4>Email:</h4>
             <input type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
             <h4>Password:</h4>
-            <input type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/>
+            <input type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/><br/><br/>
             <button onClick={handleSubmit}>Submit</button>
         </div>
     )

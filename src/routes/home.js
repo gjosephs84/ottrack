@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Register from "../components/register";
 import LoginForm from "../components/loginForm";
+import MITCard from "../components/mitCard";
 
 // The graphql query
 const GET_SHIFTS = gql`
@@ -42,12 +43,24 @@ const Home = () => {
 
     return (
         <div>
-            Home Page
-            <Link to="create-offering">Create Offering</Link>
-            <DisplayData />
-            <Register />
-            <LoginForm />
-
+            <div className="centered">
+            <h1>Welcome to OTTrack</h1>
+            </div>
+            <div className="centered">
+                <div className="form-card">
+                    <div className="form-card-header">
+                        <h2>Login</h2>
+                    </div>
+                    <div className="form-card-body">
+                        <LoginForm/>
+                    </div>
+                    <div>
+                        <p>
+                            Or <Link to="signup">click here </Link>to register
+                        </p>
+                    </div>
+                </div>
+            </div>
 
         </div>
     );
