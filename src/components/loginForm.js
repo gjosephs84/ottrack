@@ -66,7 +66,7 @@ const LoginForm = () => {
             <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
             <h4>Password:</h4>
             <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/><br/><br/>
-            <button className="input-button" onClick={handleSubmit}>Submit</button>
+            <button className="button-full" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }

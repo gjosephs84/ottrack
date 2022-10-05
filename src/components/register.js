@@ -66,7 +66,7 @@ const Register = () => {
             <h4>Confirm Password:</h4>
             <input className="input-field" type="password" placeholder="Confirm your password" onChange={(e) => {handleChange(e, e.target.value, setConfirmPassword);
             checkEnable(password, e.target.value)}}/><br/><br/>
-            <button className="input-button" onClick={handleSubmit} disabled={shouldDisable}>Submit</button>
+            <button className="button-full" onClick={handleSubmit} disabled={shouldDisable}>Submit</button>
         </div>
     )
 }

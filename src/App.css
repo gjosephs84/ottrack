@@ -106,6 +106,40 @@ h4 {
   padding: 3px;
 }
 
+input {
+  width: 100%;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 3px;
+}
+
+select {
+
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 3px;
+}
+
+button {
+  border-radius: 7px;
+  border-style: solid;
+  padding: 3px;
+  border-color: #A31F34;
+  border-width: 1px;
+  background-color: #A31F34;
+  color: white;
+}
+
+button:disabled {
+  background-color: #a66c76;
+}
+
+.button-full {
+  width: 100%;
+}
+
 .input-button {
   width: 100%;
   border-radius: 7px;
@@ -121,3 +155,13 @@ h4 {
   background-color: #a66c76;
 }
 
+.offering-card {
+  display: grid;
+  grid-template-columns: 300px 2fr;
+  
+}
+
+.time-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
