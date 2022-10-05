@@ -1,7 +1,16 @@
 import React from "react";
 import axios from 'axios';
+import { UserContext } from "../context/context";
 
 const LoginForm = () => {
+    // Bring in the context
+    const ctx = React.useContext(UserContext);
+
+    // Grab the state variables from context
+    const [loggedIn, setLoggedIn] = ctx.loginState;
+    const [userRole, setUserRole] = ctx.userRole;
+
+    // Create the other state variables for the form
     const [email, setEmail]                     = React.useState("");
     const [password, setPassword]               = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
@@ -38,6 +47,13 @@ const LoginForm = () => {
             .then(response => {
                 console.log('User profile', response.data.user);
                 console.log('User token', response.data.jwt);
+                // Set the current user in the context
+                ctx.currentUser = response.data.user;
+                // Set the user as logged in and update the type for
+                // conditional rendering of options in the navbar
+                setLoggedIn(true);
+                setUserRole(ctx.currentUser.type);
+                console.log(`ctx user is ${ctx.currentUser.username} and is of type ${ctx.currentUser.type}`);
             })
             .catch(error => {
                 console.log('An error occurred:', error.response);
@@ -47,10 +63,10 @@ const LoginForm = () => {
     return (
         <div>
             <h4>Email:</h4>
-            <input type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
+            <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
             <h4>Password:</h4>
-            <input type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/><br/><br/>
-            <button onClick={handleSubmit}>Submit</button>
+            <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/><br/><br/>
+            <button className="input-button" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }

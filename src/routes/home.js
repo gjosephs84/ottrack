@@ -1,8 +1,12 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import Register from "../components/register";
 import LoginForm from "../components/loginForm";
 import MITCard from "../components/mitCard";
+
+// import the context
+import { UserContext } from "../context/context";
 
 // The graphql query
 const GET_SHIFTS = gql`
@@ -39,6 +43,8 @@ const DisplayData = () => {
 }
 
 const Home = () => {
+    // Set the context
+    const ctx = React.useContext(UserContext)
     
 
     return (
@@ -55,7 +61,7 @@ const Home = () => {
                         <LoginForm/>
                     </div>
                     <div>
-                        <p>
+                        <p style={{marginLeft: "15px"}}>
                             Or <Link to="signup">click here </Link>to register
                         </p>
                     </div>

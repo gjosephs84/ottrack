@@ -4,6 +4,7 @@ import axios from 'axios';
 const Register = () => {
     const [name, setName]                       = React.useState("");
     const [email, setEmail]                     = React.useState("");
+    const [role, setRole] = React.useState(null);
     const [password, setPassword]               = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
@@ -36,7 +37,8 @@ const Register = () => {
             .post('http://localhost:1337/api/auth/local/register', {
                 username: name,
                 email: email,
-                password: password
+                password: password,
+                type: role
             })
             .then(response => {
                 console.log('User profile', response.data.user);
@@ -49,17 +51,22 @@ const Register = () => {
 
     return (
         <div>
-            <h2>Register</h2>
             <h4>Name:</h4>
-            <input type="text" placeholder="Enter your name" onChange={(e) => {handleChange(e, e.target.value, setName)}}/>
+            <input className="input-field" type="text" placeholder="Enter your name" onChange={(e) => {handleChange(e, e.target.value, setName)}}/>
+            <h4>Role:</h4>
+            <select className="input-field" onChange={(e) => {handleChange(e, e.target.value, setRole)}}>
+                <option>Choose a Role</option>
+                <option>Lifeguard</option>
+                <option>Manager</option>
+            </select>
             <h4>Email:</h4>
-            <input type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
+            <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
             <h4>Password:</h4>
-            <input type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/>
+            <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/>
             <h4>Confirm Password:</h4>
-            <input type="password" placeholder="Confirm your password" onChange={(e) => {handleChange(e, e.target.value, setConfirmPassword);
-            checkEnable(password, e.target.value)}}/>
-            <button onClick={handleSubmit} disabled={shouldDisable}>Submit</button>
+            <input className="input-field" type="password" placeholder="Confirm your password" onChange={(e) => {handleChange(e, e.target.value, setConfirmPassword);
+            checkEnable(password, e.target.value)}}/><br/><br/>
+            <button className="input-button" onClick={handleSubmit} disabled={shouldDisable}>Submit</button>
         </div>
     )
 }

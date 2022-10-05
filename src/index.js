@@ -6,6 +6,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client
 import './index.css';
 import App from './App';
 
+//import the context
+import { UserContext } from './context/context';
+
 //import the routes
 import Admin from './routes/admin';
 import CreateOffering from './routes/create-offering';
@@ -44,18 +47,25 @@ root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />}/>
-            <Route path="login" element={<Login />} />
-            <Route path="admin" element={<Admin />} />
-            <Route path="create-offering" element={<CreateOffering />} />
-            <Route path="employee" element={<Employee />} />
-            <Route path="select-shifts" element={<SelectShifts />} />
-            <Route path="history" element={<History />} />
-            <Route path="signup" element={<Signup />} />
-          </Route>
-        </Routes>
+        <UserContext.Provider value={
+          {currentUser: null,
+          loginState: null,
+          userRole: null
+          }
+        }>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<Home />}/>
+              <Route path="login" element={<Login />} />
+              <Route path="admin" element={<Admin />} />
+              <Route path="create-offering" element={<CreateOffering />} />
+              <Route path="employee" element={<Employee />} />
+              <Route path="select-shifts" element={<SelectShifts />} />
+              <Route path="history" element={<History />} />
+              <Route path="signup" element={<Signup />} />
+            </Route>
+          </Routes>
+        </UserContext.Provider>
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>
