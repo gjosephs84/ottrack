@@ -63,11 +63,6 @@ const Home = () => {
                     <div className="form-card-body">
                         <LoginForm/>
                     </div>
-                    <div>
-                        <p style={{marginLeft: "15px"}}>
-                            Or <Link to="signup">click here </Link>to register
-                        </p>
-                    </div>
                 </div>
             </div>
 
