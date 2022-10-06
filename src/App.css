@@ -165,3 +165,38 @@ button:disabled {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+.shift-table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  background-color: #A31F34;
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-right: 20px;
+  min-width: 700px;
+  max-width: 700px;
+}
+
+.shift-table-body {
+  background-color:#C2C0BF;
+  padding: 10px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  margin-right: 20px;
+  min-width: 700px;
+  max-width: 700px;
+}
+
+.shift-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding: 7px;
+}
+
+.shift-row:nth-of-type(even) {
+  background-color: #939291;
+}

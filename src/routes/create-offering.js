@@ -1,12 +1,16 @@
 import React from "react";
-import Shift from "../components/shift";
+import axios from 'axios';
+import ShiftTable from "../components/shift-table";
 import MITCard from "../components/mitCard";
 
 const offering = [];
-console.log(offering);
+
+
+
 
 const CreateOffering = () => {
-    // A state variable to hold all the shifts in the offering
+
+// A state variable to hold all the shifts in the offering
   const [shifts, setShifts] = React.useState(offering);
 
   // A function to handle the form submit
@@ -33,6 +37,7 @@ const CreateOffering = () => {
     temp.push(newShift);
     offering.push(newShift);
     setShifts(temp);
+    console.log(offering);
   }
 
   // A function to remove a submitted shift
@@ -41,9 +46,52 @@ const CreateOffering = () => {
     temp.splice(index, 1);
     setShifts(temp);
   }
+
+  // A function to submit the offering
+  const submitOffering = async() => {
+    let offeringId;
+  
+    // First, let's create an offering
+    let theOffering = await axios
+      .post('http://localhost:1337/api/offerings', {
+        data: {
+          shifts: []
+        }
+      })
+      .then(response => {
+        offeringId = response.data.data.id;
+      })
+      .catch(error => {
+        console.log('An error occurred:', error.response);
+      });
+      
+  
+      // Now, let's create shifts and attach them to the offering using the offering ID just created
+      for (let i=0; i<offering.length; i++) {
+        let theShift = await axios
+          .post('http://localhost:1337/api/shifts', {
+            data: {
+              date: offering[i].date,
+              startTime: offering[i].startTime,
+              endTime: offering[i].endTime,
+              startLocation: offering[i].startLocation,
+              endLocation: offering[i].endLocation,
+              offering: offeringId
+            }
+          })
+          .then(response => {
+            console.log(response.data.data);
+          })
+          .catch(error => {
+            console.log('An error occurred in shift:', error.response);
+          });
+      }
+  }
+
   return (
     <div>
-      <h2>Create a New Overtime Offering</h2>
+      <h2 className="centered">Create a New Overtime Offering</h2>
+      <div className="centered">
       <div className="offering-card">
         <div>
           <MITCard 
@@ -72,7 +120,7 @@ const CreateOffering = () => {
             <option value="00">00</option>
             <option value="15">15</option>
             <option value="30">30</option>
-            <option value="45">00</option>
+            <option value="45">45</option>
           </select>
           <select name="start-am-pm" id="start-am-pm">
             <option value="AM">AM</option>
@@ -99,7 +147,7 @@ const CreateOffering = () => {
             <option value="00">00</option>
             <option value="15">15</option>
             <option value="30">30</option>
-            <option value="45">00</option>
+            <option value="45">45</option>
           </select>
           <select name="end-am-pm" id="end-am-pm">
             <option value="AM">AM</option>
@@ -124,13 +172,11 @@ const CreateOffering = () => {
 
 
         </div>
-        <div>{shifts.length > 0 &&
-          shifts.map((shift, i) => {
-            return (
-              <Shift key={i} id={i} shift={shift} index={i} remove={removeShift}></Shift>
-            )
-          })
-        }</div>
+        <div>
+          <ShiftTable shifts={shifts} removeShift={removeShift}/><br/>
+          <button onClick={submitOffering}>Publish Offering</button>
+        </div>
+        </div>
       </div>
 
       {/* 

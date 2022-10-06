@@ -4,7 +4,8 @@
   "info": {
     "singularName": "shift",
     "pluralName": "shifts",
-    "displayName": "Shift"
+    "displayName": "Shift",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,13 +13,13 @@
   "pluginOptions": {},
   "attributes": {
     "date": {
-      "type": "date"
+      "type": "string"
     },
     "startTime": {
-      "type": "time"
+      "type": "string"
     },
     "endTime": {
-      "type": "time"
+      "type": "string"
     },
     "startLocation": {
       "type": "string"
@@ -26,10 +27,11 @@
     "endLocation": {
       "type": "string"
     },
-    "admin_user": {
+    "offering": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "admin::user"
+      "relation": "manyToOne",
+      "target": "api::offering.offering",
+      "inversedBy": "shifts"
     }
   }
 }
