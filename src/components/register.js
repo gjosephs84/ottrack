@@ -1,13 +1,23 @@
 import React from "react";
 import axios from 'axios';
+import { UserContext } from "../context/context";
 
 const Register = () => {
+    // Bring in the context
+    const ctx = React.useContext(UserContext);
+
+    // Grab the state variables from context
+    const [loggedIn, setLoggedIn] = ctx.loginState;
+    const [userRole, setUserRole] = ctx.userRole;
+
+    // Create the state variables
     const [name, setName]                       = React.useState("");
     const [email, setEmail]                     = React.useState("");
     const [role, setRole] = React.useState(null);
     const [password, setPassword]               = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
+    const [show, setShow] = React.useState(true);
 
     /*
     
@@ -32,8 +42,8 @@ const Register = () => {
 
     
 
-    const handleSubmit = () => {
-        axios
+    const handleSubmit = async() => {
+        let registering = await axios
             .post('http://localhost:1337/api/auth/local/register', {
                 username: name,
                 email: email,
@@ -43,6 +53,10 @@ const Register = () => {
             .then(response => {
                 console.log('User profile', response.data.user);
                 console.log('User token', response.data.jwt);
+                ctx.currentUser = response.data.user;
+                setLoggedIn(true);
+                setShow(false);
+                setUserRole(ctx.currentUser.type);
             })
             .catch(error => {
                 console.log('An error occurred:', error.response);
@@ -51,6 +65,7 @@ const Register = () => {
 
     return (
         <div>
+            {show ? (<div>
             <h4>Name:</h4>
             <input className="input-field" type="text" placeholder="Enter your name" onChange={(e) => {handleChange(e, e.target.value, setName)}}/>
             <h4>Role:</h4>
@@ -67,6 +82,12 @@ const Register = () => {
             <input className="input-field" type="password" placeholder="Confirm your password" onChange={(e) => {handleChange(e, e.target.value, setConfirmPassword);
             checkEnable(password, e.target.value)}}/><br/><br/>
             <button className="button-full" onClick={handleSubmit} disabled={shouldDisable}>Submit</button>
+            </div>) 
+            : 
+            (<div>
+                <h2>Welcome {ctx.currentUser.username}!</h2>
+                <p>Your registration was successful.</p>
+            </div>)}
         </div>
     )
 }
