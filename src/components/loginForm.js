@@ -14,6 +14,13 @@ const LoginForm = () => {
     const [email, setEmail]                     = React.useState("");
     const [password, setPassword]               = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
+    const [show, setShow] = React.useState(() => {
+        if (ctx.currentUser) {
+            return false;
+        } else {
+            return true;
+        }
+    });
 
     /*
     
@@ -38,8 +45,8 @@ const LoginForm = () => {
 
     
 
-    const handleSubmit = () => {
-        axios
+    const handleSubmit = async() => {
+        let loggingIn = await axios
             .post('http://localhost:1337/api/auth/local', {
                 identifier: email,
                 password: password
@@ -52,6 +59,7 @@ const LoginForm = () => {
                 // Set the user as logged in and update the type for
                 // conditional rendering of options in the navbar
                 setLoggedIn(true);
+                setShow(false);
                 setUserRole(ctx.currentUser.type);
                 console.log(`ctx user is ${ctx.currentUser.username} and is of type ${ctx.currentUser.type}`);
             })
@@ -62,12 +70,16 @@ const LoginForm = () => {
 
     return (
         <div>
-            <h4>Email:</h4>
-            <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
-            <h4>Password:</h4>
-            <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/><br/><br/>
-            <button className="button-full" onClick={handleSubmit}>Submit</button>
-        </div>
+            {show ? (<div>
+                <h4>Email:</h4>
+                <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
+                <h4>Password:</h4>
+                <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/><br/><br/>
+                <button className="button-full" onClick={handleSubmit}>Submit</button>
+            </div>) : (<div>
+                <h2>Welcome {ctx.currentUser.username}</h2>
+                </div>)}
+        </div> 
     )
 }
 

@@ -45,6 +45,9 @@ const DisplayData = () => {
 const Home = () => {
     // Set the context
     const ctx = React.useContext(UserContext)
+    const [loggedIn, setLoggedIn] = ctx.loginState;
+    console.log(`login state is ${loggedIn} `);
+    console.log(`currentUser is ${JSON.stringify(ctx.currentUser)}`);
     
 
     return (
