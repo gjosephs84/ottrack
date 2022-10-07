@@ -45,6 +45,7 @@ const CreateOffering = () => {
     let temp = [...shifts];
     temp.splice(index, 1);
     setShifts(temp);
+    offering.splice(index, 1);
   }
 
   // A function to submit the offering
@@ -91,6 +92,7 @@ const CreateOffering = () => {
   return (
     <div>
       <h2 className="centered">Create a New Overtime Offering</h2>
+      <br/>
       <div className="centered">
       <div className="offering-card">
         <div>
@@ -174,39 +176,10 @@ const CreateOffering = () => {
         </div>
         <div>
           <ShiftTable shifts={shifts} removeShift={removeShift}/><br/>
-          <button onClick={submitOffering}>Publish Offering</button>
+          {shifts.length > 0 && <button onClick={submitOffering}>Publish Offering</button>}
         </div>
         </div>
       </div>
-
-      {/* 
-      <form className="shift-form">
-        <h4>Date:</h4>
-        <input type="date" name="date" id="date"></input>
-        <h4>Start Time:</h4>
-        <input type="time" name="start-time" id="start-time" min="05:30" max="23:15" step="900"></input>
-        <h4>End Time:</h4>
-        <input type="time" name="end-time" id="end-time"></input>
-        <h4>Starting Location:</h4>
-        <select name="start-location" id="start-location">
-          <option value="Alumni Pool">Alumni Pool</option>
-          <option value="Z-Center">Z-Center</option>
-        </select>
-        <h4>Ending Location:</h4>
-        <select name="end-location" id="end-location">
-          <option value="Alumni Pool">Alumni Pool</option>
-          <option value="Z-Center">Z-Center</option>
-        </select>
-        <button onClick={handleSubmit}>Submit</button>
-        </form>
-        {shifts.length > 0 &&
-          shifts.map((shift, i) => {
-            return (
-              <Shift key={i} id={i} shift={shift} index={i} remove={removeShift}></Shift>
-            )
-          })
-        }
-        */}
     </div>
   )
 }
