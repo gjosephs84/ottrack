@@ -200,3 +200,33 @@ button:disabled {
 .shift-row:nth-of-type(even) {
   background-color: #939291;
 }
+
+.unselected-shift {
+  
+  min-width: 350px;
+  max-width: 350px;
+  margin: 10px;
+  background-color: #A31F34;
+  color: white;
+  padding: 5px;
+}
+
+.selected-shift {
+  
+  min-width: 350px;
+  max-width: 350px;
+  margin: 10px;
+  background-color: #1fa342;
+  color: white;
+  padding: 5px;
+}
+
+.shift-selector {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+.selector {
+  margin: 10px;
+  padding: 5px;
+}
