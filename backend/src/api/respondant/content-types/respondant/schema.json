@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "respondants",
+  "info": {
+    "singularName": "respondant",
+    "pluralName": "respondants",
+    "displayName": "Respondant"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "offering_response": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::offering-response.offering-response",
+      "inversedBy": "respondants"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "name": {
+      "type": "string"
+    },
+    "seniority": {
+      "type": "integer"
+    },
+    "requested_shift": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::requested-shift.requested-shift",
+      "inversedBy": "respondant"
+    }
+  }
+}

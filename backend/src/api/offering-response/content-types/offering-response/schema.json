@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "offering_responses",
+  "info": {
+    "singularName": "offering-response",
+    "pluralName": "offering-responses",
+    "displayName": "Offering Response",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "offering": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::offering.offering",
+      "inversedBy": "offering_response"
+    },
+    "respondants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::respondant.respondant",
+      "mappedBy": "offering_response"
+    }
+  }
+}

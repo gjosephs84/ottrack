@@ -17,6 +17,15 @@
       "relation": "oneToMany",
       "target": "api::shift.shift",
       "mappedBy": "offering"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "offering_response": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::offering-response.offering-response",
+      "inversedBy": "offering"
     }
   }
 }
