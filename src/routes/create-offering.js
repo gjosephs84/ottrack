@@ -56,7 +56,8 @@ const CreateOffering = () => {
     let theOffering = await axios
       .post('http://localhost:1337/api/offerings', {
         data: {
-          shifts: []
+          shifts: [],
+          active: true
         }
       })
       .then(response => {
@@ -66,6 +67,21 @@ const CreateOffering = () => {
         console.log('An error occurred:', error.response);
       });
       
+      // Next, create an offering_response to hold respondants and their preferences
+
+      let theOfferingResponse = await axios
+        .post('http://localhost:1337/api/offering-responses', {
+          data: {
+            offering: offeringId
+          }
+        })
+        .then(response => {
+          console.log("Created Offering Response:");
+          console.log(response);
+        })
+        .catch(error => {
+          console.log('An error occurred:', error.response);
+        })
   
       // Now, let's create shifts and attach them to the offering using the offering ID just created
       for (let i=0; i<offering.length; i++) {
