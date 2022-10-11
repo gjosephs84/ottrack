@@ -8,6 +8,7 @@ import App from './App';
 
 //import the context
 import { UserContext } from './context/context';
+import { ShiftContext } from './context/shift-context';
 
 //import the routes
 import Admin from './routes/admin';
@@ -53,6 +54,10 @@ root.render(
           userRole: null
           }
         }>
+        <ShiftContext.Provider value={
+          {selected: []
+          }
+        }>
           <Routes>
             <Route path="/" element={<App />}>
               <Route index element={<Home />}/>
@@ -65,6 +70,7 @@ root.render(
               <Route path="signup" element={<Signup />} />
             </Route>
           </Routes>
+        </ShiftContext.Provider>
         </UserContext.Provider>
       </BrowserRouter>
     </ApolloProvider>

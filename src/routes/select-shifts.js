@@ -1,3 +1,4 @@
+import React from "react";
 import SelectableShifts from "../components/selectableShifts";
 import { useQuery, gql } from "@apollo/client";
 
@@ -67,6 +68,9 @@ const SelectShifts = () => {
         <div>
             <div className="centered">
                 <h2>Select Shifts</h2>
+            </div>
+            <div className="centered">
+                <p>Begin by tapping/clicking shifts you are interested in working.</p>
             </div>
             <div className="centered">
                 <div>
