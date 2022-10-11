@@ -1,12 +1,26 @@
 import React from "react";
 import { ShiftContext } from "../context/shift-context";
 
+/*
+    -----WHAT IS GOING ON HERE?----
+
+        First off, we are creating a SelectableShifts component. That is to say, for each
+        active offering retrieved via GraphQl on the select shifts page, the program is going
+        to iterate over the shifts inside said offering and creat <AShift> for each.
+
+        Moving into the AShift component, we start by bringing in the ShiftContext, which
+        will be used to hold a record of which shifts an employee selects.
+
+        Upon clicking/tapping one of the AShift components, the color will change to green
+        and update the context to indicate selection/red to show unselected.
+*/
 
 
 const AShift = (shift, i) => {
     const shiftCtx = React.useContext(ShiftContext);
     const [selected, setSelected] = React.useState("unselected-shift");
     // A function to change class upon selection
+    // and to add/remove selected shifts to the ShiftContext
     const handleSelect = () => {
         if (selected === "unselected-shift") {
             setSelected("selected-shift");
