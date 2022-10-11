@@ -7,6 +7,7 @@ query GetOfferings{
     offerings {
       data {
         attributes {
+          active
           shifts {
             data {
               attributes {
