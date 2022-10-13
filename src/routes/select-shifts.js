@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import SelectableShifts from "../components/selectableShifts";
 import ShiftRanker from "../components/shiftRanker";
 import { useQuery, gql } from "@apollo/client";
@@ -91,9 +92,12 @@ const SelectShifts = () => {
     let rawOfferings = data.offerings.data;
     // Then create a clean array to push it into
     const offerings = [];
+    // And one to hold the ids of the offering responses
+    const responseIds = [];
     // Isolate one of the dirty offerings at a time
     for (let i=0; i<rawOfferings.length; i++) {
         let current = rawOfferings[i].attributes.shifts.data;
+        let currentId = rawOfferings[i].attributes.offering_response.data.id;
         // Clean it up further -- Get down past the attributes to the meat
         // of the shift
         // Begin with a place to hold the super-clean version
@@ -116,9 +120,58 @@ const SelectShifts = () => {
         };
         // Now push the clean offering into offerings
         offerings.push(cleanOffering);
+        responseIds.push(currentId);
     };
-    // Reverse the array so offerings appear with most recent first
+    // Reverse the arrays so offerings appear with most recent first
     offerings.reverse();
+    responseIds.reverse();
+
+    // Here we submit the responses
+
+    const submitResponse = async() => {
+      alert("Clicked!!!!");
+      let respondantId;
+
+      // First let's create a respondant
+      let theRespondant = await axios
+        .post('http://localhost:1337/api/respondants', {
+          data: {
+            offering_response: responseIds[0],
+            users_permissions_user: ctx.currentUser.id,
+            name: ctx.currentUser.username,
+            seniority: 0
+          }
+        })
+        .then(response => {
+          console.log(response.data.data);
+          respondantId = response.data.data.id;
+        })
+        .catch(error => {
+          console.log('An error occurred in respondant:', error.response);
+        });
+
+        // Then let's create shifts as responses
+      for (let i=0; i<shiftCtx.ranked.length; i++) {
+        alert("inside the for loop");
+        let requestedShift = await axios
+          .post('http://localhost:1337/api/requested-shifts', {
+            data: {
+              shift: shiftCtx.ranked[i].id,
+              ranking: shiftCtx.ranked[i].rank,
+              respondant: respondantId
+            }
+          })
+          .then(response => {
+            console.log(response.data.data);
+          })
+          .catch(error => {
+            console.log("Error occurred in requested shift: ", error.response);
+          });
+      }
+
+      };
+
+
     return (
       <div>
         {show ? (
@@ -167,7 +220,7 @@ const SelectShifts = () => {
               </div>
               <br/>
               <div className="centered">
-                <button disabled={disableSubmit}>Submit</button>
+                <button disabled={disableSubmit} onClick={submitResponse}>Submit</button>
               </div>
               <h4>{rankingError}</h4>
             </div>

@@ -4,26 +4,28 @@
   "info": {
     "singularName": "requested-shift",
     "pluralName": "requested-shifts",
-    "displayName": "Requested Shift"
+    "displayName": "Requested Shift",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "respondant": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::respondant.respondant",
-      "inversedBy": "requested_shift"
-    },
     "shift": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::shift.shift"
+      "target": "api::shift.shift",
+      "inversedBy": "requested_shift"
     },
     "ranking": {
       "type": "integer"
+    },
+    "respondant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::respondant.respondant",
+      "inversedBy": "requested_shifts"
     }
   }
 }

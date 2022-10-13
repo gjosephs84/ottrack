@@ -4,19 +4,14 @@
   "info": {
     "singularName": "respondant",
     "pluralName": "respondants",
-    "displayName": "Respondant"
+    "displayName": "Respondant",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "offering_response": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::offering-response.offering-response",
-      "inversedBy": "respondants"
-    },
     "users_permissions_user": {
       "type": "relation",
       "relation": "oneToOne",
@@ -28,11 +23,11 @@
     "seniority": {
       "type": "integer"
     },
-    "requested_shift": {
+    "requested_shifts": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::requested-shift.requested-shift",
-      "inversedBy": "respondant"
+      "mappedBy": "respondant"
     }
   }
 }

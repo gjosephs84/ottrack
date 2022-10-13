@@ -21,8 +21,7 @@
     "respondants": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::respondant.respondant",
-      "mappedBy": "offering_response"
+      "target": "api::respondant.respondant"
     }
   }
 }
