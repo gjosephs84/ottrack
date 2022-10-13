@@ -41,6 +41,25 @@ const ShiftRanker = (shift) => {
     // Then pass that to getOptions();
 
     const selectOptions = getOptions(length);
+    console.log("shiftCtx.ranked is ", shiftCtx.ranked);
+
+    // A function to update preferences when the <select> value changes
+    const handleChange = (e, value) => {
+        e.preventDefault();
+        console.log(value);
+        let idToChange
+        // Let's find the index of the corresponding entry in shiftCtx.ranked
+        for (let i=0; i<shiftCtx.ranked.length; i++) {
+            if (shiftCtx.ranked[i].id === shift.shift.id) {
+                idToChange = i;
+            };
+        };
+        // Now let's update that entry
+        shiftCtx.ranked[idToChange].rank = value;
+        console.log("Updated entry is: ", shiftCtx.ranked[idToChange]);
+        console.log(shiftCtx.ranked);
+
+    }
     
     // Now, let's return the shift
     return(
@@ -50,7 +69,7 @@ const ShiftRanker = (shift) => {
                 <div>Starts at: {startLocation} | Ends at: {endLocation}</div>
             </div>
             <div>
-                <select>
+                <select onChange={(e) => {handleChange(e, e.target.value)}}>
                     {selectOptions.map((option) => {
                         return (
                             <option key={option.value} value={option.value}>{option.text}</option>

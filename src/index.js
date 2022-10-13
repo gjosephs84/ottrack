@@ -55,7 +55,8 @@ root.render(
           }
         }>
         <ShiftContext.Provider value={
-          {selected: []
+          { selected: [],
+            ranked: []
           }
         }>
           <Routes>

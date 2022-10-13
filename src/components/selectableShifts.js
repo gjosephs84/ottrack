@@ -25,13 +25,22 @@ const AShift = (shift, i) => {
         if (selected === "unselected-shift") {
             setSelected("selected-shift");
             shiftCtx.selected.push(shift);
+            shiftCtx.ranked.push(
+                {
+                    id: shift.shift.id,
+                    rank: null
+                }
+            )
             console.log("Added shift:")
             console.log(shiftCtx.selected);
+            console.log(shiftCtx.ranked);
         } else {
             setSelected("unselected-shift");
             shiftCtx.selected.splice(i, 1);
+            shiftCtx.ranked.splice(i, 1);
             console.log("Removed Shift:");
             console.log(shiftCtx.selected);
+            console.log(shiftCtx.ranked);
 
         };
     }

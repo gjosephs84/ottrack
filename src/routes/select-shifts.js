@@ -1,6 +1,5 @@
 import React from "react";
 import SelectableShifts from "../components/selectableShifts";
-import RankedShifts from "../components/rankedShifts";
 import ShiftRanker from "../components/shiftRanker";
 import { useQuery, gql } from "@apollo/client";
 import { ShiftContext } from "../context/shift-context";
@@ -65,6 +64,7 @@ const SelectShifts = () => {
     // A function to go back to selecting preferences
     const goBack = () => {
       shiftCtx.selected = [];
+      shiftCtx.ranked = [];
       console.log("in the go back selected has become", shiftCtx.selected);
       setSelectedShifts([]);
       setShow(true);
