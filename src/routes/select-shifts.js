@@ -1,6 +1,10 @@
 import React from "react";
 import SelectableShifts from "../components/selectableShifts";
+import RankedShifts from "../components/rankedShifts";
+import ShiftRanker from "../components/shiftRanker";
 import { useQuery, gql } from "@apollo/client";
+import { ShiftContext } from "../context/shift-context";
+import { UserContext } from "../context/context";
 
 // The graphql query to retrieve all the active offerings
 /* 
@@ -24,6 +28,7 @@ query GetActiveOfferings{
           }
           shifts {
             data {
+              id
               attributes {
                 date
                 startTime
@@ -40,6 +45,31 @@ query GetActiveOfferings{
   `;
 
 const SelectShifts = () => {
+    // Bring in the context
+    const shiftCtx = React.useContext(ShiftContext);
+    const ctx = React.useContext(UserContext);
+
+    const [show, setShow] = React.useState(true);
+    const [selectedShifts, setSelectedShifts] = React.useState([]);
+
+    // A function to handle submit of initial preferences
+    const handleSubmit = () => {
+      console.log("Shifts selected are:");
+      console.log(shiftCtx.selected);
+      console.log("Selected by:");
+      console.log(ctx.currentUser.username);
+      setSelectedShifts(shiftCtx.selected);
+      setShow(false);
+    };
+
+    // A function to go back to selecting preferences
+    const goBack = () => {
+      shiftCtx.selected = [];
+      console.log("in the go back selected has become", shiftCtx.selected);
+      setSelectedShifts([]);
+      setShow(true);
+    }
+
     // Start by getting the active offering
     const { loading, error, data } = useQuery(GET_ACTIVE_OFFERINGS);
     if (loading) return <p>Loading ...</p>;
@@ -57,7 +87,20 @@ const SelectShifts = () => {
         // Begin with a place to hold the super-clean version
         const cleanOffering = [];
         for (let j=0; j<current.length; j++) {
-            cleanOffering.push(current[j].attributes);
+            // isolate the shift
+            // but grab the shift's id on the way
+            const { date, startTime, endTime, startLocation, endLocation } = current[j].attributes;
+            let cleanShift = {
+              id: current[j].id,
+              date: date,
+              startTime: startTime,
+              endTime: endTime,
+              startLocation: startLocation,
+              endLocation: endLocation
+              };
+            console.log("Clean Shift is:");
+            console.log(cleanShift);
+            cleanOffering.push(cleanShift);
         };
         // Now push the clean offering into offerings
         offerings.push(cleanOffering);
@@ -65,7 +108,9 @@ const SelectShifts = () => {
     // Reverse the array so offerings appear with most recent first
     offerings.reverse();
     return (
-        <div>
+      <div>
+        {show ? (
+          <div>
             <div className="centered">
                 <h2>Select Shifts</h2>
             </div>
@@ -82,6 +127,38 @@ const SelectShifts = () => {
                 }
                 </div>
             </div>
+            <div className="centered">
+                <button onClick={handleSubmit}>Continue</button>
+            </div>
+          </div>) : (
+            <div>
+              <div className="centered">
+                <h2>Rank Assignment Prefeference</h2>
+              </div>
+              <div className="centered">
+                <p>Please rank the shifts below from 1 through {shiftCtx.selected.length},<br/>
+                with 1 being your first choice,<br/>and {shiftCtx.selected.length} being your
+                last choice.</p>
+              </div>
+              <div className="centered">
+                <div>
+                {shiftCtx.selected.map((shift) => {
+                  return (
+                    <ShiftRanker key={shift.id} shift={shift.shift}/>
+                  )
+                } )}
+                </div>
+              </div>
+              <br/>
+              <div className="centered">
+                <button onClick={goBack}>Go Back</button>
+              </div>
+              <br/>
+              <div className="centered">
+                <button>Submit</button>
+              </div>
+            </div>
+          ) }
         </div>
     );
 }

@@ -207,8 +207,9 @@ button:disabled {
   max-width: 350px;
   margin: 10px;
   background-color: #A31F34;
+  border-radius: 15px;
   color: white;
-  padding: 5px;
+  padding: 10px;
 }
 
 .selected-shift {
@@ -217,8 +218,23 @@ button:disabled {
   max-width: 350px;
   margin: 10px;
   background-color: #1fa342;
+  border-radius: 15px;
   color: white;
-  padding: 5px;
+  padding: 10px;
+  
+}
+
+.selected-shift-with-ranker {
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  min-width: 450px;
+  max-width: 450px;
+  margin: 10px;
+  background-color: #1fa342;
+  border-radius: 15px;
+  color: white;
+  padding: 10px;
+  
 }
 
 .shift-selector {
@@ -229,4 +245,12 @@ button:disabled {
 .selector {
   margin: 10px;
   padding: 5px;
+}
+
+.ranker {
+  margin: 10px;
+  text-align: center;
+  font-weight: bolder;
+  border-radius: 15px;
+  background-color: #C2C0BF;
 }
