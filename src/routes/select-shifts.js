@@ -51,11 +51,14 @@ const SelectShifts = () => {
     const [show, setShow] = React.useState(true);
     const [selectedShifts, setSelectedShifts] = React.useState([]);
     // This state variable is going to be used for validation in the submit button
-    // And will be passed into <ShiftRanker> to be updated there onChange of the shift <select>
+    // And will be called inside <ShiftRanker> to be updated there onChange of the shift <select>
     const [disableSubmit, setDisableSubmit] = React.useState(true);
+    // This state variable will show why the submit button is not enabling
+    const [rankingError, setRankingError] = React.useState(null);
     // Inject the state variables into the shift context
     shiftCtx.disabledState = [disableSubmit, setDisableSubmit];
-    console.log("-------------------shiftCtx.disabledState is ", shiftCtx.disabledState);
+    shiftCtx.errorState = [rankingError, setRankingError];
+    
 
 
     // A function to handle submit of initial preferences
@@ -75,6 +78,8 @@ const SelectShifts = () => {
       console.log("in the go back selected has become", shiftCtx.selected);
       setSelectedShifts([]);
       setShow(true);
+      setDisableSubmit(true);
+      setRankingError("");
     }
 
     // Start by getting the active offering
@@ -164,6 +169,7 @@ const SelectShifts = () => {
               <div className="centered">
                 <button disabled={disableSubmit}>Submit</button>
               </div>
+              <h4>{rankingError}</h4>
             </div>
           ) }
         </div>

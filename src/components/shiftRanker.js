@@ -51,19 +51,20 @@ const ShiftRanker = (shift) => {
 
     // Here is a function to validate and set the submit button in select-shifts.js to enable
     const validate = () => {
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! Validating!!!!!!!!!!!!!!!!!!!!!!!!!!");
         // First, let's reach into shiftCtx.ranked and pull out existing rankings into a new array
         const rankings = [];
         for (let i=0; i<shiftCtx.ranked.length; i++) {
             rankings.push(shiftCtx.ranked[i].rank);
         };
         console.log("rankings before any sorting is", rankings);
-        // Now let's grab the state updater from the shift context
+        // Now let's grab the state updaters from the shift context
         const [disabled, setDisabled] = shiftCtx.disabledState;
+        const [error, setError] = shiftCtx.errorState;
         // If anything is left unranked, keep button disabled and return
         if (rankings.includes("—")) {
             console.log("**************** No —");
             setDisabled(true);
+            setError("All shifts require a ranking to proceed");
             console.log("disabled is", disabled);
             return;
         };
@@ -74,13 +75,17 @@ const ShiftRanker = (shift) => {
         for (let i=0; i<validationArray.length; i++) {
             if (rankings[i] !== validationArray[i]) {
                 setDisabled(true);
+                if (rankings[i] !== null) {
+                    setError("Check your rankings. Make sure each ranking is only used once.")
                 console.log("!!!!!!mismatch!!!!!!");
+                };
                 return;
             }
         };
         // If everything matches, enable!!!!
         console.log("Looks like everything matched!!!!!!!");
         setDisabled(false);
+        setError(null);
     };
 
 
