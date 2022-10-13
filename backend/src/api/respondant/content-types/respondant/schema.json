@@ -28,6 +28,12 @@
       "relation": "oneToMany",
       "target": "api::requested-shift.requested-shift",
       "mappedBy": "respondant"
+    },
+    "offering_response": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::offering-response.offering-response",
+      "inversedBy": "respondants"
     }
   }
 }
