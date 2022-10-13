@@ -1,15 +1,10 @@
 import React from "react";
 import { ShiftContext } from "../context/shift-context";
 
-// Here's an empty array to hold the options
-// for the <select> to be populated by the
-// getOptions() function
-
-
 // Here's a function to generate the options for the <select>:
 const getOptions = (length) => {
     const selectOptions = [
-        {value: '', text: '—'}
+        {value: '—', text: '—'}
     ];
     for (let i=0; i<length; i++) {
         const val = i+1;
@@ -21,9 +16,19 @@ const getOptions = (length) => {
         console.log(selectOptions);
     };
     return selectOptions;       
-}
+};
+
+// Here's a function to set the array for validation
+const getValidationArray = (length) => {
+    const validationArray = [];
+    for (let i=0; i<length; i++) {
+        validationArray.push((i + 1).toString());
+    };
+    return validationArray;
+};
 
 const ShiftRanker = (shift) => {
+
     // First let's isolate the data from the shift coming in
     const {date, startTime, endTime, startLocation, endLocation } = shift.shift;
     
@@ -38,10 +43,46 @@ const ShiftRanker = (shift) => {
 
     const length = shiftCtx.selected.length;
 
-    // Then pass that to getOptions();
+    // Then pass that to getOptions() and getValidationArray();
 
     const selectOptions = getOptions(length);
     console.log("shiftCtx.ranked is ", shiftCtx.ranked);
+    const validationArray = getValidationArray(length);
+
+    // Here is a function to validate and set the submit button in select-shifts.js to enable
+    const validate = () => {
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! Validating!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // First, let's reach into shiftCtx.ranked and pull out existing rankings into a new array
+        const rankings = [];
+        for (let i=0; i<shiftCtx.ranked.length; i++) {
+            rankings.push(shiftCtx.ranked[i].rank);
+        };
+        console.log("rankings before any sorting is", rankings);
+        // Now let's grab the state updater from the shift context
+        const [disabled, setDisabled] = shiftCtx.disabledState;
+        // If anything is left unranked, keep button disabled and return
+        if (rankings.includes("—")) {
+            console.log("**************** No —");
+            setDisabled(true);
+            console.log("disabled is", disabled);
+            return;
+        };
+        // Now, let's sort rankings so the numbers are ascending
+        rankings.sort();
+        console.log("rankings after sorting is", rankings);
+        /* validationArray should be an ascending list of numbers. If it is equal to ranking (now sorted, the button can be enabled because there are no duplicate rankings and nothing is left unranked) */
+        for (let i=0; i<validationArray.length; i++) {
+            if (rankings[i] !== validationArray[i]) {
+                setDisabled(true);
+                console.log("!!!!!!mismatch!!!!!!");
+                return;
+            }
+        };
+        // If everything matches, enable!!!!
+        console.log("Looks like everything matched!!!!!!!");
+        setDisabled(false);
+    };
+
 
     // A function to update preferences when the <select> value changes
     const handleChange = (e, value) => {
@@ -58,6 +99,8 @@ const ShiftRanker = (shift) => {
         shiftCtx.ranked[idToChange].rank = value;
         console.log("Updated entry is: ", shiftCtx.ranked[idToChange]);
         console.log(shiftCtx.ranked);
+        // Finally, let's run validation to see if the submit button can enable
+        validate();
 
     }
     

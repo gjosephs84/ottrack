@@ -50,6 +50,13 @@ const SelectShifts = () => {
 
     const [show, setShow] = React.useState(true);
     const [selectedShifts, setSelectedShifts] = React.useState([]);
+    // This state variable is going to be used for validation in the submit button
+    // And will be passed into <ShiftRanker> to be updated there onChange of the shift <select>
+    const [disableSubmit, setDisableSubmit] = React.useState(true);
+    // Inject the state variables into the shift context
+    shiftCtx.disabledState = [disableSubmit, setDisableSubmit];
+    console.log("-------------------shiftCtx.disabledState is ", shiftCtx.disabledState);
+
 
     // A function to handle submit of initial preferences
     const handleSubmit = () => {
@@ -155,7 +162,7 @@ const SelectShifts = () => {
               </div>
               <br/>
               <div className="centered">
-                <button>Submit</button>
+                <button disabled={disableSubmit}>Submit</button>
               </div>
             </div>
           ) }
