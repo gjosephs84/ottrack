@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "shift": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::shift.shift",
-      "inversedBy": "requested_shift"
-    },
     "ranking": {
       "type": "integer"
     },
@@ -25,6 +19,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::respondant.respondant",
+      "inversedBy": "requested_shifts"
+    },
+    "shift": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shift.shift",
       "inversedBy": "requested_shifts"
     }
   }

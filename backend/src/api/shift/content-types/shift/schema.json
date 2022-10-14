@@ -33,9 +33,9 @@
       "target": "api::offering.offering",
       "inversedBy": "shifts"
     },
-    "requested_shift": {
+    "requested_shifts": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::requested-shift.requested-shift",
       "mappedBy": "shift"
     }
