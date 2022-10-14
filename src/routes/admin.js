@@ -1,7 +1,10 @@
+import React from "react";
+import OfferingsRequests from "../components/offeringRequests";
+
 const Admin = () => {
     return (
         <div>
-            Admin Page
+            <OfferingsRequests/>
         </div>
     );
 }
