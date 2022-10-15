@@ -8,6 +8,18 @@ query GetActiveOfferingsResponses{
       data {
         attributes{
           active
+          shifts {
+            data {
+                id
+                attributes {
+                    date
+                    startTime
+                    endTime
+                    startLocation
+                    endLocation
+                }
+            }
+          }
           offering_response {
             data {
               id
@@ -53,43 +65,57 @@ const OfferingsRequests = () => {
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
 
-    // Let's make this data manageable. First, let's isolate the respondants
     // We need the offerings (if there is more than one) isolated first
     const rawOfferings = [];
-    for (let i=0; i<data.offerings.data.length; i++) {
-        let current = data.offerings.data[i];
-        rawOfferings.push(current);
-    };
-    // Now let's work our way into the offering_response to get respondants
-    // rawRespondants is going to hold an object for the respondants of each
-    // active offering, in case there are multiple active.
-    const rawRespondants = [];
-    for (let i=0; i<rawOfferings.length; i++) {
-        let currentOfferingResponse = rawOfferings[i].attributes.offering_response.data.attributes;
-        rawRespondants.push(currentOfferingResponse.respondants);
-    };
+    data.offerings.data.forEach(element => {
+        rawOfferings.push(element);
+    });
 
-    // Now let's turn those raw respondants into something actually useable
+    // Next, let's isolate the shifts. We need the id, and the other attributes neatly bundled in objects
+    // This array will hold everything we need
+    const cleanOfferingsWithResponses = [];
+    rawOfferings.forEach(offering => {
 
-    const cleanResponses = [];
-    for (let i=0; i<rawRespondants.length; i++) {
-        let currentOfferingResponse = rawRespondants[i].data;
-        for (let j=0; j<currentOfferingResponse.length; j++) {
-            // Let's destructure to save some time and typing
-            const { requested_shifts, users_permissions_user} = currentOfferingResponse[j].attributes;
-            // Now let's destructure some more and make a new clean object array
-            const cleanShifts=[];
-            // We'll need this destructured user data
-            const {username, seniority} = users_permissions_user.data.attributes;
-            const id = users_permissions_user.data.id;
-            requested_shifts.data.forEach(element => {
+        // To arrays to hold info we need
+        const rawRespondants = [];
+        const cleanShifts = [];
+
+        // Isolate the respondants and their data
+        offering.attributes.offering_response.data.attributes.respondants.data.forEach(respondant => {
+            rawRespondants.push(respondant);
+        });
+
+        // Next, isolate the shifts
+        offering.attributes.shifts.data.forEach(shift => {
+            const shiftId = shift.id;
+            const {date, startTime, endTime, startLocation, endLocation } = shift.attributes;
+            cleanShifts.push({
+                id: shiftId,
+                date: date,
+                startTime: startTime,
+                endTime: endTime,
+                startLocation: startLocation,
+                endLocation: endLocation
+            });
+
+        });
+
+        // Finally, turn the respondants into something useable.
+        const cleanResponses = [];
+        rawRespondants.forEach(respondant => {
+
+            // Begin by isolating the user data
+            const { username, seniority } = respondant.attributes.users_permissions_user.data.attributes;
+            const id = respondant.attributes.users_permissions_user.data.id;
+            
+            // Now, isolate the shifts
+            const cleanShifts = [];
+            respondant.attributes.requested_shifts.data.forEach(element => {
                 const {shift, ranking} = element.attributes;
-                const cleanShift = {
+                cleanShifts.push({
                     shift: shift.data.id,
                     ranking: ranking
-                };
-                cleanShifts.push(cleanShift)
-
+                })
             });
             cleanResponses.push({
                 username: username,
@@ -97,14 +123,19 @@ const OfferingsRequests = () => {
                 seniority: seniority,
                 shiftResponses: cleanShifts
             });
-        }
-        console.log("cleanResponses is: ", cleanResponses);
-    }
+        });
 
+        // Bundle everything into a nice, clean object
+        cleanOfferingsWithResponses.push({
+            shifts: cleanShifts,
+            responses: cleanResponses
+        });
+    });
+    console.log("cleanOfferingsWithResponses is: ", cleanOfferingsWithResponses);
 
     return (
         <div>
-            Check the console.
+            {JSON.stringify(cleanOfferingsWithResponses)}
         </div>
     )
 };
