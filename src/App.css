@@ -254,3 +254,61 @@ button:disabled {
   border-radius: 15px;
   background-color: #C2C0BF;
 }
+
+.offering-response {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  max-width: min-content;
+}
+
+.response-column {
+  display: grid;
+  min-width: 80px;
+  max-width: 80px;
+  grid-template-columns: 1fr;
+  text-align: center;
+}
+
+.response-shifts-column {
+  min-width: 350px;
+  text-align: center;
+}
+
+.response-header {
+  background-color: #A31F34;
+  min-height: 35px;
+  padding-top: 3px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+
+.response-shift {
+  min-width: 350px;
+  min-height: 60px;
+  border-bottom-style: solid;
+  border-color: black;
+}
+.response-shift:nth-of-type(odd) {
+  background-color: #939291;
+  color: white;
+}
+
+.response-div {
+  min-height: 60px;
+  text-align: center;
+  padding: 15px;
+  border-bottom-style: solid;
+  border-color: black;
+  border-left-style: dotted;
+}
+
+.no {
+  background-color: #000000;
+  color: white;
+
+}
+
+.yes {
+  background-color: #91e0a5;
+}

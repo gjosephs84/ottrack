@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
+import OfferingRequestsResponse from "./offeringRequestsResponse";
 
 // The graphql query to retrieve all the offerings requests
 const GET_OFFERINGS_REQUESTS = gql`
@@ -107,7 +108,7 @@ const OfferingsRequests = () => {
             // Begin by isolating the user data
             const { username, seniority } = respondant.attributes.users_permissions_user.data.attributes;
             const id = respondant.attributes.users_permissions_user.data.id;
-            
+
             // Now, isolate the shifts
             const cleanShifts = [];
             respondant.attributes.requested_shifts.data.forEach(element => {
@@ -135,7 +136,11 @@ const OfferingsRequests = () => {
 
     return (
         <div>
-            {JSON.stringify(cleanOfferingsWithResponses)}
+            {cleanOfferingsWithResponses.map((offering, i) => {
+                return (
+                    <OfferingRequestsResponse key={i} offering={offering}/>
+                )
+            })}
         </div>
     )
 };
