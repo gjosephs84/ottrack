@@ -304,11 +304,11 @@ button:disabled {
 }
 
 .no {
-  background-color: #000000;
+  background-color:#A31F34;
   color: white;
 
 }
 
 .yes {
-  background-color: #91e0a5;
+  background-color:#c0c0bf;
 }
