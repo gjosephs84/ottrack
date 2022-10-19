@@ -62,6 +62,7 @@ const LoginForm = () => {
                 password: password
             })
             .then(response => {
+                console.log('All data is: ', response.data);
                 console.log('User profile', response.data.user);
                 console.log('User token', response.data.jwt);
                 // Set the current user in the context
