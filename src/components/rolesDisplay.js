@@ -8,6 +8,12 @@ const RolesDisplay = ({pend, emp, mngr}) => {
     const [pendMessage, setPendMessage] = React.useState("");
     const [employees, setEmployees] = React.useState(emp);
     const [managers, setManagers] = React.useState(mngr);
+    const [editLifeguards, setEditLifeguards] = React.useState(false);
+
+    // A function to change view/edit for lifeguards
+    const changeLifeguardView = () => {
+        setEditLifeguards(!editLifeguards);
+    }
 
     // The component to edit pending user roles
     const UserWithRole = ({username, role, id, seniority, index}) => {
@@ -70,11 +76,27 @@ const RolesDisplay = ({pend, emp, mngr}) => {
         )
     };
 
-    // The component to show employees
-    const EmployeesWithSeniority = ({username, id}) => {
+    // The employee display table
+    const LifeguardTable = () => {
         return (
             <div>
-                {username} - {id}
+                <div className="lifeguard-table lgt-header">
+                    <div>Name</div>
+                    <div>Seniority</div>
+                </div>
+                <div className="lifeguard-table">
+
+                </div>
+            </div>
+        )
+    }
+
+    // The component to show employees
+    const EmployeesWithSeniority = ({username, id, seniority}) => {
+        return (
+            <div className="lifeguard-table">
+                <div>{username}</div>
+                <div>{seniority}</div>
             </div>
         )
     };
@@ -106,12 +128,27 @@ const RolesDisplay = ({pend, emp, mngr}) => {
             {employees.length > 0 && <MITCard 
                     cardTitle={"Lifeguards"}
                     cardBody={
-                        employees.map((user) => {
-                            const { username, id } = user;
+                        <div>
+                            {editLifeguards ? (
+                                <button className="button-full" onClick={changeLifeguardView}>Submit Changes</button>
+                            ) : (
+                            <div>
+                            <div className="lifeguard-table lgt-header">
+                                <h5>Name</h5>
+                                <h5>Seniority</h5>
+                            </div>
+                            {employees.map((user) => {
+                            const { username, id, seniority } = user;
                             return (
-                                <EmployeesWithSeniority key={username} username={username} id={id}/>
-                            )
-                        })
+                                <EmployeesWithSeniority key={username} username={username} id={id} seniority={seniority}/>
+                                )
+                            })}
+                            <br/>
+                            <button className="button-full" onClick={changeLifeguardView}>Edit Lifeguards</button>
+                            </div>
+                            )}
+                        </div>
+                        
                     }
                 />  
             }
