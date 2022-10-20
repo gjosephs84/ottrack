@@ -152,6 +152,7 @@ const RolesDisplay = ({pend, emp, mngr}) => {
                     }
                 />  
             }
+            <br/>
             {managers.length > 0 && <MITCard 
                 cardTitle={"Managers"}
                 cardBody={
