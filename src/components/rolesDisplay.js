@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import MITCard from "./mitCard";
 
 const RolesDisplay = ({pend, emp, mngr}) => {
     // State variables to update
@@ -9,7 +10,7 @@ const RolesDisplay = ({pend, emp, mngr}) => {
     const [managers, setManagers] = React.useState(mngr);
 
     // The component to edit pending user roles
-    const UserWithRole = ({username, role, id, index}) => {
+    const UserWithRole = ({username, role, id, seniority, index}) => {
 
         const handleChange = async (e, value, userId, username) => {
             e.preventDefault();
@@ -37,21 +38,34 @@ const RolesDisplay = ({pend, emp, mngr}) => {
                 });
 
                 let temp = [...pending];
-                temp.splice(index, 1);
+                const removed = temp.splice(index, 1);
                 setPending(temp);
                 setPendMessage(`${username}'s role has been updated to ${userType}`);
-    
-    
+                // Put the removed user in the correct role array
+                if (userType == "Lifeguard") {
+                    let employeeTemp = [...employees];
+                    employeeTemp.push(removed[0]);
+                    setEmployees(employeeTemp);
+                };
+                if (userType == "Manager") {
+                    let managerTemp = [...managers];
+                    managerTemp.push(removed[0]);
+                    setManagers(managerTemp);
+                };
         };
-        console.log("user is: ", username, role, id);
+
         return (
-            <div>
-                {username}
-                <select onChange={(e) => {handleChange(e, e.target.value, id, username)}}>
-                    <option value="" >Choose a Role</option>
-                    <option value="4">Lifeguard</option>
-                    <option value="5">Manager</option>
-                </select>
+            <div className="pending-user">
+                <div>
+                    {username}
+                </div>
+                <div>
+                    <select onChange={(e) => {handleChange(e, e.target.value, id, username)}}>
+                        <option value="" >Choose a Role</option>
+                        <option value="4">Lifeguard</option>
+                        <option value="5">Manager</option>
+                    </select>
+                </div>
             </div>
         )
     };
@@ -63,29 +77,56 @@ const RolesDisplay = ({pend, emp, mngr}) => {
                 {username} - {id}
             </div>
         )
-    }
+    };
+
+    // The component to show managers
+    const Manager = ({username, id}) => {
+        return (
+            <div>
+                {username} - {id}
+            </div>
+        )
+    };
 
     return (
         <div>
-            {pending.length > 0 && <div>
-                <h3>Pending</h3>
-                {pending.map((user, i) => {
-                const { username, role, id } = user;
-                return (
-                    <UserWithRole key={username} username={username} role={role} id={id} index={i}/>
-                    )
-                })}
-            </div>}
+            {pending.length > 0 && <MITCard 
+                    cardTitle={"Pending"}
+                    cardBody={
+                        pending.map((user, i) => {
+                            const { username, role, id, seniority } = user;
+                            return (
+                                <UserWithRole key={username} username={username} role={role} id={id} seniority={seniority} index={i}/>
+                                )
+                            })
+                    }
+                />
+            }
             <h5>{pendMessage}</h5>
-            {employees.length > 0 && <div>
-                <h3>Lifeguards</h3>
-                {employees.map((user) => {
-                    const { username, id } = user;
-                    return (
-                        <EmployeesWithSeniority key={username} username={username} id={id}/>
-                    )
-                })}
-            </div>}
+            {employees.length > 0 && <MITCard 
+                    cardTitle={"Lifeguards"}
+                    cardBody={
+                        employees.map((user) => {
+                            const { username, id } = user;
+                            return (
+                                <EmployeesWithSeniority key={username} username={username} id={id}/>
+                            )
+                        })
+                    }
+                />  
+            }
+            {managers.length > 0 && <MITCard 
+                cardTitle={"Managers"}
+                cardBody={
+                    managers.map((user) => {
+                        const { username, id } = user;
+                        return (
+                            <Manager key={username} username={username} id={id}/>
+                        )
+                    })
+                }
+            />
+            }
         </div>
     );
 
