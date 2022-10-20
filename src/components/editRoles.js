@@ -11,6 +11,7 @@ query getUsers {
         id
         attributes {
           username
+          seniority
           role {
             data {
                 attributes {
@@ -32,11 +33,14 @@ const EditRoles = () => {
     // Let's make this manageable. First make all users into digestible objects
     const allUsers = [];
     data.usersPermissionsUsers.data.forEach(user => {
+        let seniority;
+        if (user.attributes.seniority != null) { seniority = user.attributes.seniority } else { seniority = null };
         allUsers.push(
             {
                 id: user.id,
                 username: user.attributes.username,
-                role: user.attributes.role.data.attributes.name
+                role: user.attributes.role.data.attributes.name,
+                seniority: seniority
             }
         )
 
@@ -53,7 +57,7 @@ const EditRoles = () => {
         console.log("pending is: ", pending, " and user passed in was: ", user);
     });
     // The component to edit pending user roles
-    const UserWithRole = ({username, role, id}) => {
+    const UserWithRole = ({username, role, id, seniority}) => {
 
         const handleChange = async (e, value, userId) => {
             e.preventDefault();
@@ -91,10 +95,6 @@ const EditRoles = () => {
         )
     }
 
-    /* The next goal is to get the pending stuff to disappear after a choice is made
-    Probably to do that I need to have a component that returns pending where I pass pending into
-    the component and use state variables there to do the mapping
-    */
     return (
         <div>
             <RolesDisplay pend={pending} emp={employees} mngr={managers}/>
