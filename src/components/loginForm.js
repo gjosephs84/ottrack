@@ -95,7 +95,7 @@ const LoginForm = () => {
                     </div>
             </div>) : (<div>
                 <h2>Welcome back, {ctx.currentUser.username}</h2>
-                <p>You have logged in successfully! Use the menu to get started.</p>
+                <p>You have logged in successfully! Use the menu to begin.</p>
                 </div>)}
         </div> 
     )

@@ -4,6 +4,8 @@ import MITCard from "./mitCard";
 
 const RolesDisplay = ({pend, emp, mngr}) => {
     // State variables to update
+    // first sort the employees by seniority
+    
     const [pending, setPending] = React.useState(pend);
     const [pendMessage, setPendMessage] = React.useState("");
     const [employees, setEmployees] = React.useState(emp);

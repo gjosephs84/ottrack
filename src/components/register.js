@@ -13,10 +13,12 @@ const Register = () => {
     // Create the state variables
     const [name, setName]                       = React.useState("");
     const [email, setEmail]                     = React.useState("");
-    const [role, setRole] = React.useState(null);
+    const [role, setRole]                       = React.useState(null);
+    const [seniority, setSeniority]             = React.useState(null);
     const [password, setPassword]               = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
+    const [showSeniority, setShowSeniority]     = React.useState(false);
     const [show, setShow] = React.useState(true);
 
     /*
@@ -37,6 +39,11 @@ const Register = () => {
     const handleChange = (e, entry, setValue) => {
         e.preventDefault();
         setValue(entry);
+        if (entry == "Lifeguard") {
+            setShowSeniority(true)};
+        if (entry == "Manager") {
+            setShowSeniority(false)
+        };
         console.log(entry);
     };
 
@@ -48,7 +55,8 @@ const Register = () => {
                 username: name,
                 email: email,
                 password: password,
-                type: role
+                type: role,
+                seniority: seniority
             })
             .then(response => {
                 console.log('User profile', response.data.user);
@@ -68,14 +76,16 @@ const Register = () => {
             {show ? (<div>
             <h4>Name:</h4>
             <input className="input-field" type="text" placeholder="Enter your name" onChange={(e) => {handleChange(e, e.target.value, setName)}}/>
+            <h4>Email:</h4>
+            <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
             <h4>Role:</h4>
             <select className="input-field" onChange={(e) => {handleChange(e, e.target.value, setRole)}}>
                 <option>Choose a Role</option>
                 <option>Lifeguard</option>
                 <option>Manager</option>
             </select>
-            <h4>Email:</h4>
-            <input className="input-field" type="text" placeholder="Enter your email" onChange={(e) => {handleChange(e, e.target.value, setEmail)}}/>
+            {showSeniority && <h4>Seniority:</h4>}
+            {showSeniority && <input className="input-field" type="number" placeholder="Enter your seniority rank" onChange={(e) => {handleChange(e, e.target.value, setSeniority)}}/>}
             <h4>Password:</h4>
             <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/>
             <h4>Confirm Password:</h4>
@@ -86,7 +96,8 @@ const Register = () => {
             : 
             (<div>
                 <h2>Welcome {ctx.currentUser.username}!</h2>
-                <p>Your registration was successful.</p>
+                <p>Your registration was successful, but <strong>your account is pending administrator approval.</strong></p>
+                <p>Once an administrator confirms that you are a <strong>{role}</strong>, you will be notified and may begin using the system.</p>
             </div>)}
         </div>
     )
