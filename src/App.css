@@ -334,3 +334,12 @@ button:disabled {
   padding-top: 5px;
   
 }
+
+.daily-schedule {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+
+.align-right {
+  text-align: right;
+}
