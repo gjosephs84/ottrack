@@ -16,7 +16,7 @@ const LoginForm = () => {
     const [email, setEmail]                     = React.useState("");
     const [password, setPassword]               = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
-    const [show, setShow] = React.useState(() => {
+    const [show, setShow]                       = React.useState(() => {
         if (ctx.currentUser) {
             return false;
         } else {
