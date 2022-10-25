@@ -68,6 +68,17 @@
     },
     "seniority": {
       "type": "integer"
+    },
+    "weekly_schedule": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::weekly-schedule.weekly-schedule"
+    },
+    "shift": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::shift.shift",
+      "inversedBy": "assigned_to"
     }
   }
 }

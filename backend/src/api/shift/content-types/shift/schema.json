@@ -38,6 +38,15 @@
       "relation": "oneToMany",
       "target": "api::requested-shift.requested-shift",
       "mappedBy": "shift"
+    },
+    "holiday": {
+      "type": "boolean"
+    },
+    "assigned_to": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "shift"
     }
   }
 }
