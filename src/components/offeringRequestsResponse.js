@@ -41,8 +41,6 @@ const OfferingRequestsResponse = ({offering}) => {
 
     // Let's try to assign shifts!!!!!!
     const assignShifts = () => {
-        // First let's take a look at what repsonses looks like:
-        console.log('responses inside of assignShifts is: ', responses);
         // Assume seniority 1 always starts for now.
         const responsesByRankings = [];
         responses.forEach(response => {
