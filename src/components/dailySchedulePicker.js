@@ -1,8 +1,12 @@
 import React from "react";
+import { ShiftContext } from "../context/shift-context";
+
 
 
 
 const Day = ({dayOfWeek}) => {
+    const shiftCtx = React.useContext(ShiftContext);
+
     const [show, setShow]   = React.useState(false);
     const [start, setStart] = React.useState("No Schedule Set");
     const [end, setEnd]     = React.useState("");
@@ -49,6 +53,50 @@ const Day = ({dayOfWeek}) => {
             }
         };
     
+        // A function to update the schedule in the ShiftContext
+        const updateSchedule = (day, start, end) => {
+            switch (day) {
+                case 'Monday' : shiftCtx.schedule.monday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                case 'Tuesday' : shiftCtx.schedule.tuesday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                case 'Wednesday' : shiftCtx.schedule.wednesday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                case 'Thursday' : shiftCtx.schedule.thursday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                case 'Friday' : shiftCtx.schedule.friday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                case 'Saturday' : shiftCtx.schedule.saturday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                case 'Sunday' : shiftCtx.schedule.sunday = {
+                    start: start,
+                    end: end
+                    };
+                    break;
+                default:
+                    console.log('There was an error');
+            };
+            console.log('shiftCtx.schedule is: ', shiftCtx.schedule);
+        };
+
         const validateSchedule = () => {
             let startTime = (startHour * 100);
             if (startAmPm == "PM") {
@@ -71,6 +119,7 @@ const Day = ({dayOfWeek}) => {
                 setMessage(`${dayOfWeek} has been marked as a day off`);
                 setStart('Off');
                 setEnd('');
+                updateSchedule(dayOfWeek, startTime, endTime);
                 setShow(false);
                 return;
             }
@@ -81,6 +130,7 @@ const Day = ({dayOfWeek}) => {
             setMessage('Success!');
             setStart(`${startHour}:${startMin} ${startAmPm} - `);
             setEnd(`${endHour}:${endMin} ${endAmPm}`);
+            updateSchedule(dayOfWeek, startTime, endTime);
             setShow(false);
     
     
@@ -133,14 +183,17 @@ const Day = ({dayOfWeek}) => {
                         </select>
                     </div>
                 </div>
-                <button onClick={validateSchedule}>Check</button>
+                <br/>
+                <button className="button-full" onClick={validateSchedule}>Confirm</button><br/>
                 <div>{message}</div>
+                <hr/>
             </div>
         );
     };
 
     return (
         <div>
+            {show && <hr/>}
             <div onClick={handleClick} className="daily-schedule">
                 <div>
                     <h5>{dayOfWeek}</h5>

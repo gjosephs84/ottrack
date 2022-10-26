@@ -57,6 +57,15 @@ root.render(
         <ShiftContext.Provider value={
           { selected: [],
             ranked: [],
+            schedule: {
+              monday: null,
+              tuesday: null,
+              wednesday: null,
+              thursday: null,
+              friday: null,
+              saturday: null,
+              sunday: null
+            },
             disabledState: null,
             errorState: null
           }

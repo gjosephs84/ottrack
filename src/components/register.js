@@ -1,10 +1,23 @@
 import React from "react";
 import axios from 'axios';
 import { UserContext } from "../context/context";
+import { ShiftContext } from "../context/shift-context";
+import Day from "./dailySchedulePicker";
+
+const daysOfWeek = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+];
 
 const Register = () => {
     // Bring in the context
     const ctx = React.useContext(UserContext);
+    const shiftCtx = React.useContext(ShiftContext);
 
     // Grab the state variables from context
     const [loggedIn, setLoggedIn] = ctx.loginState;
@@ -19,6 +32,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = React.useState("");
     const [shouldDisable, setShouldDisable]     = React.useState(true);
     const [showSeniority, setShowSeniority]     = React.useState(false);
+    const [showSchedule, setShowSchedule]       = React.useState(false);
     const [show, setShow] = React.useState(true);
 
     /*
@@ -40,14 +54,15 @@ const Register = () => {
         e.preventDefault();
         setValue(entry);
         if (entry == "Lifeguard") {
-            setShowSeniority(true)};
+            setShowSeniority(true);
+            setShowSchedule(true);
+        };
         if (entry == "Manager") {
-            setShowSeniority(false)
+            setShowSeniority(false);
+            setShowSchedule(false);
         };
         console.log(entry);
     };
-
-    
 
     const handleSubmit = async() => {
         let registering = await axios
@@ -56,7 +71,8 @@ const Register = () => {
                 email: email,
                 password: password,
                 type: role,
-                seniority: seniority
+                seniority: seniority,
+                weeklySchedule: shiftCtx.schedule
             })
             .then(response => {
                 console.log('User profile', response.data.user);
@@ -69,6 +85,7 @@ const Register = () => {
             .catch(error => {
                 console.log('An error occurred:', error.response);
             });
+            
     };
 
     return (
@@ -86,6 +103,15 @@ const Register = () => {
             </select>
             {showSeniority && <h4>Seniority:</h4>}
             {showSeniority && <input className="input-field" type="number" placeholder="Enter your seniority rank" onChange={(e) => {handleChange(e, e.target.value, setSeniority)}}/>}
+            {showSchedule && <h4>Weekly Schedule:</h4>}
+            {showSchedule && <p>Click/tap each day to set your base weekly schedule. For days off, simply click/tap and confirm without setting start or end times.</p>}
+            {showSchedule && <div>
+                {daysOfWeek.map((day) => {
+                    return (
+                        <Day key={day} id={day} dayOfWeek={day}/>
+                    )
+                })}
+                </div>}
             <h4>Password:</h4>
             <input className="input-field" type="password" placeholder="Choose a password" onChange={(e) => {handleChange(e, e.target.value, setPassword)}}/>
             <h4>Confirm Password:</h4>

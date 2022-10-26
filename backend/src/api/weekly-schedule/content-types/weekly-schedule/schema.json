@@ -4,17 +4,16 @@
   "info": {
     "singularName": "weekly-schedule",
     "pluralName": "weekly-schedules",
-    "displayName": "Weekly Schedule"
+    "displayName": "Weekly Schedule",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "daily_schedules": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::daily-schedule.daily-schedule"
+    "days": {
+      "type": "json"
     }
   }
 }
