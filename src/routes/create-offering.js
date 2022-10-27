@@ -2,30 +2,24 @@ import React from "react";
 import axios from 'axios';
 import ShiftTable from "../components/shift-table";
 import MITCard from "../components/mitCard";
+import TimePicker from "../components/timePicker";
+import convertTime from "../components/timeConverter";
 
 const offering = [];
 const CreateOffering = () => {
 
 // A state variable to hold all the shifts in the offering
   const [shifts, setShifts] = React.useState(offering);
+  const [startTime, setStartTime] = React.useState(null);
+  const [endTime, setEndTime] = React.useState(null);
 
   // A function to handle the form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const sHour = document.getElementById("start-hour").value;
-    const sMinute = document.getElementById("start-minute").value;
-    const sAmPm = document.getElementById("start-am-pm").value;
-
-    const eHour = document.getElementById("end-hour").value;
-    const eMinute = document.getElementById("end-minute").value;
-    const eAmPm = document.getElementById("end-am-pm").value;
-
-    const sTime = `${sHour}:${sMinute} ${sAmPm}`;
-    const eTime = `${eHour}:${eMinute} ${eAmPm}`;
     const newShift = {
       date: document.getElementById("date").value,
-      startTime: sTime,
-      endTime: eTime,
+      startTime: startTime,
+      endTime: endTime,
       startLocation: document.getElementById("start-location").value,
       endLocation: document.getElementById("end-location").value
     };
@@ -115,59 +109,9 @@ const CreateOffering = () => {
               <h4>Date:</h4>
         <input type="date" name="date" id="date"></input>
         <h4>Start Time:</h4>
-        <div className="time-selector">
-          <select name="start-hour" id="start-hour">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          <select name="start-minute" id="start-minute">
-            <option value="00">00</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
-          </select>
-          <select name="start-am-pm" id="start-am-pm">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-        </select>
-        </div>
+        <TimePicker parentState={startTime} setParentState={setStartTime} name={"startTime"}/>
         <h4>End Time:</h4>
-        <div className="time-selector">
-          <select name="end-hour" id="end-hour">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          <select name="end-minute" id="end-minute">
-            <option value="00">00</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
-          </select>
-          <select name="end-am-pm" id="end-am-pm">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-        </select>
-        </div>
+        <TimePicker parentState={endTime} setParentState={setEndTime} name={"endTime"}/>
         <h4>Starting Location:</h4>
         <select name="start-location" id="start-location">
           <option value="Alumni Pool">Alumni Pool</option>
