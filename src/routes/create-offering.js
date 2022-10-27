@@ -4,10 +4,6 @@ import ShiftTable from "../components/shift-table";
 import MITCard from "../components/mitCard";
 
 const offering = [];
-
-
-
-
 const CreateOffering = () => {
 
 // A state variable to hold all the shifts in the offering
