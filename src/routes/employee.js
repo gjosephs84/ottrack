@@ -38,7 +38,7 @@ const Employee = () => {
     };
 
     return (
-        <MITCard cardTitle={"My Weekly Schedule"} cardBody={
+        <MITCard cardTitle={"Weekly Schedule"} cardBody={
             <div>
             {daysOfWeek.map((day) => {
                 return (

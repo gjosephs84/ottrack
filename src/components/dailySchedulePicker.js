@@ -1,15 +1,65 @@
 import React from "react";
+import { UserContext } from "../context/context";
 import { ShiftContext } from "../context/shift-context";
+import convertTime from "./timeConverter";
 
 
 
 
 const Day = ({dayOfWeek}) => {
-    const shiftCtx = React.useContext(ShiftContext);
+    const ctx       = React.useContext(UserContext);
+    const shiftCtx  = React.useContext(ShiftContext);
+    /*
+        Next task to do here:
+        Find out if there is a schedule associated with ctx.currentUser.schedule.
+
+        If so, figure out the day we're getting ready to render here, and extract the schedule, which is currently in 24-hour time-ish. ie: 500 for 5AM 1300 for 1PM, and convert these numbers back to clean AM/PM. Then, put those start and end times into start/end state variables so they show up on load if a schedule is already set.
+    
+    */
+
+    const existingSchedule = ctx.currentUser.weeklySchedule;
+    let existingStart;
+    let existingEnd;
+
+    switch (dayOfWeek) {
+        case "Monday" :
+            existingStart = convertTime(existingSchedule.monday.start);
+            existingEnd = convertTime(existingSchedule.monday.end);
+            break;
+        case "Tuesday" :
+            existingStart = convertTime(existingSchedule.tuesday.start);
+            existingEnd = convertTime(existingSchedule.tuesday.end);
+            break;
+        case "Wednesday" :
+            existingStart = convertTime(existingSchedule.wednesday.start);
+            existingEnd = convertTime(existingSchedule.wednesday.end);
+            break;
+        case "Thursday" :
+            existingStart = convertTime(existingSchedule.thursday.start);
+            existingEnd = convertTime(existingSchedule.thursday.end);
+            break;
+        case "Friday" :
+            existingStart = convertTime(existingSchedule.friday.start);
+            existingEnd = convertTime(existingSchedule.friday.end);
+            break;
+        case "Saturday" :
+            existingStart = convertTime(existingSchedule.saturday.start);
+            existingEnd = convertTime(existingSchedule.saturday.end);
+            break;
+        case "Sunday" :
+            existingStart = convertTime(existingSchedule.sunday.start);
+            existingEnd = convertTime(existingSchedule.sunday.end);
+            break;
+        default :
+            existingStart = "No Schedule Set";
+            existingEnd = "";
+    };
+
+    if (existingStart == "off") {existingEnd = ""};
 
     const [show, setShow]   = React.useState(false);
-    const [start, setStart] = React.useState("No Schedule Set");
-    const [end, setEnd]     = React.useState("");
+    const [start, setStart] = React.useState(existingStart);
+    const [end, setEnd]     = React.useState(existingEnd);
     const handleClick = () => setShow(!show);
 
     const DailySchedulePicker = ({dayOfWeek}) => {
