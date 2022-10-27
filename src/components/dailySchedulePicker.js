@@ -3,19 +3,9 @@ import { UserContext } from "../context/context";
 import { ShiftContext } from "../context/shift-context";
 import convertTime from "./timeConverter";
 
-
-
-
 const Day = ({dayOfWeek}) => {
     const ctx       = React.useContext(UserContext);
     const shiftCtx  = React.useContext(ShiftContext);
-    /*
-        Next task to do here:
-        Find out if there is a schedule associated with ctx.currentUser.schedule.
-
-        If so, figure out the day we're getting ready to render here, and extract the schedule, which is currently in 24-hour time-ish. ie: 500 for 5AM 1300 for 1PM, and convert these numbers back to clean AM/PM. Then, put those start and end times into start/end state variables so they show up on load if a schedule is already set.
-    
-    */
 
     const existingSchedule = ctx.currentUser.weeklySchedule;
     let existingStart;
@@ -96,7 +86,7 @@ const Day = ({dayOfWeek}) => {
         const handleChange = (e, value, setState) => {
             e.preventDefault();
             setMessage(null);
-            if (value == '–') {
+            if (value == '—') {
                 setState(0);
             } else {
                 setState(value);
@@ -181,10 +171,7 @@ const Day = ({dayOfWeek}) => {
             setStart(`${startHour}:${startMin} ${startAmPm} - `);
             setEnd(`${endHour}:${endMin} ${endAmPm}`);
             updateSchedule(dayOfWeek, startTime, endTime);
-            setShow(false);
-    
-    
-            
+            setShow(false);    
         }
     
         return (

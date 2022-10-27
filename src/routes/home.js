@@ -4,6 +4,7 @@ import { useQuery, gql } from "@apollo/client";
 import Register from "../components/register";
 import LoginForm from "../components/loginForm";
 import MITCard from "../components/mitCard";
+import TimePicker from "../components/timePicker";
 
 // import the context
 import { UserContext } from "../context/context";
@@ -43,12 +44,14 @@ const DisplayData = () => {
 }
 
 const Home = () => {
+    const [time, setTime] = React.useState(null);
+    const [otherTime, setOtherTime] = React.useState(null);
+
     // Set the context
     const ctx = React.useContext(UserContext)
     const [loggedIn, setLoggedIn] = ctx.loginState;
     console.log(`login state is ${loggedIn} `);
     console.log(`currentUser is ${JSON.stringify(ctx.currentUser)}`);
-    
 
     return (
         <div>
@@ -65,7 +68,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
