@@ -7,7 +7,13 @@ const Day = ({dayOfWeek}) => {
     const ctx       = React.useContext(UserContext);
     const shiftCtx  = React.useContext(ShiftContext);
 
-    const existingSchedule = ctx.currentUser.weeklySchedule;
+    let existingSchedule;
+    if (ctx.currentUser !== null) {existingSchedule=ctx.currentUser.weeklySchedule} else {
+        existingSchedule = shiftCtx.schedule
+    };
+
+    console.log('existingSchedule is: ', existingSchedule);
+    
     let existingStart;
     let existingEnd;
 

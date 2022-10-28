@@ -58,13 +58,34 @@ root.render(
           { selected: [],
             ranked: [],
             schedule: {
-              monday: null,
-              tuesday: null,
-              wednesday: null,
-              thursday: null,
-              friday: null,
-              saturday: null,
-              sunday: null
+              monday: {
+                start: 0,
+                end: 0
+              },
+              tuesday: {
+                start: 0,
+                end: 0
+              },
+              wednesday: {
+                start: 0,
+                end: 0
+              },
+              thursday: {
+                start: 0,
+                end: 0
+              },
+              friday: {
+                start: 0,
+                end: 0
+              },
+              saturday: {
+                start: 0,
+                end: 0
+              },
+              sunday: {
+                start: 0,
+                end: 0
+              }
             },
             disabledState: null,
             errorState: null

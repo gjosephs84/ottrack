@@ -35,6 +35,7 @@ query GetActiveOfferings{
                 endTime
                 startLocation
                 endLocation
+                holiday
               }
             }
           }
@@ -105,14 +106,15 @@ const SelectShifts = () => {
         for (let j=0; j<current.length; j++) {
             // isolate the shift
             // but grab the shift's id on the way
-            const { date, startTime, endTime, startLocation, endLocation } = current[j].attributes;
+            const { date, startTime, endTime, startLocation, endLocation, holiday } = current[j].attributes;
             let cleanShift = {
               id: current[j].id,
               date: date,
               startTime: startTime,
               endTime: endTime,
               startLocation: startLocation,
-              endLocation: endLocation
+              endLocation: endLocation,
+              holiday: holiday
               };
             console.log("Clean Shift is:");
             console.log(cleanShift);

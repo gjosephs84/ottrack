@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2022-10-26T18:06:36.338Z"
+    "x-generation-date": "2022-10-28T11:45:23.897Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -153,12 +153,6 @@
                           "type": "object",
                           "properties": {
                             "date": {
-                              "type": "string"
-                            },
-                            "startTime": {
-                              "type": "string"
-                            },
-                            "endTime": {
                               "type": "string"
                             },
                             "startLocation": {
@@ -1097,6 +1091,12 @@
                                   }
                                 }
                               }
+                            },
+                            "startTime": {
+                              "type": "integer"
+                            },
+                            "endTime": {
+                              "type": "integer"
                             },
                             "createdAt": {
                               "type": "string",
@@ -1247,12 +1247,6 @@
                             "date": {
                               "type": "string"
                             },
-                            "startTime": {
-                              "type": "string"
-                            },
-                            "endTime": {
-                              "type": "string"
-                            },
                             "startLocation": {
                               "type": "string"
                             },
@@ -2189,6 +2183,12 @@
                                   }
                                 }
                               }
+                            },
+                            "startTime": {
+                              "type": "integer"
+                            },
+                            "endTime": {
+                              "type": "integer"
                             },
                             "createdAt": {
                               "type": "string",
@@ -2372,12 +2372,6 @@
                             "date": {
                               "type": "string"
                             },
-                            "startTime": {
-                              "type": "string"
-                            },
-                            "endTime": {
-                              "type": "string"
-                            },
                             "startLocation": {
                               "type": "string"
                             },
@@ -3314,6 +3308,12 @@
                                   }
                                 }
                               }
+                            },
+                            "startTime": {
+                              "type": "integer"
+                            },
+                            "endTime": {
+                              "type": "integer"
                             },
                             "createdAt": {
                               "type": "string",
@@ -3464,12 +3464,6 @@
                             "date": {
                               "type": "string"
                             },
-                            "startTime": {
-                              "type": "string"
-                            },
-                            "endTime": {
-                              "type": "string"
-                            },
                             "startLocation": {
                               "type": "string"
                             },
@@ -4406,6 +4400,12 @@
                                   }
                                 }
                               }
+                            },
+                            "startTime": {
+                              "type": "integer"
+                            },
+                            "endTime": {
+                              "type": "integer"
                             },
                             "createdAt": {
                               "type": "string",
@@ -4615,12 +4615,6 @@
                                       "type": "object",
                                       "properties": {
                                         "date": {
-                                          "type": "string"
-                                        },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
                                           "type": "string"
                                         },
                                         "startLocation": {
@@ -5472,6 +5466,12 @@
                                               }
                                             }
                                           }
+                                        },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
                                         },
                                         "createdAt": {
                                           "type": "string",
@@ -5706,12 +5706,6 @@
                                         "date": {
                                           "type": "string"
                                         },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
-                                          "type": "string"
-                                        },
                                         "startLocation": {
                                           "type": "string"
                                         },
@@ -6561,6 +6555,12 @@
                                               }
                                             }
                                           }
+                                        },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
                                         },
                                         "createdAt": {
                                           "type": "string",
@@ -6828,12 +6828,6 @@
                                         "date": {
                                           "type": "string"
                                         },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
-                                          "type": "string"
-                                        },
                                         "startLocation": {
                                           "type": "string"
                                         },
@@ -7683,6 +7677,12 @@
                                               }
                                             }
                                           }
+                                        },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
                                         },
                                         "createdAt": {
                                           "type": "string",
@@ -7917,12 +7917,6 @@
                                         "date": {
                                           "type": "string"
                                         },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
-                                          "type": "string"
-                                        },
                                         "startLocation": {
                                           "type": "string"
                                         },
@@ -8772,6 +8766,12 @@
                                               }
                                             }
                                           }
+                                        },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
                                         },
                                         "createdAt": {
                                           "type": "string",
@@ -9519,12 +9519,6 @@
                                                   "date": {
                                                     "type": "string"
                                                   },
-                                                  "startTime": {
-                                                    "type": "string"
-                                                  },
-                                                  "endTime": {
-                                                    "type": "string"
-                                                  },
                                                   "startLocation": {
                                                     "type": "string"
                                                   },
@@ -9842,6 +9836,12 @@
                                                         }
                                                       }
                                                     }
+                                                  },
+                                                  "startTime": {
+                                                    "type": "integer"
+                                                  },
+                                                  "endTime": {
+                                                    "type": "integer"
                                                   },
                                                   "createdAt": {
                                                     "type": "string",
@@ -10608,12 +10608,6 @@
                                                   "date": {
                                                     "type": "string"
                                                   },
-                                                  "startTime": {
-                                                    "type": "string"
-                                                  },
-                                                  "endTime": {
-                                                    "type": "string"
-                                                  },
                                                   "startLocation": {
                                                     "type": "string"
                                                   },
@@ -10931,6 +10925,12 @@
                                                         }
                                                       }
                                                     }
+                                                  },
+                                                  "startTime": {
+                                                    "type": "integer"
+                                                  },
+                                                  "endTime": {
+                                                    "type": "integer"
                                                   },
                                                   "createdAt": {
                                                     "type": "string",
@@ -11730,12 +11730,6 @@
                                                   "date": {
                                                     "type": "string"
                                                   },
-                                                  "startTime": {
-                                                    "type": "string"
-                                                  },
-                                                  "endTime": {
-                                                    "type": "string"
-                                                  },
                                                   "startLocation": {
                                                     "type": "string"
                                                   },
@@ -12053,6 +12047,12 @@
                                                         }
                                                       }
                                                     }
+                                                  },
+                                                  "startTime": {
+                                                    "type": "integer"
+                                                  },
+                                                  "endTime": {
+                                                    "type": "integer"
                                                   },
                                                   "createdAt": {
                                                     "type": "string",
@@ -12819,12 +12819,6 @@
                                                   "date": {
                                                     "type": "string"
                                                   },
-                                                  "startTime": {
-                                                    "type": "string"
-                                                  },
-                                                  "endTime": {
-                                                    "type": "string"
-                                                  },
                                                   "startLocation": {
                                                     "type": "string"
                                                   },
@@ -13142,6 +13136,12 @@
                                                         }
                                                       }
                                                     }
+                                                  },
+                                                  "startTime": {
+                                                    "type": "integer"
+                                                  },
+                                                  "endTime": {
+                                                    "type": "integer"
                                                   },
                                                   "createdAt": {
                                                     "type": "string",
@@ -13959,12 +13959,6 @@
                                       "date": {
                                         "type": "string"
                                       },
-                                      "startTime": {
-                                        "type": "string"
-                                      },
-                                      "endTime": {
-                                        "type": "string"
-                                      },
                                       "startLocation": {
                                         "type": "string"
                                       },
@@ -14389,6 +14383,12 @@
                                             }
                                           }
                                         }
+                                      },
+                                      "startTime": {
+                                        "type": "integer"
+                                      },
+                                      "endTime": {
+                                        "type": "integer"
                                       },
                                       "createdAt": {
                                         "type": "string",
@@ -15071,12 +15071,6 @@
                                       "date": {
                                         "type": "string"
                                       },
-                                      "startTime": {
-                                        "type": "string"
-                                      },
-                                      "endTime": {
-                                        "type": "string"
-                                      },
                                       "startLocation": {
                                         "type": "string"
                                       },
@@ -15501,6 +15495,12 @@
                                             }
                                           }
                                         }
+                                      },
+                                      "startTime": {
+                                        "type": "integer"
+                                      },
+                                      "endTime": {
+                                        "type": "integer"
                                       },
                                       "createdAt": {
                                         "type": "string",
@@ -16216,12 +16216,6 @@
                                       "date": {
                                         "type": "string"
                                       },
-                                      "startTime": {
-                                        "type": "string"
-                                      },
-                                      "endTime": {
-                                        "type": "string"
-                                      },
                                       "startLocation": {
                                         "type": "string"
                                       },
@@ -16646,6 +16640,12 @@
                                             }
                                           }
                                         }
+                                      },
+                                      "startTime": {
+                                        "type": "integer"
+                                      },
+                                      "endTime": {
+                                        "type": "integer"
                                       },
                                       "createdAt": {
                                         "type": "string",
@@ -17328,12 +17328,6 @@
                                       "date": {
                                         "type": "string"
                                       },
-                                      "startTime": {
-                                        "type": "string"
-                                      },
-                                      "endTime": {
-                                        "type": "string"
-                                      },
                                       "startLocation": {
                                         "type": "string"
                                       },
@@ -17759,6 +17753,12 @@
                                           }
                                         }
                                       },
+                                      "startTime": {
+                                        "type": "integer"
+                                      },
+                                      "endTime": {
+                                        "type": "integer"
+                                      },
                                       "createdAt": {
                                         "type": "string",
                                         "format": "date-time"
@@ -17976,12 +17976,6 @@
               "date": {
                 "type": "string"
               },
-              "startTime": {
-                "type": "string"
-              },
-              "endTime": {
-                "type": "string"
-              },
               "startLocation": {
                 "type": "string"
               },
@@ -18026,6 +18020,12 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "startTime": {
+                "type": "integer"
+              },
+              "endTime": {
+                "type": "integer"
               }
             }
           }
@@ -18041,12 +18041,6 @@
             "type": "object",
             "properties": {
               "date": {
-                "type": "string"
-              },
-              "startTime": {
-                "type": "string"
-              },
-              "endTime": {
                 "type": "string"
               },
               "startLocation": {
@@ -18082,12 +18076,6 @@
                                       "type": "object",
                                       "properties": {
                                         "date": {
-                                          "type": "string"
-                                        },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
                                           "type": "string"
                                         },
                                         "startLocation": {
@@ -18940,6 +18928,12 @@
                                             }
                                           }
                                         },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
+                                        },
                                         "createdAt": {
                                           "type": "string",
                                           "format": "date-time"
@@ -19104,6 +19098,12 @@
                     }
                   }
                 }
+              },
+              "startTime": {
+                "type": "integer"
+              },
+              "endTime": {
+                "type": "integer"
               },
               "createdAt": {
                 "type": "string",
@@ -19167,12 +19167,6 @@
               "date": {
                 "type": "string"
               },
-              "startTime": {
-                "type": "string"
-              },
-              "endTime": {
-                "type": "string"
-              },
               "startLocation": {
                 "type": "string"
               },
@@ -19206,12 +19200,6 @@
                                       "type": "object",
                                       "properties": {
                                         "date": {
-                                          "type": "string"
-                                        },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
                                           "type": "string"
                                         },
                                         "startLocation": {
@@ -20064,6 +20052,12 @@
                                             }
                                           }
                                         },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
+                                        },
                                         "createdAt": {
                                           "type": "string",
                                           "format": "date-time"
@@ -20228,6 +20222,12 @@
                     }
                   }
                 }
+              },
+              "startTime": {
+                "type": "integer"
+              },
+              "endTime": {
+                "type": "integer"
               },
               "createdAt": {
                 "type": "string",
@@ -20324,12 +20324,6 @@
               "date": {
                 "type": "string"
               },
-              "startTime": {
-                "type": "string"
-              },
-              "endTime": {
-                "type": "string"
-              },
               "startLocation": {
                 "type": "string"
               },
@@ -20363,12 +20357,6 @@
                                       "type": "object",
                                       "properties": {
                                         "date": {
-                                          "type": "string"
-                                        },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
                                           "type": "string"
                                         },
                                         "startLocation": {
@@ -21221,6 +21209,12 @@
                                             }
                                           }
                                         },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
+                                        },
                                         "createdAt": {
                                           "type": "string",
                                           "format": "date-time"
@@ -21385,6 +21379,12 @@
                     }
                   }
                 }
+              },
+              "startTime": {
+                "type": "integer"
+              },
+              "endTime": {
+                "type": "integer"
               },
               "createdAt": {
                 "type": "string",
@@ -21448,12 +21448,6 @@
               "date": {
                 "type": "string"
               },
-              "startTime": {
-                "type": "string"
-              },
-              "endTime": {
-                "type": "string"
-              },
               "startLocation": {
                 "type": "string"
               },
@@ -21487,12 +21481,6 @@
                                       "type": "object",
                                       "properties": {
                                         "date": {
-                                          "type": "string"
-                                        },
-                                        "startTime": {
-                                          "type": "string"
-                                        },
-                                        "endTime": {
                                           "type": "string"
                                         },
                                         "startLocation": {
@@ -22345,6 +22333,12 @@
                                             }
                                           }
                                         },
+                                        "startTime": {
+                                          "type": "integer"
+                                        },
+                                        "endTime": {
+                                          "type": "integer"
+                                        },
                                         "createdAt": {
                                           "type": "string",
                                           "format": "date-time"
@@ -22509,6 +22503,12 @@
                     }
                   }
                 }
+              },
+              "startTime": {
+                "type": "integer"
+              },
+              "endTime": {
+                "type": "integer"
               },
               "createdAt": {
                 "type": "string",
@@ -28158,12 +28158,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -28588,6 +28582,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",
@@ -29226,12 +29226,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -29656,6 +29650,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",
@@ -30327,12 +30327,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -30757,6 +30751,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",
@@ -31395,12 +31395,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -31826,6 +31820,12 @@
                                                         }
                                                       }
                                                     },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
+                                                    },
                                                     "createdAt": {
                                                       "type": "string",
                                                       "format": "date-time"
@@ -32233,12 +32233,6 @@
                                                                 "type": "object",
                                                                 "properties": {
                                                                   "date": {
-                                                                    "type": "string"
-                                                                  },
-                                                                  "startTime": {
-                                                                    "type": "string"
-                                                                  },
-                                                                  "endTime": {
                                                                     "type": "string"
                                                                   },
                                                                   "startLocation": {
@@ -32916,6 +32910,12 @@
                                                                         }
                                                                       }
                                                                     }
+                                                                  },
+                                                                  "startTime": {
+                                                                    "type": "integer"
+                                                                  },
+                                                                  "endTime": {
+                                                                    "type": "integer"
                                                                   },
                                                                   "createdAt": {
                                                                     "type": "string",
@@ -33332,12 +33332,6 @@
                                                                   "date": {
                                                                     "type": "string"
                                                                   },
-                                                                  "startTime": {
-                                                                    "type": "string"
-                                                                  },
-                                                                  "endTime": {
-                                                                    "type": "string"
-                                                                  },
                                                                   "startLocation": {
                                                                     "type": "string"
                                                                   },
@@ -34013,6 +34007,12 @@
                                                                         }
                                                                       }
                                                                     }
+                                                                  },
+                                                                  "startTime": {
+                                                                    "type": "integer"
+                                                                  },
+                                                                  "endTime": {
+                                                                    "type": "integer"
                                                                   },
                                                                   "createdAt": {
                                                                     "type": "string",
@@ -34462,12 +34462,6 @@
                                                                   "date": {
                                                                     "type": "string"
                                                                   },
-                                                                  "startTime": {
-                                                                    "type": "string"
-                                                                  },
-                                                                  "endTime": {
-                                                                    "type": "string"
-                                                                  },
                                                                   "startLocation": {
                                                                     "type": "string"
                                                                   },
@@ -35143,6 +35137,12 @@
                                                                         }
                                                                       }
                                                                     }
+                                                                  },
+                                                                  "startTime": {
+                                                                    "type": "integer"
+                                                                  },
+                                                                  "endTime": {
+                                                                    "type": "integer"
                                                                   },
                                                                   "createdAt": {
                                                                     "type": "string",
@@ -35559,12 +35559,6 @@
                                                                   "date": {
                                                                     "type": "string"
                                                                   },
-                                                                  "startTime": {
-                                                                    "type": "string"
-                                                                  },
-                                                                  "endTime": {
-                                                                    "type": "string"
-                                                                  },
                                                                   "startLocation": {
                                                                     "type": "string"
                                                                   },
@@ -36240,6 +36234,12 @@
                                                                         }
                                                                       }
                                                                     }
+                                                                  },
+                                                                  "startTime": {
+                                                                    "type": "integer"
+                                                                  },
+                                                                  "endTime": {
+                                                                    "type": "integer"
                                                                   },
                                                                   "createdAt": {
                                                                     "type": "string",
@@ -37049,12 +37049,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -37479,6 +37473,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",
@@ -38160,12 +38160,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -38590,6 +38584,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",
@@ -39304,12 +39304,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -39734,6 +39728,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",
@@ -40415,12 +40415,6 @@
                                                     "date": {
                                                       "type": "string"
                                                     },
-                                                    "startTime": {
-                                                      "type": "string"
-                                                    },
-                                                    "endTime": {
-                                                      "type": "string"
-                                                    },
                                                     "startLocation": {
                                                       "type": "string"
                                                     },
@@ -40845,6 +40839,12 @@
                                                           }
                                                         }
                                                       }
+                                                    },
+                                                    "startTime": {
+                                                      "type": "integer"
+                                                    },
+                                                    "endTime": {
+                                                      "type": "integer"
                                                     },
                                                     "createdAt": {
                                                       "type": "string",

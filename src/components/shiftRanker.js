@@ -1,4 +1,5 @@
 import React from "react";
+import convertTime from "./timeConverter";
 import { ShiftContext } from "../context/shift-context";
 
 // Here's a function to generate the options for the <select>:
@@ -33,7 +34,7 @@ const ShiftRanker = (shift) => {
     const {date, startTime, endTime, startLocation, endLocation } = shift.shift;
     
     // Then, let's get a date string
-    const theDate = new Date(date).toDateString();
+    const theDate = new Date(new Date(date).setHours(24,0,0,0)).toDateString();
     
     // Next, let's figure out how many options need to be be in the select.
     // Begin by bringing in the context
@@ -110,10 +111,12 @@ const ShiftRanker = (shift) => {
     }
     
     // Now, let's return the shift
+    const start = convertTime(startTime);
+    const end = convertTime(endTime);
     return(
         <div className="selected-shift-with-ranker">
             <div>
-                <div>{theDate} {startTime} - {endTime}</div>
+                <div>{theDate} {start} - {end}</div>
                 <div>Starts at: {startLocation} | Ends at: {endLocation}</div>
             </div>
             <div>

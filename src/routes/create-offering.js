@@ -22,7 +22,7 @@ const CreateOffering = () => {
       endTime: endTime,
       startLocation: document.getElementById("start-location").value,
       endLocation: document.getElementById("end-location").value,
-      holiday: document.getElementById("holiday").value
+      holiday: document.getElementById("special-closing").value
     };
     let temp = [...shifts];
     temp.push(newShift);
@@ -85,7 +85,7 @@ const CreateOffering = () => {
               startLocation: offering[i].startLocation,
               endLocation: offering[i].endLocation,
               holiday: offering[i].holiday,
-              offering: offeringId,
+              offering: offeringId
             }
           })
           .then(response => {

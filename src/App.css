@@ -212,6 +212,28 @@ button:disabled {
   padding: 10px;
 }
 
+.unselected-holiday {
+  
+  min-width: 350px;
+  max-width: 350px;
+  margin: 10px;
+  background-color: #a2933b;
+  border-radius: 15px;
+  color: white;
+  padding: 10px;
+}
+
+.unavailable-shift {
+  
+  min-width: 350px;
+  max-width: 350px;
+  margin: 10px;
+  background-color: #4d4d4d;
+  border-radius: 15px;
+  color: white;
+  padding: 10px;
+}
+
 .selected-shift {
   
   min-width: 350px;

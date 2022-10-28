@@ -15,12 +15,6 @@
     "date": {
       "type": "string"
     },
-    "startTime": {
-      "type": "string"
-    },
-    "endTime": {
-      "type": "string"
-    },
     "startLocation": {
       "type": "string"
     },
@@ -47,6 +41,12 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "mappedBy": "shift"
+    },
+    "startTime": {
+      "type": "integer"
+    },
+    "endTime": {
+      "type": "integer"
     }
   }
 }
