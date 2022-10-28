@@ -66,6 +66,11 @@ const OfferingRequestsResponse = ({offering}) => {
         console.log('After removing unwanted shifts, theYesses is: ', theYesses);
         // Let's attempt a while loop to assign the shifts
         // First a variable to specify which guard's responses are being considered: (May need to make sure theYesses is always in seniority order)
+
+        theYesses.sort((a,b) => (a.seniority > b.seniority) ? 1 : -1);
+
+        console.log("After sorting theYesses by seniority, theYesses is: ", theYesses);
+
         let currentGuard = 0
         const numOfGuards = theYesses.length;
         // Create an array of assigned shfts to populate
@@ -93,18 +98,30 @@ const OfferingRequestsResponse = ({offering}) => {
                         console.log('Attempting to assign shift: ', assignedShifts[j].id, " to: ", guard.username);
                         if (assignedShifts[j].id == responses[i].id) {
                             console.log('And the shift is available!!!');
+                            console.log('theYesses[currentGuard].responses is: ', theYesses[currentGuard].responses);
                             // Assign the shift!!!!!!!
                             assignedShifts[j].assignedTo = guard.userId;
                             // delete the request straight out of theYesses
                             theYesses[currentGuard].responses.splice(i, 1);
                             // Update shouldBreak so we can exit the i loop early
+                            console.log('theYesses[currentGuard].responses is: ', theYesses[currentGuard].responses);
                             shouldBreak = true;
                         }
                         if (shouldBreak == true) {
                             break;
                         };
                     }
-                    // If it's not equal to null, then just continue by looking at the next shift
+                    // If it's not equal to null, let's see if the guard wanted the shift and then delete that request from theYesses
+                    if (assignedShifts[j].assignedTo != null) {
+                        console.log('Checking to see if ', assignedShifts[j].id, " was requested by ", guard.username);
+                        if (assignedShifts[j].id == responses[i].id) {
+                            console.log('Looks like the shift was taken ... Better delete it.');
+                            console.log('theYesses[currentGuard].responses is: ', theYesses[currentGuard].responses);
+                            // delete the request straight out of theYesses
+                            theYesses[currentGuard].responses.splice(i, 1);
+                            console.log('theYesses[currentGuard].responses is: ', theYesses[currentGuard].responses);
+                        }
+                    }
                 }
                 // If something was assigned, break out of the i loop
                 if (shouldBreak == true) {
@@ -117,19 +134,31 @@ const OfferingRequestsResponse = ({offering}) => {
             };
             // If nothing could be assigned, change the guard!
             currentGuard++;
-            // But again, if we've reache the end of the number of guards, reset to zero
+            // But again, if we've reached the end of the number of guards, reset to zero
             if (currentGuard == numOfGuards) {
                 currentGuard = 0;
             };
             // Finally, let's see if we should continue to assign
+            let responsesLeft = false;
+            theYesses.forEach(guard => {
+                if (responses.length != 0) {
+                    responsesLeft = true;
+                };
+            })
             let shouldContinue = false;
             assignedShifts.forEach(shift => {
                 if (shift.assignedTo == null) {
                     shouldContinue = true;
                 };
             });
-            continueAssign = shouldContinue;
+
+            if ((responsesLeft == false) && (shouldContinue == true)) {
+                continueAssign = true;
+            } else {
+                continueAssign = false;
+            }
             console.log('assignedShifts is: ', assignedShifts);
+            // But break if the everything has been picked over
 
         };
 
