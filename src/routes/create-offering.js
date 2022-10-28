@@ -21,7 +21,8 @@ const CreateOffering = () => {
       startTime: startTime,
       endTime: endTime,
       startLocation: document.getElementById("start-location").value,
-      endLocation: document.getElementById("end-location").value
+      endLocation: document.getElementById("end-location").value,
+      holiday: document.getElementById("holiday").value
     };
     let temp = [...shifts];
     temp.push(newShift);
@@ -83,7 +84,8 @@ const CreateOffering = () => {
               endTime: offering[i].endTime,
               startLocation: offering[i].startLocation,
               endLocation: offering[i].endLocation,
-              offering: offeringId
+              holiday: offering[i].holiday,
+              offering: offeringId,
             }
           })
           .then(response => {
@@ -121,6 +123,12 @@ const CreateOffering = () => {
         <select name="end-location" id="end-location">
           <option value="Alumni Pool">Alumni Pool</option>
           <option value="Z-Center">Z-Center</option>
+        </select>
+        <h4>Holiday:</h4>
+        <select id="special-closing">
+          <option value="">—</option>
+          <option value="false">No</option>
+          <option value="true">Yes</option>
         </select>
         <br/><br/>
         <button className="button-full" onClick={handleSubmit}>Submit</button>
