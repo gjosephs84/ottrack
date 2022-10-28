@@ -1,4 +1,5 @@
 import React from "react";
+import DateBox from "./dateBox";
 import convertTime from "./timeConverter";
 import { ShiftContext } from "../context/shift-context";
 
@@ -115,10 +116,14 @@ const ShiftRanker = (shift) => {
     const end = convertTime(endTime);
     return(
         <div className="selected-shift-with-ranker">
-            <div>
-                <div>{theDate} {start} - {end}</div>
-                <div>Starts at: {startLocation} | Ends at: {endLocation}</div>
-            </div>
+             <div className="shift-layout align-right">
+                    <DateBox date={theDate} available={true}/>
+                    <div className="shift-info">
+                        <h4>{start} - {end}</h4>
+                        <h6 style={{marginTop: "5px"}}>Starts at: {startLocation}</h6>
+                        <h6 style={{marginTop: "-5px", marginBottom: "-5px"}}>Ends at: {endLocation}</h6>
+                    </div>
+                </div>
             <div>
                 <select onChange={(e) => {handleChange(e, e.target.value)}}>
                     {selectOptions.map((option) => {

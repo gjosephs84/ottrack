@@ -2,6 +2,7 @@ import React from "react";
 import { UserContext } from "../context/context";
 import { ShiftContext } from "../context/shift-context";
 import convertTime from "./timeConverter";
+import DateBox from "./dateBox";
 
 /*
     -----WHAT IS GOING ON HERE?----
@@ -117,18 +118,26 @@ const AShift = (shift, i) => {
     if (holiday || !conflict) {
         return (
             <div className={selected} key={i} id={i} onClick={handleSelect}>
-                <div>
-                    <div>{theDate} {start} - {end}</div>
-                    <div>Starts at: {startLocation} | Ends at: {endLocation}</div>
+                <div className="shift-layout align-right">
+                    <DateBox date={theDate} available={true}/>
+                    <div className="shift-info">
+                        <h4>{start} - {end}</h4>
+                        <h6 style={{marginTop: "5px"}}>Starts at: {startLocation}</h6>
+                        <h6 style={{marginTop: "-5px", marginBottom: "-5px"}}>Ends at: {endLocation}</h6>
+                    </div>
                 </div>
             </div>
         )   
     } else {
         return (
             <div className="unavailable-shift" key={i} id={i}>
-                <div>
-                    <div>{theDate} {start} - {end}</div>
-                    <div>Starts at: {startLocation} | Ends at: {endLocation}</div>
+                <div className="shift-layout align-right">
+                    <DateBox date={theDate} available={false}/>
+                    <div className="shift-info">
+                        <h4>{start} - {end}</h4>
+                        <h6 style={{marginTop: "5px"}}>Starts at: {startLocation}</h6>
+                        <h6 style={{marginTop: "-5px", marginBottom: "-5px"}}>Ends at: {endLocation}</h6>
+                    </div>
                 </div>
             </div>
         )   

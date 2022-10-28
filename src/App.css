@@ -228,9 +228,9 @@ button:disabled {
   min-width: 350px;
   max-width: 350px;
   margin: 10px;
-  background-color: #4d4d4d;
+  background-color: #6f6d6d;
   border-radius: 15px;
-  color: white;
+  color: rgb(196, 193, 193);
   padding: 10px;
 }
 
@@ -364,4 +364,40 @@ button:disabled {
 
 .align-right {
   text-align: right;
+}
+
+.date-box {
+  border-radius: 10px;
+  border-color: white;
+  border-width: 3px;
+  border-style: solid;
+  opacity: 75%;
+  padding: 5px;
+  text-align: center;
+  height: 70px;
+  width: 70px;
+}
+
+.db-p {
+  margin-top: -7px;
+  margin-bottom: 0px;
+}
+
+.db-h {
+  margin-top: -7px;
+  margin-bottom: -7px;
+}
+
+.db-unavailable {
+  border-color: rgb(134, 132, 132);
+}
+
+.shift-layout {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.shift-info {
+  margin-top: -10px;
+  opacity: 90%
 }
