@@ -140,19 +140,24 @@ const OfferingRequestsResponse = ({offering}) => {
             };
             // Finally, let's see if we should continue to assign
             let responsesLeft = false;
+            let shouldContinue = false;
             theYesses.forEach(guard => {
-                if (responses.length != 0) {
+                if (guard.responses.length != 0) {
+                    console.log('found something!!!!!', guard);
+                    console.log('responsesLeft is currently: ', responsesLeft);
                     responsesLeft = true;
+                    console.log('after assigning as true, responsesLeft is: ', responsesLeft);
                 };
             })
-            let shouldContinue = false;
             assignedShifts.forEach(shift => {
                 if (shift.assignedTo == null) {
+                    console.log('found a null shift, and shouldContinue is currently: ', shouldContinue);
                     shouldContinue = true;
+                    console.log('and after assigning as true, shouldContinue is: ', shouldContinue);
                 };
             });
 
-            if ((responsesLeft == false) && (shouldContinue == true)) {
+            if ((responsesLeft == true) && (shouldContinue == true)) {
                 continueAssign = true;
             } else {
                 continueAssign = false;
