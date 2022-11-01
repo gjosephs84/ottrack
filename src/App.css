@@ -140,6 +140,10 @@ button:disabled {
   width: 100%;
 }
 
+.button-wide {
+  width: 350px;
+}
+
 .input-button {
   width: 100%;
   border-radius: 7px;

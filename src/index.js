@@ -87,6 +87,7 @@ root.render(
                 end: 0
               }
             },
+            declineState: null,
             disabledState: null,
             errorState: null
           }

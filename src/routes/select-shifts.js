@@ -49,15 +49,16 @@ const SelectShifts = () => {
     // Bring in the context
     const shiftCtx = React.useContext(ShiftContext);
     const ctx = React.useContext(UserContext);
-
     const [show, setShow] = React.useState(true);
-    const [selectedShifts, setSelectedShifts] = React.useState([]);
+    const [showDecline, setShowDecline] = React.useState(true);
+    
     // This state variable is going to be used for validation in the submit button
     // And will be called inside <ShiftRanker> to be updated there onChange of the shift <select>
     const [disableSubmit, setDisableSubmit] = React.useState(true);
     // This state variable will show why the submit button is not enabling
     const [rankingError, setRankingError] = React.useState(null);
     // Inject the state variables into the shift context
+    shiftCtx.declineState = [showDecline, setShowDecline];
     shiftCtx.disabledState = [disableSubmit, setDisableSubmit];
     shiftCtx.errorState = [rankingError, setRankingError];
     
@@ -69,7 +70,6 @@ const SelectShifts = () => {
       console.log(shiftCtx.selected);
       console.log("Selected by:");
       console.log(ctx.currentUser.username);
-      setSelectedShifts(shiftCtx.selected);
       setShow(false);
     };
 
@@ -78,9 +78,9 @@ const SelectShifts = () => {
       shiftCtx.selected = [];
       shiftCtx.ranked = [];
       console.log("in the go back selected has become", shiftCtx.selected);
-      setSelectedShifts([]);
       setShow(true);
       setDisableSubmit(true);
+      setShowDecline(true);
       setRankingError("");
     }
 
@@ -128,6 +128,14 @@ const SelectShifts = () => {
     offerings.reverse();
     responseIds.reverse();
 
+    // Here we decline everything
+    const declineAll = () => {
+      console.log('declining all');
+      alert("declining all");
+      shiftCtx.ranked = [];
+      submitResponse();
+    };
+    
     // Here we submit the responses
 
     const submitResponse = async() => {
@@ -188,14 +196,21 @@ const SelectShifts = () => {
                 <div>
                 {offerings.map((offering, i) => {
                     return (
-                    <SelectableShifts shifts={offering} key={i} id={i}></SelectableShifts> 
+                    <SelectableShifts 
+                    shifts={offering} 
+                    key={i} 
+                    id={i}
+                    >
+                    </SelectableShifts> 
                     )
                 })
                 }
                 </div>
             </div>
+            <br/>
             <div className="centered">
-                <button onClick={handleSubmit}>Continue</button>
+                {showDecline && <button className="button-wide" onClick={declineAll}>Decline All</button>}
+                {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
             </div>
           </div>) : (
             <div>
@@ -218,11 +233,11 @@ const SelectShifts = () => {
               </div>
               <br/>
               <div className="centered">
-                <button onClick={goBack}>Go Back</button>
+                <button className="button-wide" onClick={goBack}>Go Back</button>
               </div>
               <br/>
               <div className="centered">
-                <button disabled={disableSubmit} onClick={submitResponse}>Submit</button>
+                <button className="button-wide" disabled={disableSubmit} onClick={submitResponse}>Submit</button>
               </div>
               <h4>{rankingError}</h4>
             </div>

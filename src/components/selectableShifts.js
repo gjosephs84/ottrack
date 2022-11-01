@@ -66,6 +66,7 @@ const AShift = (shift, i) => {
     // Grab ahold of the current user's schedule
     const userSchedule = ctx.currentUser.weeklySchedule;
     const shiftCtx = React.useContext(ShiftContext);
+    const [showDecline, setShowDecline] = shiftCtx.declineState;
      // Let's make life easier by doing a little destructuring:
     const { date, startTime, endTime, startLocation, endLocation, holiday } = shift.shift;
     let unselectedClass;
@@ -91,6 +92,7 @@ const AShift = (shift, i) => {
             console.log("Added shift:")
             console.log(shiftCtx.selected);
             console.log(shiftCtx.ranked);
+            setShowDecline(false);
         } else {
             setSelected(unselectedClass);
             shiftCtx.selected.splice(i, 1);
@@ -98,6 +100,9 @@ const AShift = (shift, i) => {
             console.log("Removed Shift:");
             console.log(shiftCtx.selected);
             console.log(shiftCtx.ranked);
+            if (shiftCtx.selected.length == 0) {
+                setShowDecline(true);
+            }
 
         };
     }
@@ -144,16 +149,17 @@ const AShift = (shift, i) => {
     }
 }
 
-const SelectableShifts = ({shifts}) => {
+const SelectableShifts = ({shifts, showDecline, setShowDecline}) => {
     
     const theDate = new Date(shifts[0].date);
     console.log(theDate);
+    console.log('showDecline inside selectableShifts is: ', showDecline)
 
     return (
         <div>
         {shifts.map((shift, i) => {
             return (
-                <AShift key={i} shift={shift} i={i}></AShift>
+                <AShift key={i} shift={shift} i={i} showDecline={{showDecline}} setShowDecline={{setShowDecline}}></AShift>
             )
         })}
         </div>
