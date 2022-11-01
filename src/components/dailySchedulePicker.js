@@ -8,7 +8,10 @@ const Day = ({dayOfWeek}) => {
     const shiftCtx  = React.useContext(ShiftContext);
 
     let existingSchedule;
-    if (ctx.currentUser !== null) {existingSchedule=ctx.currentUser.weeklySchedule} else {
+    if (ctx.currentUser !== null) {
+        existingSchedule=ctx.currentUser.weeklySchedule;
+        shiftCtx.schedule = ctx.currentUser.weeklySchedule;
+    } else {
         existingSchedule = shiftCtx.schedule
     };
 
@@ -141,6 +144,7 @@ const Day = ({dayOfWeek}) => {
                     console.log('There was an error');
             };
             console.log('shiftCtx.schedule is: ', shiftCtx.schedule);
+            ctx.currentUser.weeklySchedule = shiftCtx.schedule;
         };
 
         const validateSchedule = () => {

@@ -335,6 +335,10 @@ button:disabled {
   background-color:#c0c0bf;
 }
 
+.assigned {
+  background-color: #1fa342;
+}
+
 .pending-user {
   display: grid;
   grid-template-columns: 2fr 3fr;

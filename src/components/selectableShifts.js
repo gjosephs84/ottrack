@@ -54,7 +54,7 @@ const checkConflict = (dayOfWeek, startTime, endTime, userSchedule) => {
     const userStart = userSchedule[dayOfWeek].start;
     const userEnd = userSchedule[dayOfWeek].end;
     // if the shift starts before user starts and ends AFTER a user starts, no go!
-    if ((startTime <= userStart) && (endTime > userStart)) { return true };
+    if ((startTime <= userStart) && (endTime > (userStart + 16))) { return true };
     // if the shift starts after a user starts, but before a user ends, no go
     if ((startTime >= userStart) && (startTime <= (userEnd - 16))) { return true };
     // otherwise, I think we're good
