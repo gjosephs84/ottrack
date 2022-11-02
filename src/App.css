@@ -409,3 +409,8 @@ button:disabled {
   margin-top: -10px;
   opacity: 90%
 }
+
+.hire-date {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}

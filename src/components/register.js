@@ -3,6 +3,7 @@ import axios from 'axios';
 import { UserContext } from "../context/context";
 import { ShiftContext } from "../context/shift-context";
 import Day from "./dailySchedulePicker";
+import HireDate from "./hireDate";
 
 const daysOfWeek = [
     'Monday',
@@ -101,8 +102,8 @@ const Register = () => {
                 <option>Lifeguard</option>
                 <option>Manager</option>
             </select>
-            {showSeniority && <h4>Seniority:</h4>}
-            {showSeniority && <input className="input-field" type="number" placeholder="Enter your seniority rank" onChange={(e) => {handleChange(e, e.target.value, setSeniority)}}/>}
+            {showSeniority && <h4>Hire Date:</h4>}
+            {showSeniority && <HireDate seniority={seniority} setSeniority={setSeniority}/>}
             {showSchedule && <h4>Weekly Schedule:</h4>}
             {showSchedule && <p>Click/tap each day to set your base weekly schedule. For days off, simply click/tap and confirm without setting start or end times.</p>}
             {showSchedule && <div>

@@ -144,7 +144,7 @@ const Day = ({dayOfWeek}) => {
                     console.log('There was an error');
             };
             console.log('shiftCtx.schedule is: ', shiftCtx.schedule);
-            ctx.currentUser.weeklySchedule = shiftCtx.schedule;
+            if (ctx.currentUser != null) {ctx.currentUser.weeklySchedule = shiftCtx.schedule;}
         };
 
         const validateSchedule = () => {
