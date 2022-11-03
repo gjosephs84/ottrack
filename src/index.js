@@ -25,7 +25,7 @@ import Signup from './routes/signup';
 // NOTE: Will need to change uri for deployment
 
 const client = new ApolloClient({
-  uri: 'http://localhost:1337/graphql',
+  uri: 'https://ottrack-backend.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
 

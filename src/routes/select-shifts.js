@@ -144,7 +144,7 @@ const SelectShifts = () => {
 
       // First let's create a respondant
       let theRespondant = await axios
-        .post('http://localhost:1337/api/respondants', {
+        .post('https://ottrack-backend.herokuapp.com/api/respondants', {
           data: {
             offering_response: responseIds[0],
             users_permissions_user: ctx.currentUser.id,
@@ -164,7 +164,7 @@ const SelectShifts = () => {
       for (let i=0; i<shiftCtx.ranked.length; i++) {
         alert("inside the for loop");
         let requestedShift = await axios
-          .post('http://localhost:1337/api/requested-shifts', {
+          .post('https://ottrack-backend.herokuapp.com/api/requested-shifts', {
             data: {
               shift: shiftCtx.ranked[i].id,
               ranking: shiftCtx.ranked[i].rank,

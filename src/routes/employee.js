@@ -24,7 +24,7 @@ const Employee = () => {
     const updateSchedule = async () => {
         let userId = ctx.currentUser.id;
         console.log('inside updateSchedule, userId is: ', userId);
-        const url = `http://localhost:1337/api/users/${userId}`;
+        const url = `https://ottrack-backend.herokuapp.com/api/users/${userId}`;
         let updateUserSchedule = await axios
             .put(url, {
                 weeklySchedule: shiftCtx.schedule

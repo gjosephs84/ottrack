@@ -31,7 +31,7 @@ const RolesDisplay = ({pend, emp, mngr}) => {
             if (value == 4) {userType = "Lifeguard"};
             if (value == 5) {userType = "Manager"};
             // Update the user's role
-            const url = `http://localhost:1337/api/users/${userId}`;
+            const url = `https://ottrack-backend.herokuapp.com/api/users/${userId}`;
             let updatedUser = await axios
                 .put(url, {
                     role: value,

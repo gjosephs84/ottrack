@@ -45,7 +45,7 @@ const CreateOffering = () => {
   
     // First, let's create an offering
     let theOffering = await axios
-      .post('http://localhost:1337/api/offerings', {
+      .post('https://ottrack-backend.herokuapp.com/api/offerings', {
         data: {
           shifts: [],
           active: true
@@ -61,7 +61,7 @@ const CreateOffering = () => {
       // Next, create an offering_response to hold respondants and their preferences
 
       let theOfferingResponse = await axios
-        .post('http://localhost:1337/api/offering-responses', {
+        .post('https://ottrack-backend.herokuapp.com/api/offering-responses', {
           data: {
             offering: offeringId
           }
@@ -77,7 +77,7 @@ const CreateOffering = () => {
       // Now, let's create shifts and attach them to the offering using the offering ID just created
       for (let i=0; i<offering.length; i++) {
         let theShift = await axios
-          .post('http://localhost:1337/api/shifts', {
+          .post('https://ottrack-backend.herokuapp.com/api/shifts', {
             data: {
               date: offering[i].date,
               startTime: offering[i].startTime,

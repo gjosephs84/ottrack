@@ -67,7 +67,7 @@ const Register = () => {
 
     const handleSubmit = async() => {
         let registering = await axios
-            .post('https://ottrack-backend.herokuapp.com/auth/local/register', {
+            .post('https://ottrack-backend.herokuapp.com/api/auth/local/register', {
                 username: name,
                 email: email,
                 password: password,
