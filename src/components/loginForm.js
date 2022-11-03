@@ -57,7 +57,7 @@ const LoginForm = () => {
     */
 
         let loggingIn = await axios
-            .post('https:ottrack-backend.herokuapp.com/api/auth/local', {
+            .post('https://ottrack-backend.herokuapp.com/api/auth/local', {
                 identifier: email,
                 password: password
             })
