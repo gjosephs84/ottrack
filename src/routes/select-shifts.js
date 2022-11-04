@@ -212,6 +212,9 @@ const SelectShifts = () => {
                 {showDecline && <button className="button-wide" onClick={declineAll}>Decline All</button>}
                 {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
             </div>
+            <br/>
+          <br/>
+          <div> </div>
           </div>) : (
             <div>
               <div className="centered">
@@ -240,6 +243,9 @@ const SelectShifts = () => {
                 <button className="button-wide" disabled={disableSubmit} onClick={submitResponse}>Submit</button>
               </div>
               <h4>{rankingError}</h4>
+              <br/>
+          <br/>
+          <div> </div>
             </div>
           ) }
         </div>

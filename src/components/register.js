@@ -126,6 +126,9 @@ const Register = () => {
                 <p>Your registration was successful, but <strong>your account is pending administrator approval.</strong></p>
                 <p>Once an administrator confirms that you are a <strong>{role}</strong>, you will be notified and may begin using the system.</p>
             </div>)}
+            <br/>
+            <br/>
+            <div> </div>
         </div>
     )
 }
