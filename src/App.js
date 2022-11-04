@@ -25,6 +25,8 @@ function App() {
       <NavigationBar/>
       <br/>
       <Outlet />
+      <br/>
+      <div className="centered" style={{color:"white"}}>Copyright 2022 by Gregory Josephs</div>
     </div>
   )
   
