@@ -116,7 +116,7 @@ const ShiftRanker = (shift) => {
     const end = convertTime(endTime);
     return(
         <div className="selected-shift-with-ranker">
-             <div className="shift-layout align-right">
+             <div className="shift-layout-narrower align-right">
                     <DateBox date={theDate} available={true}/>
                     <div className="shift-info">
                         <h4>{start} - {end}</h4>
@@ -124,7 +124,7 @@ const ShiftRanker = (shift) => {
                         <h6 style={{marginTop: "-5px", marginBottom: "-5px"}}>Ends at: {endLocation}</h6>
                     </div>
                 </div>
-            <div>
+            <div className="centered left-offset">
                 <select onChange={(e) => {handleChange(e, e.target.value)}}>
                     {selectOptions.map((option) => {
                         return (

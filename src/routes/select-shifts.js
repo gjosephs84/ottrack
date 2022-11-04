@@ -50,6 +50,7 @@ const SelectShifts = () => {
     const shiftCtx = React.useContext(ShiftContext);
     const ctx = React.useContext(UserContext);
     const [show, setShow] = React.useState(true);
+    const [showSuccess, setShowSuccess] = React.useState(false);
     const [showDecline, setShowDecline] = React.useState(true);
     
     // This state variable is going to be used for validation in the submit button
@@ -66,10 +67,6 @@ const SelectShifts = () => {
 
     // A function to handle submit of initial preferences
     const handleSubmit = () => {
-      console.log("Shifts selected are:");
-      console.log(shiftCtx.selected);
-      console.log("Selected by:");
-      console.log(ctx.currentUser.username);
       setShow(false);
     };
 
@@ -77,7 +74,6 @@ const SelectShifts = () => {
     const goBack = () => {
       shiftCtx.selected = [];
       shiftCtx.ranked = [];
-      console.log("in the go back selected has become", shiftCtx.selected);
       setShow(true);
       setDisableSubmit(true);
       setShowDecline(true);
@@ -130,7 +126,6 @@ const SelectShifts = () => {
 
     // Here we decline everything
     const declineAll = () => {
-      console.log('declining all');
       alert("declining all");
       shiftCtx.ranked = [];
       submitResponse();
@@ -139,7 +134,6 @@ const SelectShifts = () => {
     // Here we submit the responses
 
     const submitResponse = async() => {
-      alert("Clicked!!!!");
       let respondantId;
 
       // First let's create a respondant
@@ -148,8 +142,7 @@ const SelectShifts = () => {
           data: {
             offering_response: responseIds[0],
             users_permissions_user: ctx.currentUser.id,
-            name: ctx.currentUser.username,
-            seniority: 0
+            name: ctx.currentUser.username
           }
         })
         .then(response => {
@@ -184,70 +177,109 @@ const SelectShifts = () => {
 
     return (
       <div>
-        {show ? (
+
+        {/*
+
+        This first section will display when either the 
+        user has successfully submitted their preferences
+        or has done so previously, so there are no shifts
+        to select from.
+
+        That part will need to be added in ...
+
+        */}
+
+        {showSuccess ? (
           <div>
             <div className="centered">
-                <h2>Select Shifts</h2>
+              <h2>Select Shifts</h2>
             </div>
-            <div className="centered">
-                <p>Begin by tapping/clicking shifts you are interested in working.</p>
-            </div>
-            <div className="centered">
-                <div>
-                {offerings.map((offering, i) => {
-                    return (
-                    <SelectableShifts 
-                    shifts={offering} 
-                    key={i} 
-                    id={i}
-                    >
-                    </SelectableShifts> 
-                    )
-                })
-                }
-                </div>
-            </div>
-            <br/>
-            <div className="centered">
-                {showDecline && <button className="button-wide" onClick={declineAll}>Decline All</button>}
-                {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
-            </div>
-            <br/>
-          <br/>
-          <div> </div>
-          </div>) : (
+          </div>
+        ) : (
+          <div>
+        
+        {/* 
+
+        This next section displays when there are shifts
+        to be selected, but before any ranking occurs
+
+        */}
+
+          {show ? (
             <div>
               <div className="centered">
-                <h2>Rank Assignment Prefeference</h2>
+                  <h2>Select Shifts</h2>
               </div>
               <div className="centered">
-                <p>Please rank the shifts below from 1 through {shiftCtx.selected.length},<br/>
-                with 1 being your first choice,<br/>and {shiftCtx.selected.length} being your
-                last choice.</p>
+                  <p className="box-350">Begin by tapping/clicking shifts you are interested in working.</p>
               </div>
               <div className="centered">
-                <div>
-                {shiftCtx.selected.map((shift) => {
-                  return (
-                    <ShiftRanker key={shift.id} shift={shift.shift}/>
-                  )
-                } )}
+                  <div>
+                  {offerings.map((offering, i) => {
+                      return (
+                      <SelectableShifts 
+                      shifts={offering} 
+                      key={i} 
+                      id={i}
+                      >
+                      </SelectableShifts> 
+                      )
+                  })
+                  }
+                  </div>
+              </div>
+              <br/>
+              <div className="centered">
+                  {showDecline && <button className="button-wide" onClick={declineAll}>Decline All</button>}
+                  {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
+              </div>
+              <br/>
+            <br/>
+            <div> </div>
+            </div>) : (
+              <div>
+
+        {/* 
+
+        This section shows the ranking portion
+        
+        */}
+
+                <div className="centered">
+                  <h2>Rank Assignment Preference</h2>
                 </div>
+                <div className="centered">
+                  <p style={{textAlign:"center"}}>Please rank the shifts below from 1 through {shiftCtx.selected.length},<br/>
+                  with 1 being your first choice,<br/>and {shiftCtx.selected.length} being your
+                  last choice.</p>
+                </div>
+                <div className="centered">
+                  <div>
+                  {shiftCtx.selected.map((shift) => {
+                    return (
+                      <ShiftRanker key={shift.id} shift={shift.shift}/>
+                    )
+                  } )}
+                  </div>
+                </div>
+                <br/>
+                <div className="centered">
+                  <button className="button-wide" onClick={goBack}>Go Back</button>
+                </div>
+                <br/>
+                <div className="centered">
+                  <button className="button-wide" disabled={disableSubmit} onClick={submitResponse}>Submit</button>
+                </div>
+                <div className="centered">
+                  <div className="box-350">
+                    <h4 style={{textAlign:"center"}}>{rankingError}</h4>
+                  </div>
+                </div>
+                <br/>
               </div>
-              <br/>
-              <div className="centered">
-                <button className="button-wide" onClick={goBack}>Go Back</button>
-              </div>
-              <br/>
-              <div className="centered">
-                <button className="button-wide" disabled={disableSubmit} onClick={submitResponse}>Submit</button>
-              </div>
-              <h4>{rankingError}</h4>
-              <br/>
-          <br/>
-          <div> </div>
+            ) }
             </div>
-          ) }
+        )}
         </div>
     );
 }
