@@ -272,6 +272,7 @@ const SelectShifts = () => {
               </div>
               <br/>
               {confirmDeclineAll && 
+              
               <div className="blur-out">
               <div className="confirm-decline">
                 <h4>Declining All</h4>
@@ -279,6 +280,7 @@ const SelectShifts = () => {
                 <button  className="button-full" onClick={declineAll}>Yes</button><br/><br/>
                 <button className="button-full" onClick={() => {setConfirmDeclineAll(false)}}>No</button>
               </div>
+              
               </div>}
               <div className="centered">
                   {showDecline && <button className="button-wide" onClick={() => {setConfirmDeclineAll(true)}}>Decline All</button>}
