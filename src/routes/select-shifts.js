@@ -67,6 +67,7 @@ const SelectShifts = () => {
     // This state variable will show why the submit button is not enabling
     const [rankingError, setRankingError] = React.useState(null);
     // Inject the state variables into the shift context
+    const [confirmDeclineAll, setConfirmDeclineAll] = React.useState(false);
     shiftCtx.declineState = [showDecline, setShowDecline];
     shiftCtx.disabledState = [disableSubmit, setDisableSubmit];
     shiftCtx.errorState = [rankingError, setRankingError];
@@ -163,6 +164,7 @@ const SelectShifts = () => {
     const declineAll = () => {
       shiftCtx.ranked = [];
       submitResponse();
+      setConfirmDeclineAll(false);
     };
     
     // Here we submit the responses
@@ -269,8 +271,17 @@ const SelectShifts = () => {
                   </div>
               </div>
               <br/>
+              {confirmDeclineAll && 
+              <div className="blur-out">
+              <div className="confirm-decline">
+                <h4>Declining All</h4>
+                <p>Are you sure you want to decline all available shifts?</p>
+                <button  className="button-full" onClick={declineAll}>Yes</button><br/><br/>
+                <button className="button-full" onClick={() => {setConfirmDeclineAll(false)}}>No</button>
+              </div>
+              </div>}
               <div className="centered">
-                  {showDecline && <button className="button-wide" onClick={declineAll}>Decline All</button>}
+                  {showDecline && <button className="button-wide" onClick={() => {setConfirmDeclineAll(true)}}>Decline All</button>}
                   {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
               </div>
               <br/>
