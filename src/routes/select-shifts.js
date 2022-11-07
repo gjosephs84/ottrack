@@ -24,6 +24,15 @@ query GetActiveOfferings{
           offering_response {
             data {
               id
+              attributes {
+                respondants {
+                  data {
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
             }
           }
           shifts {
@@ -52,7 +61,6 @@ const SelectShifts = () => {
     const [show, setShow] = React.useState(true);
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [showDecline, setShowDecline] = React.useState(true);
-    
     // This state variable is going to be used for validation in the submit button
     // And will be called inside <ShiftRanker> to be updated there onChange of the shift <select>
     const [disableSubmit, setDisableSubmit] = React.useState(true);
@@ -62,8 +70,6 @@ const SelectShifts = () => {
     shiftCtx.declineState = [showDecline, setShowDecline];
     shiftCtx.disabledState = [disableSubmit, setDisableSubmit];
     shiftCtx.errorState = [rankingError, setRankingError];
-    
-
 
     // A function to handle submit of initial preferences
     const handleSubmit = () => {
@@ -84,6 +90,35 @@ const SelectShifts = () => {
     const { loading, error, data } = useQuery(GET_ACTIVE_OFFERINGS);
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
+    // Now that that data has been retrieved, first thing needs to be to create a list
+    // of who already responded so we can check to see if the current guard has
+    // responded or not.
+    const alreadyResponded = [];
+
+                      //This is going to need to be fixed in case of multiple
+                      //offerings at the same time, but it works for now
+
+
+    data.offerings.data[0].attributes.offering_response.data.attributes.respondants.data.forEach(guard => {
+      alreadyResponded.push(guard.attributes.name);
+    });
+    
+    if (alreadyResponded.includes(ctx.currentUser.username)) {
+      return (
+        <div>
+          <div className="centered">
+            <h2>Select Shifts</h2>
+          </div>
+          <div className="centered">
+            <p className="box-350">
+              It looks like you've already sent in your preferences for currently-available shifts. You will be notified once shifts are assigned, as well as when new shifts become available.
+            </p>
+          </div>
+        </div>
+      )
+    }
+
+
     // The data coming in is messy. Time to clean it up so it's useable.
     // First get the data in its raw form
     let rawOfferings = data.offerings.data;
@@ -126,7 +161,6 @@ const SelectShifts = () => {
 
     // Here we decline everything
     const declineAll = () => {
-      alert("declining all");
       shiftCtx.ranked = [];
       submitResponse();
     };
@@ -155,7 +189,6 @@ const SelectShifts = () => {
 
         // Then let's create shifts as responses
       for (let i=0; i<shiftCtx.ranked.length; i++) {
-        alert("inside the for loop");
         let requestedShift = await axios
           .post('https://ottrack-backend.herokuapp.com/api/requested-shifts', {
             data: {
@@ -170,7 +203,9 @@ const SelectShifts = () => {
           .catch(error => {
             console.log("Error occurred in requested shift: ", error.response);
           });
-      }
+      };
+      // Finally, let's show a success message
+      setShowSuccess(true);
 
       };
 
@@ -192,7 +227,12 @@ const SelectShifts = () => {
         {showSuccess ? (
           <div>
             <div className="centered">
-              <h2>Select Shifts</h2>
+              <h2>Success!</h2>
+            </div>
+            <div className="centered">
+              <p className="box-350">
+                Nice job! Your preferences have been successfully recorded. You will be contacted once shifts have been assigned, as well as when new shifts become available.
+              </p>
             </div>
           </div>
         ) : (
