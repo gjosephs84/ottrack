@@ -430,7 +430,7 @@ button:disabled {
   text-align: center;
 }
 
-.confirm-decline {
+.confirm-box {
   position: sticky;
   top: 200px;
   background-color: #939291;

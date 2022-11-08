@@ -1,10 +1,11 @@
-import React from "react";
-import axios from 'axios';
-import SelectableShifts from "../components/selectableShifts";
-import ShiftRanker from "../components/shiftRanker";
-import { useQuery, gql } from "@apollo/client";
-import { ShiftContext } from "../context/shift-context";
-import { UserContext } from "../context/context";
+import React              from "react";
+import axios              from 'axios';
+import SelectableShifts   from "../components/selectableShifts";
+import ShiftRanker        from "../components/shiftRanker";
+import ConfirmBox         from "../components/confirmBox";
+import { useQuery, gql }  from "@apollo/client";
+import { ShiftContext }   from "../context/shift-context";
+import { UserContext }    from "../context/context";
 
 // The graphql query to retrieve all the active offerings
 /* 
@@ -56,18 +57,18 @@ query GetActiveOfferings{
 
 const SelectShifts = () => {
     // Bring in the context
-    const shiftCtx = React.useContext(ShiftContext);
-    const ctx = React.useContext(UserContext);
-    const [show, setShow] = React.useState(true);
-    const [showSuccess, setShowSuccess] = React.useState(false);
-    const [showDecline, setShowDecline] = React.useState(true);
-    // This state variable is going to be used for validation in the submit button
-    // And will be called inside <ShiftRanker> to be updated there onChange of the shift <select>
-    const [disableSubmit, setDisableSubmit] = React.useState(true);
-    // This state variable will show why the submit button is not enabling
-    const [rankingError, setRankingError] = React.useState(null);
-    // Inject the state variables into the shift context
+    const shiftCtx         = React.useContext(ShiftContext);
+    const ctx              = React.useContext(UserContext);
+
+    // Initialize all the state variables
+    const [show, setShow]                           = React.useState(true);
+    const [showSuccess, setShowSuccess]             = React.useState(false);
+    const [showDecline, setShowDecline]             = React.useState(true);
+    const [disableSubmit, setDisableSubmit]         = React.useState(true);
+    const [rankingError, setRankingError]           = React.useState(null);
     const [confirmDeclineAll, setConfirmDeclineAll] = React.useState(false);
+    
+    // Inject the state variables into the shift context
     shiftCtx.declineState = [showDecline, setShowDecline];
     shiftCtx.disabledState = [disableSubmit, setDisableSubmit];
     shiftCtx.errorState = [rankingError, setRankingError];
@@ -168,7 +169,6 @@ const SelectShifts = () => {
     };
     
     // Here we submit the responses
-
     const submitResponse = async() => {
       let respondantId;
 
@@ -272,16 +272,15 @@ const SelectShifts = () => {
               </div>
               <br/>
               {confirmDeclineAll && 
-              
-              <div className="blur-out">
-              <div className="confirm-decline">
-                <h4>Declining All</h4>
-                <p>Are you sure you want to decline all available shifts?</p>
-                <button  className="button-full" onClick={declineAll}>Yes</button><br/><br/>
-                <button className="button-full" onClick={() => {setConfirmDeclineAll(false)}}>No</button>
-              </div>
-              
-              </div>}
+              <ConfirmBox 
+                header="Decline All Shifts"
+                message="Are you sure you want to decline all available shifts?"
+                handleYes={declineAll}
+                buttonYes="Yes"
+                setConfirm={setConfirmDeclineAll}
+                buttonNo="No"
+              />
+              }
               <div className="centered">
                   {showDecline && <button className="button-wide" onClick={() => {setConfirmDeclineAll(true)}}>Decline All</button>}
                   {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
