@@ -42,7 +42,6 @@ const ConfirmBox =
             </div>
         </div>
     )
-
-}
+    }
 
 export default ConfirmBox

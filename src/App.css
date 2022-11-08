@@ -82,7 +82,6 @@ h4 {
 .form-card {
   background-color: #C2C0BF;
   min-width: 250px;
-  max-width: 300px;
   border-radius: 15px;
 }
 .form-card-header {
@@ -447,4 +446,54 @@ button:disabled {
   width: 100%;
   min-height: 100vh;
   backdrop-filter: blur(10px) brightness(50%);
+}
+
+.offering-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  padding-top: 10px;
+  margin-left: -15px;
+  padding-left: 10px;
+  margin-right: -15px;
+  margin-bottom: -4px;
+  
+}
+
+.offering-row:nth-of-type(even) {
+  background-color: #939291;
+}
+
+.offering-shift-details {
+  margin-left: 10px;
+}
+
+.remove-button {
+  background-color: #A31F34;
+  border-radius: 10px;
+  color: white;
+  height: 40px;
+  width: 40px;
+  margin: auto;
+  margin-top: 18px;
+  text-align: center;
+  
+}
+
+.remove-buttonz {
+  background-color: #A31F34;
+  border-radius: 10px;
+  padding: 3px 0;
+  color: white;
+  height: 40px;
+  width: 40px;
+  margin: auto;
+  margin-top: 18px;
+  text-align: center;
+  
+}
+
+.remove-x {
+  margin-top: -3px;
+  font-size: 30px;
+  font-weight: 600;
 }
