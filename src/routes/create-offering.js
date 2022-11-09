@@ -3,7 +3,7 @@ import axios from 'axios';
 import ShiftTable from "../components/shift-table";
 import MITCard from "../components/mitCard";
 import TimePicker from "../components/timePicker";
-import convertTime from "../components/timeConverter";
+import ConfirmBox from "../components/confirmBox";
 
 const offering = [];
 const CreateOffering = () => {
@@ -12,6 +12,7 @@ const CreateOffering = () => {
   const [shifts, setShifts] = React.useState(offering);
   const [startTime, setStartTime] = React.useState(null);
   const [endTime, setEndTime] = React.useState(null);
+  const [showConfirm, setShowConfirm] = React.useState(false);
 
   // A function to handle the form submit
   const handleSubmit = (e) => {
@@ -97,7 +98,19 @@ const CreateOffering = () => {
       }
   }
 
+ 
+
   return (
+    <div>
+      {showConfirm && 
+      <ConfirmBox 
+        header="Publish Offering"
+        message="Are you sure you are ready to publish this overtime offering?"
+        handleYes={submitOffering}
+        buttonYes="Yes"
+        setConfirm={setShowConfirm}
+        buttonNo="No"
+      />}
     <div>
       <h2 className="centered">Create a New Overtime Offering</h2>
       <br/>
@@ -139,11 +152,15 @@ const CreateOffering = () => {
 
         </div>
         <div>
-          <ShiftTable shifts={shifts} removeShift={removeShift}/><br/>
-          {shifts.length > 0 && <button onClick={submitOffering}>Publish Offering</button>}
+          <ShiftTable 
+            shifts={shifts} 
+            removeShift={removeShift} 
+            createMode={true} 
+            setConfirmState={setShowConfirm}/><br/>
         </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

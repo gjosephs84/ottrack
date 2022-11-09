@@ -9,7 +9,7 @@ const DateBox = ({date, available}) => {
     return (
         <div className={classToGive}>
             <p className="db-p">{dayOfWeek}</p>
-            <h2 className="db-h">{day}</h2>
+            <p className="db-h">{day}</p>
             <p className="db-p">{month}</p>
         </div>
     )
