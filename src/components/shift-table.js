@@ -4,7 +4,7 @@ import MITCard from "./mitCard";
 import DateBox from "./dateBox";
 import RemoveButton from "./removeButton";
 
-const ShiftTable = ({shifts, removeShift, createMode, viewMode, setConfirmState}) => {
+const ShiftTable = ({shifts, removeShift, createMode, editMode, viewMode, setConfirmState, buttonText}) => {
     return (
         <div>
             <MITCard 
@@ -35,12 +35,12 @@ const ShiftTable = ({shifts, removeShift, createMode, viewMode, setConfirmState}
                             )
                         })
                         }
-                        {createMode && 
+                        {editMode && 
                         <div style={{marginTop:"20px"}}>
                             {shifts.length > 0 && <button 
                             className="button-full"
                             onClick={() => {setConfirmState(true)}}>
-                            Publish Offering    
+                            {buttonText}    
                             </button>}
                         </div>}
                     </div>

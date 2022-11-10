@@ -432,6 +432,7 @@ button:disabled {
   min-width: 350px;
   max-width: 350px;
   text-align: center;
+  margin: auto;
 }
 
 .confirm-box {
