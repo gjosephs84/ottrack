@@ -92,6 +92,24 @@ const SelectShifts = () => {
     const { loading, error, data } = useQuery(GET_ACTIVE_OFFERINGS);
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
+
+    
+    // If there isn't currently and offering, gracefully
+    // handle that and give a nice, gentle message
+    if (data.offerings.data.length ==0) {
+      return (
+      <div>
+        <div className="centered">
+            <h2>Select Shifts</h2>
+          </div>
+          <div className="centered">
+            <p className="box-350">
+              It looks like there aren't any shifts available right now. You will be notified when new shifts become available.
+            </p>
+          </div>
+      </div>
+      )
+    }
     // Now that that data has been retrieved, first thing needs to be to create a list
     // of who already responded so we can check to see if the current guard has
     // responded or not.

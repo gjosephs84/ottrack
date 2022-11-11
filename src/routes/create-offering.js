@@ -12,6 +12,7 @@ const GET_OFFERINGS = gql`
 query GetOfferings{
     offerings(filters: {active: {eq: true}}){
       data {
+        id
         attributes {
           active
           shifts {
@@ -25,10 +26,23 @@ query GetOfferings{
               }
             }
           }
+          offering_response {
+            data {
+              id
+              attributes {
+                respondants {
+                  data {
+                    id
+                  }
+                }
+              }
+              }
+            }
+          }
         }
       }
     }
-  }
+  
 `;
 
 const offering = [];
@@ -40,17 +54,51 @@ const CreateOffering = () => {
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = React.useState(false);
 
-  // A function to delete an active offering
-  const deleteOffering = () => {
-    alert('Deleting!!!');
-  }
-
   // Check to see if an offering already exists
   const { loading, error, data } = useQuery(GET_OFFERINGS);
   if (loading) return <p>Loading ... Checking for existing offerings.</p>;
   if (error) return <p>Error</p>
-  if (data != null) {
+  console.log('data, even when empty, is: ', data);
+  if (data.offerings.data.length > 0) {
     const existingOffering = cleanOfferingData(data);
+    // In case we need to delete:
+    const offeringId = data.offerings.data[0].id;
+    const offeringResponseId = data.offerings.data[0].attributes.offering_response.data.id;
+    const offeringRespondants = [];
+    // Might need to do an if here
+    data.offerings.data[0].attributes.offering_response.data.attributes.respondants.data.forEach(respondant => {
+      offeringRespondants.push(respondant.id);
+    })
+    console.log('offeringRespondants is: ', offeringRespondants);
+
+    // A function to delete an active offering
+  const deleteOffering = async() => {
+    // begin by deleting any respondants
+
+    const deleteRespondant = async(respondant) => {
+      let deleteIt = await axios
+        .delete(`https://ottrack-backend.herokuapp.com/api/respondants/${respondant}`)
+        .then(response => console.log(response))
+        .catch(error => console.log('an error has occurred ', error))
+    }
+    
+      offeringRespondants.forEach(respondant => {
+        deleteRespondant(respondant)
+      });
+
+      let deleteOfferingResponse = await axios
+      .delete(`https://ottrack-backend.herokuapp.com/api/offering-responses/${offeringResponseId}`)
+      .then(response => console.log(response))
+      .catch(error => console.log('an error has occurred ', error));
+
+      let deleteTheOffering = await axios
+      .delete(`https://ottrack-backend.herokuapp.com/api/offerings/${offeringId}`)
+      .then(response => console.log(response))
+      .catch(error => console.log('an error has occurred ', error));
+      showConfirmDelete(false);
+    
+  }
+
     return (
       <div>
         {showConfirmDelete && 
