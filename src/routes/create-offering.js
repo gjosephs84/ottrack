@@ -53,6 +53,8 @@ const CreateOffering = () => {
   const [endTime, setEndTime] = React.useState(null);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = React.useState(false);
+  const [showSubmitted, setShowSubmitted] = React.useState(false);
+  const [showDeleted, setShowDeleted] = React.useState(false);
 
   // Check to see if an offering already exists
   const { loading, error, data } = useQuery(GET_OFFERINGS);
@@ -95,7 +97,8 @@ const CreateOffering = () => {
       .delete(`https://ottrack-backend.herokuapp.com/api/offerings/${offeringId}`)
       .then(response => console.log(response))
       .catch(error => console.log('an error has occurred ', error));
-      showConfirmDelete(false);
+      setShowConfirmDelete(false);
+      setShowDeleted(true);
     
   }
 
@@ -110,6 +113,18 @@ const CreateOffering = () => {
         setConfirm={setShowConfirmDelete}
         buttonNo="No"
       />}
+      {showDeleted ? (
+      <div>
+        <div className="centered">
+            <h2>Create a New Overtime Offering</h2>
+          </div>
+          <div className="centered">
+            <p className="box-350">
+              Success! The offering has been successfully deleted.
+            </p>
+          </div>
+      </div>
+      ) : (
       <div className="centered">
         <div>
           <h2 style={{textAlign:"center"}}>An Active Offering Already Exists</h2>
@@ -127,7 +142,7 @@ const CreateOffering = () => {
                 </div>
             )}
         </div>
-      </div>
+      </div>)}
       </div>
     )
   }
@@ -216,75 +231,92 @@ const CreateOffering = () => {
             console.log('An error occurred in shift:', error.response);
           });
       }
+      // Show the "final" everything submitted message
+      setShowSubmitted(true);
   }
 
  
 
   return (
     <div>
-      {showConfirm && 
-      <ConfirmBox 
-        header="Publish Offering"
-        message="Are you sure you are ready to publish this overtime offering?"
-        handleYes={submitOffering}
-        buttonYes="Yes"
-        setConfirm={setShowConfirm}
-        buttonNo="No"
-      />}
-    <div>
-      <h2 className="centered">Create a New Overtime Offering</h2>
-      <br/>
-      <div className="centered">
-      <div className="offering-card">
+      {showSubmitted ? (
         <div>
-          <MITCard 
-            cardTitle={"Create a Shift"}
-            cardBody={
-              <div>
-              <h4>Date:</h4>
-        <input type="date" name="date" id="date"></input>
-        <h4>Start Time:</h4>
-        <TimePicker parentState={startTime} setParentState={setStartTime} name={"startTime"}/>
-        <h4>End Time:</h4>
-        <TimePicker parentState={endTime} setParentState={setEndTime} name={"endTime"}/>
-        <h4>Starting Location:</h4>
-        <select name="start-location" id="start-location">
-          <option value="Alumni Pool">Alumni Pool</option>
-          <option value="Z-Center">Z-Center</option>
-        </select>
-        <h4>Ending Location:</h4>
-        <select name="end-location" id="end-location">
-          <option value="Alumni Pool">Alumni Pool</option>
-          <option value="Z-Center">Z-Center</option>
-        </select>
-        <h4>Holiday:</h4>
-        <select id="special-closing">
-          <option value="">—</option>
-          <option value="false">No</option>
-          <option value="true">Yes</option>
-        </select>
-        <br/><br/>
-        <button className="button-full" onClick={handleSubmit}>Submit</button>
+          <div className="centered">
+            <h2>Create a New Overtime Offering</h2>
+          </div>
+          <div className="centered">
+            <p className="box-350">
+              Success! The offering has been published. You may check for lifeguard responses and assign shifts from the Admin page.
+            </p>
+          </div>
         </div>
-            }
-          />
+      ) : (
+      <div>
+        {showConfirm && 
+        <ConfirmBox 
+          header="Publish Offering"
+          message="Are you sure you are ready to publish this overtime offering?"
+          handleYes={submitOffering}
+          buttonYes="Yes"
+          setConfirm={setShowConfirm}
+          buttonNo="No"
+        />}
+      <div>
+        <h2 className="centered">Create a New Overtime Offering</h2>
+        <br/>
+        <div className="centered">
+        <div className="offering-card">
+          <div>
+            <MITCard 
+              cardTitle={"Create a Shift"}
+              cardBody={
+                <div>
+                <h4>Date:</h4>
+          <input type="date" name="date" id="date"></input>
+          <h4>Start Time:</h4>
+          <TimePicker parentState={startTime} setParentState={setStartTime} name={"startTime"}/>
+          <h4>End Time:</h4>
+          <TimePicker parentState={endTime} setParentState={setEndTime} name={"endTime"}/>
+          <h4>Starting Location:</h4>
+          <select name="start-location" id="start-location">
+            <option value="Alumni Pool">Alumni Pool</option>
+            <option value="Z-Center">Z-Center</option>
+          </select>
+          <h4>Ending Location:</h4>
+          <select name="end-location" id="end-location">
+            <option value="Alumni Pool">Alumni Pool</option>
+            <option value="Z-Center">Z-Center</option>
+          </select>
+          <h4>Holiday:</h4>
+          <select id="special-closing">
+            <option value="">—</option>
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+          <br/><br/>
+          <button className="button-full" onClick={handleSubmit}>Submit</button>
+          </div>
+              }
+            />
 
 
-        </div>
-        <div>
-          <ShiftTable 
-            shifts={shifts} 
-            removeShift={removeShift} 
-            createMode={true} 
-            editMode={true}
-            setConfirmState={setShowConfirm}
-            buttonText="Submit Offering"
-            /><br/>
-        </div>
+          </div>
+          <div>
+            <ShiftTable 
+              shifts={shifts} 
+              removeShift={removeShift} 
+              createMode={true} 
+              editMode={true}
+              setConfirmState={setShowConfirm}
+              buttonText="Submit Offering"
+              /><br/>
+          </div>
+          </div>
         </div>
       </div>
-    </div>
-    </div>
+      </div>
+      )}
+    </div>  
   )
 }
 
