@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "last_recipients",
+  "info": {
+    "singularName": "last-recipient",
+    "pluralName": "last-recipients",
+    "displayName": "Last Recipient"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "userId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "shift": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::shift.shift"
+    },
+    "dateAssigned": {
+      "type": "string"
+    },
+    "assignedBy": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
