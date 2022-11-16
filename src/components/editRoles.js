@@ -56,6 +56,15 @@ const EditRoles = () => {
         if (user.role === "Manager") {managers.push(user)};
         console.log("pending is: ", pending, " and user passed in was: ", user);
     });
+
+    // Sort the employees by seniority
+    employees.sort((a, b) => (a.seniority > b.seniority) ? 1 : -1);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SORTED !!!!!!!!!!!!!!!!!!!!");
+    console.log(employees);
+    for (let i=0; i<employees.length; i++) {
+        employees[i].seniority = (i+1);
+    };
+    console.log(employees);
     // The component to edit pending user roles
     const UserWithRole = ({username, role, id, seniority}) => {
 

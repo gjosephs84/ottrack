@@ -114,6 +114,10 @@ const OfferingRequestsResponse = ({offering}) => {
                     // We'll use this variable to see if we should break the for loop early
                     let shouldBreak = false;
                     for (let j=0; j<assignedShifts.length; j++) {
+                        // If the current guard is out of responses, break
+                        if (shouldBreak == true) {
+                            break;
+                        }
                         console.log(`      ${guard.username} is currently requesting ${responses[i].id} whose ranking is ${responses[i].ranking}`);
                         console.log('         Attempting to assign shift: ', assignedShifts[j].id, " to: ", guard.username);
                         // If and only if it hasn't been assigned ...
@@ -142,6 +146,11 @@ const OfferingRequestsResponse = ({offering}) => {
                                 theYesses[currentGuard].responses.splice(i, 1);
                                 console.log(`            Remaining responses for ${guard.username} are: `, theYesses[currentGuard].responses);
                                 j = -1;
+                                // if the guard is out of remaining responses, break at the top of the j loop
+                                if (theYesses[currentGuard].responses.length == 0) {
+                                    console.log(`                   ${guard.username} is out of responses!`);
+                                    shouldBreak = true;
+                                }
                             }
                         }
                     }
