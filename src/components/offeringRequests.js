@@ -135,7 +135,7 @@ const OfferingsRequests = () => {
     console.log("cleanOfferingsWithResponses is: ", cleanOfferingsWithResponses);
 
     return (
-        <div>
+        <div className="centered">
             {cleanOfferingsWithResponses.map((offering, i) => {
                 return (
                     <OfferingRequestsResponse key={i} offering={offering}/>
