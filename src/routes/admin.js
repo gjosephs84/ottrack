@@ -35,7 +35,10 @@ const Admin = () => {
                 }
             />
             {showRequests && <OfferingsRequests/>}
-            {showQuickAssign && <ShiftCreator/>}
+            {showQuickAssign && <ShiftCreator 
+              title="Quick Assign"
+              quickAssign={true}
+              />}
             {showRoles && <EditRoles/>}
         </div>
     );
