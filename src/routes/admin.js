@@ -2,6 +2,7 @@ import React from "react";
 import { UserContext } from "../context/context";
 import OfferingsRequests from "../components/offeringRequests";
 import EditRoles from "../components/editRoles";
+import ShiftCreator from "../components/shiftCreator";
 import ButtonMenu from "../components/buttonMenu";
 
 const Admin = () => {
@@ -34,7 +35,7 @@ const Admin = () => {
                 }
             />
             {showRequests && <OfferingsRequests/>}
-           
+            {showQuickAssign && <ShiftCreator/>}
             {showRoles && <EditRoles/>}
         </div>
     );

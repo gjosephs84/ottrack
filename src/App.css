@@ -507,6 +507,7 @@ button:disabled {
   margin-top: 7px;
   padding-top: 5px;
   margin-bottom: 7px;
+  cursor: pointer;
 }
 
 .menu-button-unselected {
