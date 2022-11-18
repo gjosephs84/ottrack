@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import { useQuery, gql } from "@apollo/client";
+import ShiftCreator from "../components/shiftCreator";
 import ShiftTable from "../components/shift-table";
 import MITCard from "../components/mitCard";
 import TimePicker from "../components/timePicker";
@@ -267,36 +268,12 @@ const CreateOffering = () => {
         <div className="centered">
         <div className="offering-card">
           <div>
-            <MITCard 
-              cardTitle={"Create a Shift"}
-              cardBody={
-                <div>
-                <h4>Date:</h4>
-          <input type="date" name="date" id="date"></input>
-          <h4>Start Time:</h4>
-          <TimePicker parentState={startTime} setParentState={setStartTime} name={"startTime"}/>
-          <h4>End Time:</h4>
-          <TimePicker parentState={endTime} setParentState={setEndTime} name={"endTime"}/>
-          <h4>Starting Location:</h4>
-          <select name="start-location" id="start-location">
-            <option value="Alumni Pool">Alumni Pool</option>
-            <option value="Z-Center">Z-Center</option>
-          </select>
-          <h4>Ending Location:</h4>
-          <select name="end-location" id="end-location">
-            <option value="Alumni Pool">Alumni Pool</option>
-            <option value="Z-Center">Z-Center</option>
-          </select>
-          <h4>Holiday:</h4>
-          <select id="special-closing">
-            <option value="">—</option>
-            <option value="false">No</option>
-            <option value="true">Yes</option>
-          </select>
-          <br/><br/>
-          <button className="button-full" onClick={handleSubmit}>Submit</button>
-          </div>
-              }
+            <ShiftCreator 
+              title={"Create a Shift"}
+              createOffering={true}
+              shifts={shifts}
+              setShifts={setShifts}
+              offering={offering}
             />
 
 
