@@ -34,8 +34,10 @@ const History = () => {
     // The data coming in is messy. Time to clean it up so it's useable.
     // First get the data in its raw form
     let rawOfferings = data.offerings.data;
+    console.log("rawOfferings is: ", rawOfferings);
     // Then create a clean array to push it into
-    const offerings = [];
+    const currentOfferings = [];
+    const oldOfferings = [];
     // Isolate one of the dirty offerings at a time
     for (let i=0; i<rawOfferings.length; i++) {
         let current = rawOfferings[i].attributes.shifts.data;
@@ -47,18 +49,31 @@ const History = () => {
             cleanOffering.push(current[j].attributes);
         };
         // Now push the clean offering into offerings
-        offerings.push(cleanOffering);
+        console.log("cleanOffering is: ", cleanOffering);
+        if (rawOfferings[i].attributes.active == true) {
+          currentOfferings.push(cleanOffering);
+        } else {
+          oldOfferings.push(cleanOffering);
+        }
+        
     };
     // Reverse the array so offerings appear with most recent first
-    offerings.reverse();
+    currentOfferings.reverse();
+    oldOfferings.reverse();
     return (
         <div className="centered">
             <div>
                 <h2 className="centered">Offerings History</h2>
                 <br/>
-            {offerings.map((offering, i) =>
+            {currentOfferings.map((offering, i) =>
                 <div key={i}>
-                <ShiftTable key={i} shifts={offering} removeShift={null}/>
+                <ShiftTable key={i} shifts={offering} removeShift={null} title={"Current Offering"}/>
+                <br/>
+                </div>
+            )}
+            {oldOfferings.map((offering, i) =>
+                <div key={i}>
+                <ShiftTable key={i} shifts={offering} removeShift={null} title={"Previous Offerings"}/>
                 <br/>
                 </div>
             )}

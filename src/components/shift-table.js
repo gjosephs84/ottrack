@@ -4,13 +4,13 @@ import MITCard from "./mitCard";
 import DateBox from "./dateBox";
 import RemoveButton from "./removeButton";
 
-const ShiftTable = ({shifts, removeShift, createMode, editMode, viewMode, setConfirmState, buttonText}) => {
+const ShiftTable = ({shifts, removeShift, createMode, editMode, setConfirmState, title, buttonText}) => {
     return (
         <div>
             <MITCard 
                 minWidth={"300px"}
                 maxWidth={"500px"}
-                cardTitle="Current Offering"
+                cardTitle={title}
                 cardBody={
                     <div>
                         {shifts.length === 0 && <h4 className="centered">Nothing here yet! Add a shift to begin.</h4>}
