@@ -26,7 +26,9 @@ query getUsers {
 `;
 
 const EditRoles = () => {
-    const { loading, error, data } = useQuery(GET_USERS_AND_ROLES);
+    const { loading, error, data } = useQuery(GET_USERS_AND_ROLES, {
+        fetchPolicy: 'network-only'
+      });
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
 

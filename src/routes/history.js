@@ -26,7 +26,9 @@ query GetOfferings{
 `;
 
 const History = () => {
-    const { loading, error, data } = useQuery(GET_OFFERINGS);
+    const { loading, error, data } = useQuery(GET_OFFERINGS, {
+      fetchPolicy: 'network-only'
+    });
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
     // The data coming in is messy. Time to clean it up so it's useable.

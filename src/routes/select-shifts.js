@@ -89,7 +89,9 @@ const SelectShifts = () => {
     }
 
     // Start by getting the active offering
-    const { loading, error, data } = useQuery(GET_ACTIVE_OFFERINGS);
+    const { loading, error, data } = useQuery(GET_ACTIVE_OFFERINGS, {
+      fetchPolicy: 'network-only'
+    });
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
 

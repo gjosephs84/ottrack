@@ -3,8 +3,6 @@ import axios from 'axios';
 import { useQuery, gql } from "@apollo/client";
 import ShiftCreator from "../components/shiftCreator";
 import ShiftTable from "../components/shift-table";
-import MITCard from "../components/mitCard";
-import TimePicker from "../components/timePicker";
 import ConfirmBox from "../components/confirmBox";
 import { cleanOfferingData } from "../components/cleanOfferingData";
 
@@ -58,10 +56,12 @@ const CreateOffering = () => {
   const [showDeleted, setShowDeleted] = React.useState(false);
 
   // Check to see if an offering already exists
-  const { loading, error, data } = useQuery(GET_OFFERINGS);
+  const { loading, error, data } = useQuery(GET_OFFERINGS, {
+    fetchPolicy: 'network-only'
+  });
   if (loading) return <p>Loading ... Checking for existing offerings.</p>;
   if (error) return <p>Error</p>
-  console.log('data, even when empty, is: ', data);
+  console.log('data, even when empty, is: ', data); 
   if (data.offerings.data.length > 0) {
     const existingOffering = cleanOfferingData(data);
     // In case we need to delete:

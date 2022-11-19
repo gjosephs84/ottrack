@@ -62,7 +62,9 @@ query GetActiveOfferingsResponses{
 `;
 
 const OfferingsRequests = () => {
-    const { loading, error, data } = useQuery(GET_OFFERINGS_REQUESTS);
+    const { loading, error, data } = useQuery(GET_OFFERINGS_REQUESTS, {
+      fetchPolicy: 'network-only'
+    });
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
 
