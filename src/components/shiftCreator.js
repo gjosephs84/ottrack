@@ -26,6 +26,7 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
   const [holiday, setHoliday]               = React.useState(null);
   const [shiftType, setShiftType]           = React.useState(null);
   const [guardId, setGuardId]               = React.useState(null);
+  const [showSuccess, setShowSuccess]       = React.useState(false);
   const guards = [];
   
 
@@ -107,9 +108,25 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
      .catch(error => {
         console.log("an error occurred in quick assign: ", error)
      });
+
+     // Set Show success to true so the confirmation appears
+     setShowSuccess(true);
   }
 
     return (
+      <div>
+      {showSuccess ? 
+      <div>
+        <h2 style={{margin:"auto", textAlign:"center"}}>Success!</h2>
+        <h4 style={{margin:"auto", textAlign:"center"}}>Your quick assign shift was successfully created.
+        </h4>
+        <br/>
+        <button 
+          className="button-wide centered"
+          style={{margin:"auto"}}
+          onClick={() => {setShowSuccess(false)}}
+        >Quick Assign Another Shift</button>
+      </div> :
       <div>
         <MITCard
           cardTitle={title}  
@@ -178,6 +195,7 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
                 <select 
                   name="assign-to"
                   onChange={(e) => {handleChange(e, setGuardId, e.target.value)}}>
+                    <option value="">—</option>
                     {guards.map((guard) => {
                       return (
                         <option
@@ -200,6 +218,7 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
             </div>
           }
         />
+      </div>}
       </div>
     )
 
