@@ -3,15 +3,63 @@ import React from "react";
 const OfferingRequestsResponse = ({offering}) => {
 
     console.log("offering coming in is: ", offering);
+    // First, see if any shifts conflict with any others.
+    // This will be super important when we get to actually assigning stuff.
+    console.log("offering shifts is: ", offering.shifts);
+    
+
     // Let's process our respondants to display in a table of sorts
     // responses will hold an array of new objects showing the username
     // and their responses in either "NO" or ranking
     const responses = [];
     const shiftIds = [];
+    const conflicts = [];
     // Get the shift ids and put them in the array above
     offering.shifts.forEach(shift => {
         shiftIds.push(shift.id);
+        conflicts.push(
+            {
+                id: shift.id,
+                date: shift.date,
+                startTime: shift.startTime,
+                endTime: shift.endTime,
+                conflictingShifts: []
+            }
+        );
     });
+    console.log("conflicts is: ", conflicts);
+    // Let's try to find those conflicting shifts
+    for (let i=0; i<conflicts.length; i++) {
+        const { startTime, endTime, date } = conflicts[i];
+        for (let j=0; j<conflicts.length; j++) {
+            if (j === i) {
+                console.log(`j is ${j} and i is ${i}, so we're not going to do anything this go-round.`);
+            } else {
+                let jDate = conflicts[j].date;
+                let jStart = conflicts[j].startTime;
+                let jEnd = conflicts[j].endTime;
+                if (jDate !== date) {
+                    console.log(`jDate is ${jDate} and date i date is ${date}, so there is no chance of conflict`);
+                } else {
+                    // if the j shift starts before the i shift, and ends after the i shift begins, there's a conflict!
+                let triggeredFirstCase = false;
+                if ((jStart <= startTime) && (jEnd > (startTime + 16))) {
+                    triggeredFirstCase = true;
+                    conflicts[i].conflictingShifts.push(conflicts[j].id);
+                };
+                // if the j shift starts after the i shift, but before the i shift ends, also a conflict!
+                if ((jStart >= startTime) && (jStart <= (endTime - 16))) {
+                    if (triggeredFirstCase != true) {
+                        conflicts[i].conflictingShifts.push(conflicts[j].id);
+                    }
+                    
+                };
+                };
+            };
+        };
+    };
+
+    console.log("After all that, conflicts is: ", conflicts);
     // Now the magic of extracting those preferences so we can see them.
     // Go through each respondant's answers and account for anything missing
     // as a "NO"
@@ -126,6 +174,40 @@ const OfferingRequestsResponse = ({offering}) => {
                                 console.log('            And the shift is available!!!');
                                 // Assign the shift!!!!!!!
                                 assignedShifts[j].assignedTo = guard.userId;
+                                console.log("assignedShifts[j] is: ", assignedShifts[j]);
+                                console.log("meanwhile, conflicts[j] is: ", conflicts[j]);
+                                // Check to see if there are any conflicting shifts the to the one being assigned
+                                if (conflicts[j].conflictingShifts.length !== 0) {
+                                    console.log("COOOOOONNNNFFFLIIIIIICCCCT!!!!!");
+                                    const conflictIndexes = [];
+                                    // Check to see if the current gaurd WANTED any conflicting shifts
+                                    for (let k=0; k<theYesses[currentGuard].responses.length; k++ ) {
+                                        console.log(`In the k loop and k is ${k}`);
+                                        for (let l=0; l<conflicts[j].conflictingShifts.length; l++) {
+                                            console.log(`Inside the l loop and l is ${l}`);
+                                            console.log(`conflicts[j].conflictingShifts[l] is: ${conflicts[j].conflictingShifts[l]}`);
+                                            console.log(`theYesses[currentGuard].responses[k].id is ${theYesses[currentGuard].responses[k].id}`);
+                                            
+                                            if (conflicts[j].conflictingShifts[l] === theYesses[currentGuard].responses[k].id) {
+                                                console.log("Looks like a conflict to me!!!!");
+                                                console.log(`conflicts[j].conflictingShifts[l] is: ${conflicts[j].conflictingShifts[l]}`);
+                                                console.log("conflicts[j].conflictingShifts is:");
+                                                console.log(conflicts[j].conflictingShifts);
+                                                conflictIndexes.push(k);
+                                            };
+                                            
+                                        }
+                                    };
+                                    console.log('conflictIndexes is: ', conflictIndexes);
+                                    if (conflictIndexes.length > 0) {
+                                        conflictIndexes.forEach(index => {
+                                            console.log(`Deleting conflicting shift ${theYesses[currentGuard].responses[index].id}`);
+                                            theYesses[currentGuard].responses.splice(index, 1)
+                                        })
+                                    }
+                                } else {
+                                    console.log("                           No conflicting shifts here");
+                                }
                                 // delete the request straight out of theYesses
                                 theYesses[currentGuard].responses.splice(i, 1);
                                 // Update shouldBreak so we can exit the i loop early
