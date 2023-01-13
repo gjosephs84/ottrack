@@ -1,20 +1,15 @@
 import React from "react";
 
-const OfferingRequestsResponse = ({offering}) => {
-
-    console.log("offering coming in is: ", offering);
-    // First, see if any shifts conflict with any others.
-    // This will be super important when we get to actually assigning stuff.
-    console.log("offering shifts is: ", offering.shifts);
-    
-
+const OfferingRequestsResponse = ({offering, lastRecipient}) => {
+    console.log("Last Recipient coming in is: ", lastRecipient);
     // Let's process our respondants to display in a table of sorts
     // responses will hold an array of new objects showing the username
     // and their responses in either "NO" or ranking
     const responses = [];
     const shiftIds = [];
     const conflicts = [];
-    // Get the shift ids and put them in the array above
+    const assignmentLog = [];
+    // Get the shift ids and put them in the arrays above
     offering.shifts.forEach(shift => {
         shiftIds.push(shift.id);
         conflicts.push(
@@ -27,7 +22,7 @@ const OfferingRequestsResponse = ({offering}) => {
             }
         );
     });
-    console.log("conflicts is: ", conflicts);
+
     // Let's try to find those conflicting shifts
     for (let i=0; i<conflicts.length; i++) {
         const { startTime, endTime, date } = conflicts[i];
@@ -91,11 +86,6 @@ const OfferingRequestsResponse = ({offering}) => {
 
     // Let's sort responses by seniority ...
     responses.sort((a, b) => (a.seniority > b.seniority) ? 1 : -1);
-    
-    console.log('***** ----- *****');
-    console.log('here is the responses object that will get mapped to make the responses grid: ', responses);
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    console.log(responses);
 
     /* THE RESPONSES TABLE COMPONENT
         Here we are going to put together the table that will show all
@@ -139,9 +129,29 @@ const OfferingRequestsResponse = ({offering}) => {
             theYesses.sort((a,b) => (a.seniority > b.seniority) ? 1 : -1);
     
             console.log("After sorting theYesses by seniority, theYesses is: ", theYesses);
-    
-            let currentGuard = 0
+            // Find where the guard with the last OT stands in the array
             const numOfGuards = theYesses.length;
+            console.log(lastRecipient.name);
+            const gotLastOT = (guard) => guard.username == lastRecipient.name;
+            let lastGuard = theYesses.findIndex(gotLastOT);
+            let nextGuard = lastGuard + 1;
+            let currentGuard;
+            if (nextGuard == numOfGuards ) {
+                currentGuard = 0;
+            } else {
+                currentGuard = nextGuard;
+            };
+            
+
+                                    /* 
+                                    
+                                    HERE IS WHERE WE NEED TO FIGURE OUT WHO GOT THE LAST OVERTIME
+                                    
+                                    */
+
+            let startingGuardName = theYesses[currentGuard].username;                        
+            assignmentLog.push(`Starting Shift Assignments with ${startingGuardName}, because they are up first ...`);
+            
             // Create an array of assigned shfts to populate
             const assignedShifts = [];
             // Set up the objects in each
@@ -156,6 +166,7 @@ const OfferingRequestsResponse = ({offering}) => {
             while (continueAssign == true) {
                 const guard = theYesses[currentGuard];
                 console.log('----------Current Lifeguard is: ', guard.username, '----------');
+                assignmentLog.push(`Lifeguard to whom the next shift could be assigned is ${guard.username}`);
                 const responses = guard.responses;
                 // For each response, see if the shift is available
                 for (let i=0; i<responses.length; i++) {
@@ -172,6 +183,7 @@ const OfferingRequestsResponse = ({offering}) => {
                         if (assignedShifts[j].assignedTo == null) {
                             if (assignedShifts[j].id == responses[i].id) {
                                 console.log('            And the shift is available!!!');
+                                assignmentLog.push(`${guard.username} requested shift number ${responses[i].id} which was their number ${responses[i].ranking} choice. The shift is available, so assigning to them now!`);
                                 // Assign the shift!!!!!!!
                                 assignedShifts[j].assignedTo = guard.userId;
                                 console.log("assignedShifts[j] is: ", assignedShifts[j]);
@@ -202,6 +214,7 @@ const OfferingRequestsResponse = ({offering}) => {
                                     if (conflictIndexes.length > 0) {
                                         conflictIndexes.forEach(index => {
                                             console.log(`Deleting conflicting shift ${theYesses[currentGuard].responses[index].id}`);
+                                            assignmentLog.push(`${guard.username} also requested shift number ${guard.responses[index].id}, which conflicts with the shift just assigned, so deleting that one from possible shifts to assign to ${guard.username}`);
                                             theYesses[currentGuard].responses.splice(index, 1)
                                         })
                                     }
@@ -224,6 +237,7 @@ const OfferingRequestsResponse = ({offering}) => {
                             console.log('      Checking to see if ', assignedShifts[j].id, " was requested by ", guard.username);
                             if (assignedShifts[j].id == responses[i].id) {
                                 console.log(`            Found the already taken shift in ${guard.username} requests ... Better delete it.`);
+                                assignmentLog.push(`${guard.username} requested shift number ${responses[i].id} as their ${responses[i].ranking} choice, but it was already taken. Moving on to their next choice ...`);
                                 // delete the request straight out of theYesses
                                 theYesses[currentGuard].responses.splice(i, 1);
                                 console.log(`            Remaining responses for ${guard.username} are: `, theYesses[currentGuard].responses);
@@ -231,6 +245,7 @@ const OfferingRequestsResponse = ({offering}) => {
                                 // if the guard is out of remaining responses, break at the top of the j loop
                                 if (theYesses[currentGuard].responses.length == 0) {
                                     console.log(`                   ${guard.username} is out of responses!`);
+                                    assignmentLog.push(`There is nothing left to assign to ${guard.username}`);
                                     shouldBreak = true;
                                 }
                             }
@@ -238,7 +253,8 @@ const OfferingRequestsResponse = ({offering}) => {
                     }
                     // If something was assigned, break out of the i loop
                     if (shouldBreak == true) {
-                        console.log(`      Since something was assigned to ${guard.username}, let's move on to the next guard ...`)
+                        console.log(`      Since something was assigned to ${guard.username}, let's move on to the next guard ...`);
+                        assignmentLog.push(`Since a shift was assigned to ${guard.username}, let's move on to the next guard ...`);
                         //Attempting to break
                         break;
                     };
@@ -319,10 +335,14 @@ const OfferingRequestsResponse = ({offering}) => {
         // Here is hoping for a re-render!!!!!
         setAllResponses(responses);
         setShowResults(true);
+        console.log("----------------------------------------------------");
+        console.log(assignmentLog);
         }
         return (
             <div>
-            {!showResults && <div className="offering-response">
+            {!showResults && 
+            <div>
+            <div className="offering-response">
                 <div className="response-shifts-column">
                     <div className="response-header">
                         <h5>Shift</h5>
@@ -369,9 +389,11 @@ const OfferingRequestsResponse = ({offering}) => {
                             })}
                         </div>
                     )
-                })}
-                <button onClick={assignShifts}>Assign Shifts</button>
-            </div>}
+                })} 
+            </div>
+            <button onClick={assignShifts}>Assign Shifts</button>
+            </div>
+            }
             {showResults && <div className="offering-response">
                 <div className="response-shifts-column">
                     <div className="response-header">
@@ -391,7 +413,6 @@ const OfferingRequestsResponse = ({offering}) => {
                     })}
                 </div>
                 {allResponses.map((response) => {
-                    console.log("response is: ", response);
                     return (
                         <div key={response.username} className="response-column">
                             <div className="response-header">
@@ -407,7 +428,6 @@ const OfferingRequestsResponse = ({offering}) => {
                                     classToGive = "response-div yes"
                                     answerToGive = answer.ranking;
                                     if (answer.assigned == true) {
-                                        console.log("%%%%%%%%%%%%%%%%%%%%%%%%% Setting Assigned");
                                         classToGive = "response-div assigned"
                                     }
                                 }
@@ -420,6 +440,7 @@ const OfferingRequestsResponse = ({offering}) => {
                         </div>
                     )
                 })}
+                {JSON.stringify(assignmentLog)}
             </div>}
             </div>
     )

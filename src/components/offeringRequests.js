@@ -58,8 +58,35 @@ query GetActiveOfferingsResponses{
           }
       }
     }
+    usersPermissionsUsers(filters: { role: { name: { contains: "Employee" } } }) {
+      data {
+        id
+        attributes {
+          username
+        }
+      }
+    }
+    lastRecipients {
+      data{
+        id
+        attributes {
+          userId
+          createdAt
+          dateAssigned
+          assignedBy {
+            data {
+              attributes {
+                username
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;
+const guards = [];
+const lastRecipients = [];
 
 const OfferingsRequests = () => {
     const { loading, error, data } = useQuery(GET_OFFERINGS_REQUESTS, {
@@ -67,6 +94,41 @@ const OfferingsRequests = () => {
     });
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>
+
+    console.log("Checking the data: ", data);
+
+    // First let's find our last recipient of Overtime
+
+    data.usersPermissionsUsers.data.forEach(guard => {
+      const id = guard.id;
+      const name = guard.attributes.username
+      guards.push({id: id, name: name})
+    });
+    data.lastRecipients.data.forEach(recipient => {
+      const id = Number(recipient.id);
+      const employeeId = recipient.attributes.userId;
+      const assignedBy = recipient.attributes.assignedBy.data.attributes.username;
+      const dateAssigned = recipient.attributes.dateAssigned;
+      lastRecipients.push({id: id, employee: employeeId, assignedBy: assignedBy, dateAssigned: dateAssigned})
+    })
+
+    
+
+  // Sort by name
+    guards.sort((a, b) => (a.name > b.name) ? 1 : -1);
+
+  // Sort past recipients by id of the record
+  lastRecipients.sort((a,b) => (Number(a.id) < Number(b.id)) ? 1 : -1);
+
+  console.log("Past recipient data is: ", lastRecipients);
+  console.log("lastRecipients[0].employeeId is: ", lastRecipients[0].employee);
+
+  const lastRecipInfo = guards.filter(guard => 
+    guard.id == lastRecipients[0].employee
+  );
+
+  console.log("Last recip is: ", lastRecipInfo[0].name);
+  console.log("All data for last recip is: ", lastRecipInfo[0]);
 
     // We need the offerings (if there is more than one) isolated first
     const rawOfferings = [];
@@ -136,13 +198,25 @@ const OfferingsRequests = () => {
     });
     console.log("cleanOfferingsWithResponses is: ", cleanOfferingsWithResponses);
 
+    // Let's also bundle last recipient info for a nice clean readout
+
+    const lastAssignedDate = lastRecipients[0].dateAssigned.slice(0,10);
+    const lastAssigned = {
+      name: lastRecipInfo[0].name,
+      assignedBy: lastRecipients[0].assignedBy,
+      date: lastAssignedDate
+    }
+
     return (
+        <div>
+          <p className="centered-text">Last recorded overtime assigned to {lastAssigned.name}, by {lastAssigned.assignedBy}, on {lastAssigned.date}</p>
         <div className="centered">
             {cleanOfferingsWithResponses.map((offering, i) => {
                 return (
-                    <OfferingRequestsResponse key={i} offering={offering}/>
+                    <OfferingRequestsResponse key={i} offering={offering} lastRecipient={lastRecipInfo[0]}/>
                 )
             })}
+        </div>
         </div>
     )
 };

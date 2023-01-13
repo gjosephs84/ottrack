@@ -30,6 +30,7 @@
 
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
+import { UserContext } from "../context/context";
 import axios from "axios";
 import TimePicker from "./timePicker";
 import MITCard from "./mitCard";
@@ -41,6 +42,23 @@ query getGuards {
         id
         attributes {
           username
+        }
+      }
+    }
+    lastRecipients {
+      data{
+        id
+        attributes {
+          userId
+          createdAt
+          dateAssigned
+          assignedBy {
+            data {
+              attributes {
+                username
+              }
+            }
+          }
         }
       }
     }
@@ -61,12 +79,16 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
   const [shouldDisable, setShouldDisable]   = React.useState(true);
   const [timeMessage, setTimeMessage]       = React.useState("");
   const guards = [];
+  const lastRecipients = [];
+  const ctx = React.useContext(UserContext);
   
 
   // Get the lifeguards in case of QuickAssign
-  const {loading, error, data} = useQuery(GET_GUARDS);
+  const {loading, error, data} = useQuery(GET_GUARDS, {fetchPolicy: 'network-only'});
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>;
+
+  console.log("Past recipients data is: ", data);
     
   // Clean up the data that came in
     data.usersPermissionsUsers.data.forEach(guard => {
@@ -74,8 +96,30 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
       const name = guard.attributes.username
       guards.push({id: id, name: name})
     });
+    data.lastRecipients.data.forEach(recipient => {
+      const id = recipient.id;
+      const employeeId = recipient.attributes.userId;
+      const assignedBy = recipient.attributes.assignedBy.data.attributes.username;
+      const dateAssigned = recipient.attributes.dateAssigned;
+      lastRecipients.push({id: id, employee: employeeId, assignedBy: assignedBy, dateAssigned: dateAssigned})
+    })
+
+    
+
   // Sort by name
     guards.sort((a, b) => (a.name > b.name) ? 1 : -1);
+
+  // Sort past recipients by id of the record
+  lastRecipients.sort((a,b) => (Number(a.id) < Number(b.id)) ? 1 : -1);
+
+  console.log("Past recipient data is: ", lastRecipients);
+  console.log("lastRecipients[0].employeeId is: ", lastRecipients[0].employee);
+
+  const lastRecipInfo = guards.filter(guard => 
+    guard.id == lastRecipients[0].employee
+  );
+
+  console.log("Last recip is: ", lastRecipInfo[0].name);
    
 
   // A function to validate fields and see if the submit button shoudld enable
@@ -210,6 +254,7 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
   const assignShift = async () => {
     console.log('here is what is coming in: ', date, startLocation, endLocation, guardId);
     let offeringId;
+    let shiftId;
 
     // Create an offering
     let theOffering = await axios
@@ -240,10 +285,29 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
         }
      })
      .then (response => {
-        console.log("response to quick assign is: ", response)
+        console.log("response to quick assign is: ", response);
+        shiftId = response.data.data.id;
      })
      .catch(error => {
         console.log("an error occurred in quick assign: ", error)
+     });
+
+     // Create an update to last recipient
+     const currentDate = new Date();
+     let updateLastRecipient = await axios
+     .post('https://ottrack-backend.herokuapp.com/api/last-recipients', {
+        data: {
+          userId: guardId,
+          shift: shiftId,
+          dateAssigned: currentDate,
+          assignedBy: ctx.currentUser.id
+        }
+     })
+     .then (response => {
+        console.log("response to making last recipient is: ", response);
+     })
+     .catch(error => {
+        console.log("An error occurred updating last recipient: ", error);
      });
 
      // Set Show success to true so the confirmation appears

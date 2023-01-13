@@ -4,7 +4,8 @@
   "info": {
     "singularName": "last-recipient",
     "pluralName": "last-recipients",
-    "displayName": "Last Recipient"
+    "displayName": "Last Recipient",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,9 +13,6 @@
   "pluginOptions": {},
   "attributes": {
     "userId": {
-      "type": "string"
-    },
-    "name": {
       "type": "string"
     },
     "shift": {

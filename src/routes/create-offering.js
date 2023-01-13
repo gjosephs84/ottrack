@@ -280,6 +280,7 @@ const CreateOffering = () => {
           </div>
           <div>
             <ShiftTable 
+              title="Shifts to Offer"
               shifts={shifts} 
               removeShift={removeShift} 
               createMode={true} 

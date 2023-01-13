@@ -535,3 +535,7 @@ button:disabled {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+.centered-text {
+  text-align: center;
+}
