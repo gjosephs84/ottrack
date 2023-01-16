@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 
 const OfferingRequestsResponse = ({offering, lastRecipient}) => {
@@ -9,6 +10,10 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
     const shiftIds = [];
     const conflicts = [];
     const assignmentLog = [];
+    let defaultFirstGuard;
+    let defaultFirstGuardIndex;
+    let alternateFirstGuard;
+    let alternateFirstGuardIndex = 0;
     // Get the shift ids and put them in the arrays above
     offering.shifts.forEach(shift => {
         shiftIds.push(shift.id);
@@ -23,7 +28,7 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
         );
     });
 
-    // Let's try to find those conflicting shifts
+    // Let's try to find those conflicting shifts. That is, to say, shifts whose start/end times overlap with each other
     for (let i=0; i<conflicts.length; i++) {
         const { startTime, endTime, date } = conflicts[i];
         for (let j=0; j<conflicts.length; j++) {
@@ -87,6 +92,22 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
     // Let's sort responses by seniority ...
     responses.sort((a, b) => (a.seniority > b.seniority) ? 1 : -1);
 
+    // Now figure out which guard got the last overtime so we can set the person next in seniority as defaultFirstGuard
+
+    const numOfGuards = responses.length;
+    const gotLastOT = (guard) => guard.username == lastRecipient.name;
+    let lastGuard = responses.findIndex(gotLastOT);
+    let nextGuard = lastGuard + 1;
+
+    // Then, if the last guard was lowest in seniority, set the next guard as the 0 index position, otherwise, we're good already
+            if (nextGuard == numOfGuards ) {
+                defaultFirstGuard = responses[0];
+                defaultFirstGuardIndex = 0;
+            } else {
+                defaultFirstGuard = responses[nextGuard];
+                defaultFirstGuardIndex = nextGuard;
+            };
+
     /* THE RESPONSES TABLE COMPONENT
         Here we are going to put together the table that will show all
         the responses from guards. I'm trying to use a state variable here so that after responses are actually assigned, the table will update
@@ -98,16 +119,14 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
         const [allResponses, setAllResponses] = React.useState(responses);
         const [showResults, setShowResults] = React.useState(false);
         
-        // Here is the function to actually assign the shifts, and eventually update the allResponses state.
-        const assignShifts = () => {
-            // Assume seniority 1 always starts for now.
+// Here is the function to actually assign the shifts, and eventually update the allResponses state.
+        const assignShifts = (firstGuard) => {
+            let currentGuard = firstGuard;
             const responsesByRankings = [];
             responses.forEach(response => {
-                console.log('response.responses is: ', response.responses);
                 response.responses.sort((a, b) => (a.ranking > b.ranking) ? 1 : ((b.ranking > a.ranking) ? -1 : 0));
                 responsesByRankings.push(response);
             });
-            console.log('responsesByRanking is: ', responsesByRankings);
             // Let's get rid of any shifts a respondant isn't interested in:
             const theYesses = [];
             responsesByRankings.forEach(response => {
@@ -122,36 +141,13 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
                     responses: onlyYesses
                 });
             });
-            console.log('After removing unwanted shifts, theYesses is: ', theYesses);
             // Let's attempt a while loop to assign the shifts
             // First a variable to specify which guard's responses are being considered: (May need to make sure theYesses is always in seniority order)
     
             theYesses.sort((a,b) => (a.seniority > b.seniority) ? 1 : -1);
-    
-            console.log("After sorting theYesses by seniority, theYesses is: ", theYesses);
-            // Find where the guard with the last OT stands in the array
-            const numOfGuards = theYesses.length;
-            console.log(lastRecipient.name);
-            const gotLastOT = (guard) => guard.username == lastRecipient.name;
-            let lastGuard = theYesses.findIndex(gotLastOT);
-            let nextGuard = lastGuard + 1;
-            let currentGuard;
-            if (nextGuard == numOfGuards ) {
-                currentGuard = 0;
-            } else {
-                currentGuard = nextGuard;
-            };
             
-
-                                    /* 
-                                    
-                                    HERE IS WHERE WE NEED TO FIGURE OUT WHO GOT THE LAST OVERTIME
-                                    
-                                    */
-
             let startingGuardName = theYesses[currentGuard].username;                        
             assignmentLog.push(`Starting Shift Assignments with ${startingGuardName}, because they are up first ...`);
-            
             // Create an array of assigned shfts to populate
             const assignedShifts = [];
             // Set up the objects in each
@@ -161,11 +157,12 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
                     assignedTo: null
                 })
             })
-            console.log('assignedShifts is: ', assignedShifts);
             let continueAssign = true;
+
+// HERE STARTS THE WHILE LOOP FOR ASSIGNING
+
             while (continueAssign == true) {
                 const guard = theYesses[currentGuard];
-                console.log('----------Current Lifeguard is: ', guard.username, '----------');
                 assignmentLog.push(`Lifeguard to whom the next shift could be assigned is ${guard.username}`);
                 const responses = guard.responses;
                 // For each response, see if the shift is available
@@ -331,7 +328,24 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
                 response.responses.sort((a,b) => (a.id > b.id) ? 1 : -1);
             });
             
-            
+// LETS UPDATE THE DATABASE TO ACTUALLY ATTACH GUARDS TO SHIFTS!!!!!!!!!!!!!!
+            assignedShifts.forEach(shift => {
+                const url = `https://ottrack-backend.herokuapp.com/api/shifts/${shift.id}`
+                let updateShift = axios
+                .put(url, {
+                    data: {
+                        assignedTo: shift.assignedTo
+                    }
+                })
+                .then(response => {
+                    console.log(response.data.data)
+                })
+                .catch(error => {
+                    console.log('An error occurred: ', error.response);
+                })
+            });
+
+
         // Here is hoping for a re-render!!!!!
         setAllResponses(responses);
         setShowResults(true);
@@ -391,7 +405,40 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
                     )
                 })} 
             </div>
-            <button onClick={assignShifts}>Assign Shifts</button>
+            <br/>
+            <div className="centered">
+            <button className="button-wide" onClick={() => assignShifts(defaultFirstGuardIndex)}>Assign Shifts starting with {defaultFirstGuard.username}</button>
+            </div>
+            <h4 className="centered-text">Or</h4>
+            <div className="centered">
+                <div>
+                <div className="centered">
+                <select 
+                    name="guard"
+                    id="guard"
+                    onChange={(e) => {
+                        alternateFirstGuard = responses[e.target.value];
+                        alternateFirstGuardIndex = e.target.value;
+                        console.log("Alternate first guard's index is: ", e.target.value);
+                        console.log("Alternate first guard's full info is: ", alternateFirstGuard);
+                    }}
+                    >
+                    {responses.map((guard, index) => {
+                        return (
+                            <option
+                                key={guard.userId}
+                                value={index}
+                            >
+                                {guard.username}
+                            </option>
+                        )
+                    })}
+
+                </select>
+            </div>
+            <button onClick={() => assignShifts(alternateFirstGuardIndex)}>Override Recorded Order</button>
+            </div>
+            </div>
             </div>
             }
             {showResults && <div className="offering-response">

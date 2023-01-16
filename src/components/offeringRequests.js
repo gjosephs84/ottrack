@@ -203,6 +203,7 @@ const OfferingsRequests = () => {
     const lastAssignedDate = lastRecipients[0].dateAssigned.slice(0,10);
     const lastAssigned = {
       name: lastRecipInfo[0].name,
+      id: lastRecipInfo[0].id,
       assignedBy: lastRecipients[0].assignedBy,
       date: lastAssignedDate
     }
@@ -213,7 +214,7 @@ const OfferingsRequests = () => {
         <div className="centered">
             {cleanOfferingsWithResponses.map((offering, i) => {
                 return (
-                    <OfferingRequestsResponse key={i} offering={offering} lastRecipient={lastRecipInfo[0]}/>
+                    <OfferingRequestsResponse key={i} offering={offering} lastRecipient={lastAssigned}/>
                 )
             })}
         </div>
