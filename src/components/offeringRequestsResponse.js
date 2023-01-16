@@ -1,11 +1,10 @@
 import axios from "axios";
 import React from "react";
+import { UserContext } from "../context/context";
 
 const OfferingRequestsResponse = ({offering, lastRecipient}) => {
-    console.log("Last Recipient coming in is: ", lastRecipient);
-    // Let's process our respondants to display in a table of sorts
-    // responses will hold an array of new objects showing the username
-    // and their responses in either "NO" or ranking
+    // Bring in the context in order to record who is doing the assigning
+    const ctx = React.useContext(UserContext);
     const responses = [];
     const shiftIds = [];
     const conflicts = [];
@@ -13,397 +12,455 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
     let defaultFirstGuard;
     let defaultFirstGuardIndex;
     let alternateFirstGuard;
-    let alternateFirstGuardIndex = 0;
-    // Get the shift ids and put them in the arrays above
+    let alternateFirstGuardIndex = 0;   
+    let finalGuard; // Keep track of the last person to get assigned something
+    let finalShift; // Keep track of the last shift assigned
+    
+/*****
+  * * * * *
+    * * * * *
+    
+         Get the shift ids and put them in the arrays above   
+
+    * * * * * 
+  * * * * *
+*****/
+ 
     offering.shifts.forEach(shift => {
-        shiftIds.push(shift.id);
-        conflicts.push(
-            {
-                id: shift.id,
-                date: shift.date,
-                startTime: shift.startTime,
-                endTime: shift.endTime,
-                conflictingShifts: []
-            }
-        );
+      shiftIds.push(shift.id);
+      conflicts.push(
+        {
+          id: shift.id,
+          date: shift.date,
+          startTime: shift.startTime,
+          endTime: shift.endTime,
+          conflictingShifts: []
+        }
+      );
     });
 
-    // Let's try to find those conflicting shifts. That is, to say, shifts whose start/end times overlap with each other
+/*****
+  * * * * *
+    * * * * *
+    
+         Find conflicting shifts. That is, to say, shifts whose start/end times overlap with each other  
+
+    * * * * * 
+  * * * * *
+*****/
+
     for (let i=0; i<conflicts.length; i++) {
-        const { startTime, endTime, date } = conflicts[i];
-        for (let j=0; j<conflicts.length; j++) {
-            if (j === i) {
-                console.log(`j is ${j} and i is ${i}, so we're not going to do anything this go-round.`);
-            } else {
-                let jDate = conflicts[j].date;
-                let jStart = conflicts[j].startTime;
-                let jEnd = conflicts[j].endTime;
-                if (jDate !== date) {
-                    console.log(`jDate is ${jDate} and date i date is ${date}, so there is no chance of conflict`);
-                } else {
-                    // if the j shift starts before the i shift, and ends after the i shift begins, there's a conflict!
-                let triggeredFirstCase = false;
-                if ((jStart <= startTime) && (jEnd > (startTime + 16))) {
-                    triggeredFirstCase = true;
-                    conflicts[i].conflictingShifts.push(conflicts[j].id);
-                };
-                // if the j shift starts after the i shift, but before the i shift ends, also a conflict!
-                if ((jStart >= startTime) && (jStart <= (endTime - 16))) {
-                    if (triggeredFirstCase != true) {
-                        conflicts[i].conflictingShifts.push(conflicts[j].id);
-                    }
-                    
-                };
-                };
+      const { startTime, endTime, date } = conflicts[i];
+      for (let j=0; j<conflicts.length; j++) {
+        if (j === i) {
+          console.log(`j is ${j} and i is ${i}, so we're not going to do anything this go-round.`);
+        } else {
+          let jDate = conflicts[j].date;
+          let jStart = conflicts[j].startTime;
+          let jEnd = conflicts[j].endTime;
+          if (jDate !== date) {
+            console.log(`jDate is ${jDate} and date i date is ${date}, so there is no chance of conflict`);
+          } else {
+          // if the j shift starts before the i shift, and ends after the i shift begins, there's a conflict!
+            let triggeredFirstCase = false;
+            if ((jStart <= startTime) && (jEnd > (startTime + 16))) {
+              triggeredFirstCase = true;
+              conflicts[i].conflictingShifts.push(conflicts[j].id);
             };
+            // if the j shift starts after the i shift, but before the i shift ends, also a conflict!
+            if ((jStart >= startTime) && (jStart <= (endTime - 16))) {
+              if (triggeredFirstCase != true) {
+                conflicts[i].conflictingShifts.push(conflicts[j].id);
+              } 
+            };
+          };
         };
+      };
     };
 
-    console.log("After all that, conflicts is: ", conflicts);
-    // Now the magic of extracting those preferences so we can see them.
-    // Go through each respondant's answers and account for anything missing
-    // as a "NO"
+/*****
+  * * * * *
+    * * * * *
+    
+        Now the magic of extracting employee shift preferences so we can see them.
+        Go through each respondant's answers and account for anything missing
+        as a "NO" 
+
+    * * * * * 
+  * * * * *
+*****/
+    
     offering.responses.forEach(response => {
-        const responsesToMap = [];
-        const { shiftResponses } = response;
-        
-        shiftIds.forEach(id => {
-            let answer = {
-                ranking: 0,
-                id: id,
-                assigned: false
-                };
-            for (let i=0; i<shiftResponses.length; i++) {
-                if (shiftResponses[i].shift == id) {
-                    answer.ranking = shiftResponses[i].ranking
-                    }
-                }
-            responsesToMap.push(answer);
-        })
-        responses.push({
-            username: response.username,
-            seniority: response.seniority,
-            userId: response.userId,
-            responses: responsesToMap
-        })  
+      const responsesToMap = [];
+      const { shiftResponses } = response;
+      shiftIds.forEach(id => {
+        let answer = {
+          ranking: 0,
+          id: id,
+          assigned: false
+        };
+        for (let i=0; i<shiftResponses.length; i++) {
+          if (shiftResponses[i].shift == id) {
+            answer.ranking = shiftResponses[i].ranking
+          }
+        }
+        responsesToMap.push(answer);
+      });
+      responses.push({
+        username: response.username,
+        seniority: response.seniority,
+        userId: response.userId,
+        responses: responsesToMap
+      })  
     }
     );
 
-    // Let's sort responses by seniority ...
+/*****
+  * * * * *
+    * * * * *
+    
+        Sort the responses by seniority, then figure out which guard got the last overtime.
+        That way the next person in the seniority order can be set as
+        defaultFirstGuard
+
+    * * * * * 
+  * * * * *
+*****/
+
     responses.sort((a, b) => (a.seniority > b.seniority) ? 1 : -1);
-
-    // Now figure out which guard got the last overtime so we can set the person next in seniority as defaultFirstGuard
-
     const numOfGuards = responses.length;
     const gotLastOT = (guard) => guard.username == lastRecipient.name;
     let lastGuard = responses.findIndex(gotLastOT);
     let nextGuard = lastGuard + 1;
-
     // Then, if the last guard was lowest in seniority, set the next guard as the 0 index position, otherwise, we're good already
-            if (nextGuard == numOfGuards ) {
-                defaultFirstGuard = responses[0];
-                defaultFirstGuardIndex = 0;
-            } else {
-                defaultFirstGuard = responses[nextGuard];
-                defaultFirstGuardIndex = nextGuard;
-            };
+    if (nextGuard == numOfGuards ) {
+      defaultFirstGuard = responses[0];
+      defaultFirstGuardIndex = 0;
+    } else {
+      defaultFirstGuard = responses[nextGuard];
+      defaultFirstGuardIndex = nextGuard;
+    };
 
-    /* THE RESPONSES TABLE COMPONENT
-        Here we are going to put together the table that will show all
-        the responses from guards. I'm trying to use a state variable here so that after responses are actually assigned, the table will update
-        to reflect which guard got what shift
-    */
+/*****
+  * * * * *
+    * * * * *
+    
+        THE RESPONSES TABLE COMPONENT
+            Here we are going to put together the table that will show all
+            the responses from guards. The state variables exist 
+            so that after responses are actually assigned, the table will update
+            to reflect which guard got what shift
+
+    * * * * * 
+  * * * * *
+*****/
 
     const ResponsesTable = () => {
-        // Here is the aforementioned state variable
-        const [allResponses, setAllResponses] = React.useState(responses);
-        const [showResults, setShowResults] = React.useState(false);
+      const [allResponses, setAllResponses] = React.useState(responses);
+      const [showResults, setShowResults] = React.useState(false);
         
-// Here is the function to actually assign the shifts, and eventually update the allResponses state.
+/*****
+  * * * * *
+    * * * * *
+    
+        THE ASSIGNSHIFTS FUNCTION
+            Here is the actual function to assign shifts to guards.
+            It takes an input of firstGuard, which, in the default case, is
+            the index stored in defaultFirstGuardIndex, referencing the position
+            in the responses/theYesses array corresponding with the guard up next for
+            overtime assignment.
+
+            Because there is a potential scenario when a previous overtime offering
+            was not recorded by a manager, there is an option below the responses table to
+            override the guard the system believes is up next. In this situation, the index value
+            stored in alternateFirstGuardIndex is passed in instead, allowing for said bypass to occur.
+
+    * * * * * 
+  * * * * *
+*****/
         const assignShifts = (firstGuard) => {
-            let currentGuard = firstGuard;
-            const responsesByRankings = [];
-            responses.forEach(response => {
-                response.responses.sort((a, b) => (a.ranking > b.ranking) ? 1 : ((b.ranking > a.ranking) ? -1 : 0));
-                responsesByRankings.push(response);
+          let currentGuard = firstGuard;
+          const responsesByRankings = [];
+          responses.forEach(response => {
+            response.responses.sort((a, b) => (a.ranking > b.ranking) ? 1 : ((b.ranking > a.ranking) ? -1 : 0));
+            responsesByRankings.push(response);
             });
+
             // Let's get rid of any shifts a respondant isn't interested in:
             const theYesses = [];
             responsesByRankings.forEach(response => {
-                const onlyYesses = []
-                for (let i=0; i<response.responses.length; i++) {
-                    if (response.responses[i].ranking != 0) {onlyYesses.push(response.responses[i])}
-                };
-                theYesses.push({
-                    username: response.username,
-                    seniority: response.seniority,
-                    userId: response.userId,
-                    responses: onlyYesses
-                });
+              const onlyYesses = []
+              for (let i=0; i<response.responses.length; i++) {
+                if (response.responses[i].ranking != 0) {onlyYesses.push(response.responses[i])}
+              };
+              theYesses.push({
+                username: response.username,
+                seniority: response.seniority,
+                userId: response.userId,
+                responses: onlyYesses
+              });
             });
-            // Let's attempt a while loop to assign the shifts
-            // First a variable to specify which guard's responses are being considered: (May need to make sure theYesses is always in seniority order)
-    
-            theYesses.sort((a,b) => (a.seniority > b.seniority) ? 1 : -1);
             
+            // Sort theYesses by seniority
+            theYesses.sort((a,b) => (a.seniority > b.seniority) ? 1 : -1);
             let startingGuardName = theYesses[currentGuard].username;                        
             assignmentLog.push(`Starting Shift Assignments with ${startingGuardName}, because they are up first ...`);
             // Create an array of assigned shfts to populate
             const assignedShifts = [];
             // Set up the objects in each
             shiftIds.forEach(shift => {
-                assignedShifts.push({
-                    id: shift,
-                    assignedTo: null
-                })
+              assignedShifts.push({
+                id: shift,
+                assignedTo: null
+              })
             })
             let continueAssign = true;
 
-// HERE STARTS THE WHILE LOOP FOR ASSIGNING
+// ********************
+    // ********************
+
+    // HERE STARTS THE WHILE LOOP FOR ASSIGNING
+
+    // ********************
+// ********************
 
             while (continueAssign == true) {
-                const guard = theYesses[currentGuard];
-                assignmentLog.push(`Lifeguard to whom the next shift could be assigned is ${guard.username}`);
-                const responses = guard.responses;
+              const guard = theYesses[currentGuard];
+              assignmentLog.push(`Lifeguard to whom the next shift could be assigned is ${guard.username}`);
+              const responses = guard.responses;
                 // For each response, see if the shift is available
                 for (let i=0; i<responses.length; i++) {
-                    // We'll use this variable to see if we should break the for loop early
-                    let shouldBreak = false;
-                    for (let j=0; j<assignedShifts.length; j++) {
-                        // If the current guard is out of responses, break
-                        if (shouldBreak == true) {
-                            break;
-                        }
-                        console.log(`      ${guard.username} is currently requesting ${responses[i].id} whose ranking is ${responses[i].ranking}`);
-                        console.log('         Attempting to assign shift: ', assignedShifts[j].id, " to: ", guard.username);
-                        // If and only if it hasn't been assigned ...
-                        if (assignedShifts[j].assignedTo == null) {
-                            if (assignedShifts[j].id == responses[i].id) {
-                                console.log('            And the shift is available!!!');
-                                assignmentLog.push(`${guard.username} requested shift number ${responses[i].id} which was their number ${responses[i].ranking} choice. The shift is available, so assigning to them now!`);
-                                // Assign the shift!!!!!!!
-                                assignedShifts[j].assignedTo = guard.userId;
-                                console.log("assignedShifts[j] is: ", assignedShifts[j]);
-                                console.log("meanwhile, conflicts[j] is: ", conflicts[j]);
-                                // Check to see if there are any conflicting shifts the to the one being assigned
-                                if (conflicts[j].conflictingShifts.length !== 0) {
-                                    console.log("COOOOOONNNNFFFLIIIIIICCCCT!!!!!");
-                                    const conflictIndexes = [];
-                                    // Check to see if the current gaurd WANTED any conflicting shifts
-                                    for (let k=0; k<theYesses[currentGuard].responses.length; k++ ) {
-                                        console.log(`In the k loop and k is ${k}`);
-                                        for (let l=0; l<conflicts[j].conflictingShifts.length; l++) {
-                                            console.log(`Inside the l loop and l is ${l}`);
-                                            console.log(`conflicts[j].conflictingShifts[l] is: ${conflicts[j].conflictingShifts[l]}`);
-                                            console.log(`theYesses[currentGuard].responses[k].id is ${theYesses[currentGuard].responses[k].id}`);
-                                            
-                                            if (conflicts[j].conflictingShifts[l] === theYesses[currentGuard].responses[k].id) {
-                                                console.log("Looks like a conflict to me!!!!");
-                                                console.log(`conflicts[j].conflictingShifts[l] is: ${conflicts[j].conflictingShifts[l]}`);
-                                                console.log("conflicts[j].conflictingShifts is:");
-                                                console.log(conflicts[j].conflictingShifts);
-                                                conflictIndexes.push(k);
-                                            };
-                                            
-                                        }
-                                    };
-                                    console.log('conflictIndexes is: ', conflictIndexes);
-                                    if (conflictIndexes.length > 0) {
-                                        conflictIndexes.forEach(index => {
-                                            console.log(`Deleting conflicting shift ${theYesses[currentGuard].responses[index].id}`);
-                                            assignmentLog.push(`${guard.username} also requested shift number ${guard.responses[index].id}, which conflicts with the shift just assigned, so deleting that one from possible shifts to assign to ${guard.username}`);
-                                            theYesses[currentGuard].responses.splice(index, 1)
-                                        })
-                                    }
-                                } else {
-                                    console.log("                           No conflicting shifts here");
-                                }
-                                // delete the request straight out of theYesses
-                                theYesses[currentGuard].responses.splice(i, 1);
-                                // Update shouldBreak so we can exit the i loop early
-                                console.log('            Remaining responses for: ', guard.username, " is ", theYesses[currentGuard].responses);
-                                shouldBreak = true;
-                            }
-                            if (shouldBreak == true) {
-                                break;
-                            };
-                        }
-                        // If it's not equal to null, let's see if the guard wanted the shift and then delete that request from theYesses
-                        if (assignedShifts[j].assignedTo != null) {
-                            console.log('      Looks like this shift was already taken by: ', assignedShifts[j].assignedTo);
-                            console.log('      Checking to see if ', assignedShifts[j].id, " was requested by ", guard.username);
-                            if (assignedShifts[j].id == responses[i].id) {
-                                console.log(`            Found the already taken shift in ${guard.username} requests ... Better delete it.`);
-                                assignmentLog.push(`${guard.username} requested shift number ${responses[i].id} as their ${responses[i].ranking} choice, but it was already taken. Moving on to their next choice ...`);
-                                // delete the request straight out of theYesses
-                                theYesses[currentGuard].responses.splice(i, 1);
-                                console.log(`            Remaining responses for ${guard.username} are: `, theYesses[currentGuard].responses);
-                                j = -1;
-                                // if the guard is out of remaining responses, break at the top of the j loop
-                                if (theYesses[currentGuard].responses.length == 0) {
-                                    console.log(`                   ${guard.username} is out of responses!`);
-                                    assignmentLog.push(`There is nothing left to assign to ${guard.username}`);
-                                    shouldBreak = true;
-                                }
-                            }
-                        }
-                    }
-                    // If something was assigned, break out of the i loop
+                  // We'll use this variable to see if we should break the for loop early
+                  let shouldBreak = false;
+                  for (let j=0; j<assignedShifts.length; j++) {
+                    // If the current guard is out of responses, break
                     if (shouldBreak == true) {
-                        console.log(`      Since something was assigned to ${guard.username}, let's move on to the next guard ...`);
-                        assignmentLog.push(`Since a shift was assigned to ${guard.username}, let's move on to the next guard ...`);
-                        //Attempting to break
+                      break;
+                    }
+                    // If and only if it hasn't been assigned ...
+                    if (assignedShifts[j].assignedTo == null) {
+                      if (assignedShifts[j].id == responses[i].id) {
+                        assignmentLog.push(`${guard.username} requested shift number ${responses[i].id} which was their number ${responses[i].ranking} choice. The shift is available, so assigning to them now!`);
+                        // Assign the shift!!!!!!!
+                        assignedShifts[j].assignedTo = guard.userId;
+                        // Update finalGuard in case this is the end
+                        finalGuard = currentGuard;
+                        finalShift = assignedShifts[j].id;
+                        // Check to see if there are any conflicting shifts the to the one being assigned
+                        if (conflicts[j].conflictingShifts.length !== 0) {
+                          const conflictIndexes = [];
+                          // Check to see if the current gaurd WANTED any conflicting shifts
+                          for (let k=0; k<theYesses[currentGuard].responses.length; k++ ) {
+                            for (let l=0; l<conflicts[j].conflictingShifts.length; l++) {
+                              if (conflicts[j].conflictingShifts[l] === theYesses[currentGuard].responses[k].id) {
+                                conflictIndexes.push(k);
+                              };
+                            };
+                          };
+                          if (conflictIndexes.length > 0) {
+                            conflictIndexes.forEach(index => {
+                              assignmentLog.push(`${guard.username} also requested shift number ${guard.responses[index].id}, which conflicts with the shift just assigned, so deleting that one from possible shifts to assign to ${guard.username}`);
+                              theYesses[currentGuard].responses.splice(index, 1)
+                            });
+                          };
+                        } else {
+                          console.log("No conflicting shifts here");
+                        };
+                        // delete the request straight out of theYesses
+                        theYesses[currentGuard].responses.splice(i, 1);
+                        // Update shouldBreak so we can exit the i loop early
+                        shouldBreak = true;
+                      };
+                      if (shouldBreak == true) {
                         break;
+                      };
                     };
-                    // If we got this far and didn't assign anything, remove the request straight out of theYesses
-                    //theYesses[currentGuard].responses.splice(i, 1);
-                    // Then move on to the next response from the current guard
+                    // If it's not equal to null, let's see if the guard wanted the shift and then delete that request from theYesses
+                    if (assignedShifts[j].assignedTo != null) {
+                      if (assignedShifts[j].id == responses[i].id) {
+                        assignmentLog.push(`${guard.username} requested shift number ${responses[i].id} as their ${responses[i].ranking} choice, but it was already taken. Moving on to their next choice ...`);
+                        // delete the request straight out of theYesses
+                        theYesses[currentGuard].responses.splice(i, 1);
+                        j = -1;
+                        // if the guard is out of remaining responses, break at the top of the j loop
+                        if (theYesses[currentGuard].responses.length == 0) {
+                          assignmentLog.push(`There is nothing left to assign to ${guard.username}`);
+                          shouldBreak = true;
+                        }
+                      }
+                    }
+                  }
+                // If something was assigned, break out of the i loop
+                  if (shouldBreak == true) {
+                    assignmentLog.push(`Since a shift was assigned to ${guard.username}, let's move on to the next guard ...`);
+                    break;
+                  };
                 };
                 // If nothing could be assigned, change the guard!
-                console.log(`      Changing the guard ...`);
                 currentGuard++;
                 // But again, if we've reached the end of the number of guards, reset to zero
                 if (currentGuard == numOfGuards) {
-                    currentGuard = 0;
+                  currentGuard = 0;
                 };
                 // Finally, let's see if we should continue to assign
                 let responsesLeft = false;
                 let shouldContinue = false;
                 theYesses.forEach(guard => {
-                    if (guard.responses.length != 0) {
-                        //console.log('found something!!!!!', guard);
-                        //console.log('responsesLeft is currently: ', responsesLeft);
-                        responsesLeft = true;
-                        //console.log('after assigning as true, responsesLeft is: ', responsesLeft);
-                    };
-                })
-                assignedShifts.forEach(shift => {
-                    if (shift.assignedTo == null) {
-                        //console.log('found a null shift, and shouldContinue is currently: ', shouldContinue);
-                        shouldContinue = true;
-                        //console.log('and after assigning as true, shouldContinue is: ', shouldContinue);
-                    };
+                  if (guard.responses.length != 0) {
+                    responsesLeft = true;
+                  };
                 });
-    
+                assignedShifts.forEach(shift => {
+                  if (shift.assignedTo == null) {
+                    shouldContinue = true;
+                  };
+                });
                 if ((responsesLeft == true) && (shouldContinue == true)) {
-                    continueAssign = true;
+                  continueAssign = true;
                 } else {
-                    continueAssign = false;
+                  continueAssign = false;
+                  // Since we're done, let's update last recipient
+                  const currentDate = new Date();
+                  const guardId = theYesses[finalGuard].userId;
+                  let updateLastRecipient = axios
+                    .post('https://ottrack-backend.herokuapp.com/api/last-recipients', {
+                    data: {
+                      userId: guardId,
+                      shift: finalShift,
+                      dateAssigned: currentDate,
+                      assignedBy: ctx.currentUser.id
+                    }
+                    })
+                    .then (response => {
+                        console.log("response to making last recipient is: ", response);
+                    })
+                    .catch(error => {
+                        console.log("An error occurred updating last recipient: ", error);
+                    });
                 }
-                console.log('assignedShifts is: ', assignedShifts);
-                // But break if the everything has been picked over
-    
             };
+
+// ********************
+    // ********************
+
+    // HERE ENDS THE WHILE LOOP FOR ASSIGNING
+
+    // ********************
+// ********************            
     
             // Now let's see if we can port those results to the responses array. First, sort by assignedTo:
-    
             assignedShifts.sort((a,b) => (a.assignedTo < b.assignedTo) ? 1 : -1);
-            console.log('affer sorting, assignedShifts is: ', assignedShifts);
-            console.log('and for reference, responses is: ', responses);
-    
             assignedShifts.forEach(shift => {
-                const { id, assignedTo } = shift;
-                if (assignedTo == null) {
-                    console.log("found a null");
-                    return;
+              const { id, assignedTo } = shift;
+              if (assignedTo == null) {
+                return;
+              }
+              // Find the right respondant
+              for (let i=0; i<responses.length; i++) {
+                if (responses[i].userId == assignedTo) {
+                  responses[i].responses.forEach(response => {
+                    if (response.id == id) {
+                      response.assigned = true
+                      }
+                  })
                 }
-                // Find the right respondant
-                for (let i=0; i<responses.length; i++) {
-                    if (responses[i].userId == assignedTo) {
-                        console.log('found it! ', responses[i].userId, assignedTo);
-                        responses[i].responses.forEach(response => {
-                            if (response.id == id) {
-                                response.assigned = true
-                            }
-                        })
-                    }
-                }
+              }
             });
     
-            console.log('now responses is: ', responses);
-            console.log('but allResponses is: ', allResponses);
-
             // Make sure shifts in responses show up in the correct order
             responses.forEach(response => {
-                response.responses.sort((a,b) => (a.id > b.id) ? 1 : -1);
+              response.responses.sort((a,b) => (a.id > b.id) ? 1 : -1);
             });
             
 // LETS UPDATE THE DATABASE TO ACTUALLY ATTACH GUARDS TO SHIFTS!!!!!!!!!!!!!!
             assignedShifts.forEach(shift => {
-                const url = `https://ottrack-backend.herokuapp.com/api/shifts/${shift.id}`
-                let updateShift = axios
-                .put(url, {
-                    data: {
-                        assignedTo: shift.assignedTo
-                    }
-                })
-                .then(response => {
-                    console.log(response.data.data)
-                })
-                .catch(error => {
-                    console.log('An error occurred: ', error.response);
-                })
+              const url = `https://ottrack-backend.herokuapp.com/api/shifts/${shift.id}`
+              let updateShift = axios
+              .put(url, {
+                data: {
+                  assignedTo: shift.assignedTo
+                }
+              })
+              .then(response => {
+                console.log(response.data.data)
+              })
+              .catch(error => {
+                console.log('An error occurred: ', error.response);
+              })
             });
 
-
-        // Here is hoping for a re-render!!!!!
         setAllResponses(responses);
         setShowResults(true);
-        console.log("----------------------------------------------------");
-        console.log(assignmentLog);
         }
-        return (
-            <div>
-            {!showResults && 
-            <div>
-            <div className="offering-response">
-                <div className="response-shifts-column">
-                    <div className="response-header">
-                        <h5>Shift</h5>
-                    </div>
-                    {offering.shifts.map((shift, i) => {
-                        return (
-                            <div key={i} className="response-shift">
-                                <div>
-                                    {shift.date} | {shift.startTime} - {shift.endTime}
-                                </div>
-                                <div>
-                                    Starts at: {shift.startLocation} | Ends at: {shift.endLocation}
-                                </div>
-                            </div>
-                        ) 
-                    })}
+
+// ********************
+    // ********************
+
+    // HERE ENDS THE ASSIGNSHIFT FUNCTION
+
+    // ********************
+// ********************
+
+/*****
+  * * * * *
+    * * * * *
+    
+        THE RETURN
+           
+
+    * * * * * 
+  * * * * *
+*****/
+  return (
+    <div>
+    {!showResults && 
+      <div>
+        <div className="offering-response">
+          <div className="response-shifts-column">
+            <div className="response-header">
+              <h5>Shift</h5>
+            </div>
+            {offering.shifts.map((shift, i) => {
+              return (
+                <div key={i} className="response-shift">
+                  <div>
+                    {shift.date} | {shift.startTime} - {shift.endTime}
+                  </div>
+                  <div>
+                    Starts at: {shift.startLocation} | Ends at: {shift.endLocation}
+                  </div>
                 </div>
-                {allResponses.map((response) => {
-                    console.log("response is: ", response);
+                ) 
+            })}
+          </div>
+          {allResponses.map((response) => {
+            return (
+              <div key={response.username} className="response-column">
+                <div className="response-header">
+                  <h5>{response.username}</h5>
+                </div>
+                {response.responses.map((answer, i) => {
+                  let classToGive;
+                  let answerToGive;
+                    if (answer.ranking == 0) {
+                      classToGive = "response-div no";
+                      answerToGive = "NO";
+                    } else {
+                      classToGive = "response-div yes"
+                      answerToGive = answer.ranking;
+                        if (answer.assigned == true) {
+                          classToGive = "response-div assigned"
+                        }
+                    }
                     return (
-                        <div key={response.username} className="response-column">
-                            <div className="response-header">
-                                <h5>{response.username}</h5>
-                            </div>
-                            {response.responses.map((answer, i) => {
-                                let classToGive;
-                                let answerToGive;
-                                if (answer.ranking == 0) {
-                                    classToGive = "response-div no"
-                                    answerToGive = "NO"
-                                } else {
-                                    classToGive = "response-div yes"
-                                    answerToGive = answer.ranking;
-                                    if (answer.assigned == true) {
-                                        console.log("%%%%%%%%%%%%%%%%%%%%%%%%% Setting Assigned");
-                                        classToGive = "response-div assigned"
-                                    }
-                                }
-                                return (
-                                    <div key={i} className={classToGive}>
-                                        <strong>{answerToGive}</strong>
-                                    </div>
-                                )
-                            })}
-                        </div>
+                      <div key={i} className={classToGive}>
+                        <strong>{answerToGive}</strong>
+                      </div>
                     )
-                })} 
+                })}
+              </div>
+            )
+          })} 
             </div>
             <br/>
             <div className="centered">

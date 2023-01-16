@@ -45,7 +45,7 @@ query getGuards {
         }
       }
     }
-    lastRecipients {
+    lastRecipients (sort: "createdAt:desc", pagination: { limit: 100 }) {
       data{
         id
         attributes {

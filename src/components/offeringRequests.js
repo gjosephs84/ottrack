@@ -66,7 +66,7 @@ query GetActiveOfferingsResponses{
         }
       }
     }
-    lastRecipients {
+    lastRecipients (sort: "createdAt:desc", pagination: { limit: 100 }) {
       data{
         id
         attributes {
@@ -127,7 +127,7 @@ const OfferingsRequests = () => {
     guard.id == lastRecipients[0].employee
   );
 
-  console.log("Last recip is: ", lastRecipInfo[0].name);
+  //console.log("Last recip is: ", lastRecipInfo[0].name);
   console.log("All data for last recip is: ", lastRecipInfo[0]);
 
     // We need the offerings (if there is more than one) isolated first
