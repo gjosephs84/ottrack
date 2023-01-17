@@ -373,16 +373,18 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
             });
             
 // LETS UPDATE THE DATABASE TO ACTUALLY ATTACH GUARDS TO SHIFTS!!!!!!!!!!!!!!
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             assignedShifts.forEach(shift => {
               const url = `https://ottrack-backend.herokuapp.com/api/shifts/${shift.id}`
               let updateShift = axios
               .put(url, {
                 data: {
-                  assignedTo: shift.assignedTo
+                  assigned_to: shift.assignedTo
                 }
               })
               .then(response => {
-                console.log(response.data.data)
+                console.log("Updating shifts:");
+                console.log(response.data.data);
               })
               .catch(error => {
                 console.log('An error occurred: ', error.response);
