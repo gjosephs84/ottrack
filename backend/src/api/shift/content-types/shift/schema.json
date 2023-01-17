@@ -36,17 +36,17 @@
     "holiday": {
       "type": "boolean"
     },
-    "assigned_to": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "mappedBy": "shift"
-    },
     "startTime": {
       "type": "integer"
     },
     "endTime": {
       "type": "integer"
+    },
+    "assigned_to": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "shifts"
     }
   }
 }

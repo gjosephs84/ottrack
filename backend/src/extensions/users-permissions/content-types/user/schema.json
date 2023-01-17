@@ -69,14 +69,14 @@
     "seniority": {
       "type": "integer"
     },
-    "shift": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::shift.shift",
-      "inversedBy": "assigned_to"
-    },
     "weeklySchedule": {
       "type": "json"
+    },
+    "shifts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shift.shift",
+      "mappedBy": "assigned_to"
     }
   }
 }

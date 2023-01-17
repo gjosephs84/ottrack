@@ -1,8 +1,8 @@
 import React from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
-
 import { UserContext } from "../context/context";
+import AssignedShifts from "./assignedShifts";
 
 const LoginForm = () => {
     // Bring in the context
@@ -96,6 +96,7 @@ const LoginForm = () => {
             </div>) : (<div>
                 <h2>Welcome back, {ctx.currentUser.username}</h2>
                 <p>You have logged in successfully! Use the menu to begin.</p>
+                <AssignedShifts/>
                 </div>)}
             <br/>
             <br/>
