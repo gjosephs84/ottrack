@@ -13,7 +13,7 @@ const ShiftTable = ({shifts, removeShift, createMode, editMode, setConfirmState,
                 cardTitle={title}
                 cardBody={
                     <div>
-                        {shifts.length === 0 && <h4 className="centered">Nothing here yet! Add a shift to begin.</h4>}
+                        {shifts.length === 0 && <h4 className="centered">Nothing here yet!</h4>}
                         {shifts.length > 0 &&
                         shifts.map((shift, i) => {
                             const start = convertTime(shift.startTime);

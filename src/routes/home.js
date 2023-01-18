@@ -1,5 +1,7 @@
 import React from "react";
 import LoginForm from "../components/loginForm";
+import AssignedShifts from "../components/assignedShifts";
+import MITCard from "../components/mitCard";
 
 // import the context
 import { UserContext } from "../context/context";
@@ -8,6 +10,7 @@ const Home = () => {
     // Set the context
     const ctx = React.useContext(UserContext)
     const [loggedIn, setLoggedIn] = ctx.loginState;
+    const [loginSuccess, setLoginSuccess] = React.useState(false)
     console.log(`login state is ${loggedIn} `);
     console.log(`currentUser is ${JSON.stringify(ctx.currentUser)}`);
 
@@ -16,16 +19,15 @@ const Home = () => {
             <div className="centered">
             <h1>Welcome to OTTrack</h1>
             </div>
-            <div className="centered">
-                <div className="form-card">
-                    <div className="form-card-header">
-                        <h2>Login</h2>
-                    </div>
-                    <div className="form-card-body">
-                        <LoginForm/>
-                    </div>
-                </div>
-            </div>
+            <MITCard 
+                cardTitle={"Login"}
+                cardBody={<LoginForm loginSuccess={loginSuccess} setLoginSuccess={setLoginSuccess}/>}
+                minWidth={"250px"}
+                maxWidth={"350px"}
+            />
+            {loginSuccess && <div>
+                <AssignedShifts/>
+                </div>}
         </div>
     );
 }
