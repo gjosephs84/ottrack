@@ -119,10 +119,13 @@ query getShifts($id: ID) {
         <ShiftTable
             shifts={upcomingShifts}
             title="Your Upcoming Shifts"
+            minWidth="350px"
         />
+        <br/>
         <ShiftTable 
             shifts={pastShifts}
             title="Your Past Overtime Shifts"
+            minWidth="350px"
         />
         </div>
     )

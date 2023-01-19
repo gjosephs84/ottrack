@@ -74,7 +74,10 @@ const LoginForm = ({loginSuccess, setLoginSuccess}) => {
                 setUserRole(ctx.currentUser.type);
                 console.log(`ctx user is ${ctx.currentUser.username} and is of type ${ctx.currentUser.type}`);
                 console.log("Setting login success, hopefully");
-                setLoginSuccess(true);
+                if (ctx.currentUser.type == "Lifeguard") {
+                    setLoginSuccess(true);
+                };
+                
             })
             .catch(error => {
                 console.log('An error occurred:', error.response);
@@ -99,9 +102,6 @@ const LoginForm = ({loginSuccess, setLoginSuccess}) => {
                 <h2>Welcome back, {ctx.currentUser.username}</h2>
                 <p>You have logged in successfully! Use the menu to begin.</p>
                 </div>)}
-            <br/>
-            <br/>
-            <div> </div>
         </div> 
     )
 }
