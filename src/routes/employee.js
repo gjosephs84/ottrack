@@ -3,6 +3,7 @@ import axios from 'axios';
 import { UserContext } from "../context/context";
 import { ShiftContext } from "../context/shift-context";
 import MITCard from "../components/mitCard";
+import AssignedShifts from "../components/assignedShifts";
 import Day from "../components/dailySchedulePicker";
 const daysOfWeek = [
     'Monday',
@@ -38,6 +39,7 @@ const Employee = () => {
     };
 
     return (
+        <div>
         <MITCard cardTitle={"Weekly Schedule"} cardBody={
             <div>
             {daysOfWeek.map((day) => {
@@ -47,7 +49,10 @@ const Employee = () => {
             })}
             <button className="button-full" onClick={updateSchedule}>Update Schedule</button>
             </div>
-        }/> 
+        }/>
+        <br/>
+        <AssignedShifts/>
+        </div>
     );
 }
 

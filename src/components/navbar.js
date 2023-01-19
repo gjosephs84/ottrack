@@ -59,9 +59,9 @@ function NavigationBar() {
                             <LinkContainer to="history">
                                 <Nav.Link title="View Offering History">Offerings History</Nav.Link>
                             </LinkContainer>
-                            <LinkContainer to="employee">
+                            {userRole==="Lifeguard" && <LinkContainer to="employee">
                                 <Nav.Link title="My Account">View Account</Nav.Link>
-                            </LinkContainer>
+                            </LinkContainer>}
                             {userRole==="Manager" && <LinkContainer to="admin">
                                 <Nav.Link title="Administration Panel">Admin</Nav.Link>
                             </LinkContainer>}
