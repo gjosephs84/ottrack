@@ -7,6 +7,7 @@ const GET_OFFERINGS_REQUESTS = gql`
 query GetActiveOfferingsResponses{
     offerings(filters: {active: {eq: true}}){
       data {
+        id
         attributes{
           active
           shifts {
@@ -63,6 +64,7 @@ query GetActiveOfferingsResponses{
         id
         attributes {
           username
+          email
         }
       }
     }
@@ -86,9 +88,12 @@ query GetActiveOfferingsResponses{
   }
 `;
 const guards = [];
-const lastRecipients = [];
+
+
 
 const OfferingsRequests = () => {
+  const emails = [];
+  const lastRecipients = [];
     const { loading, error, data } = useQuery(GET_OFFERINGS_REQUESTS, {
       fetchPolicy: 'network-only'
     });
@@ -101,8 +106,10 @@ const OfferingsRequests = () => {
 
     data.usersPermissionsUsers.data.forEach(guard => {
       const id = guard.id;
-      const name = guard.attributes.username
+      const name = guard.attributes.username;
+      const email = guard.attributes.email;
       guards.push({id: id, name: name})
+      emails.push(email);
     });
     data.lastRecipients.data.forEach(recipient => {
       const id = Number(recipient.id);
@@ -144,6 +151,8 @@ const OfferingsRequests = () => {
         // To arrays to hold info we need
         const rawRespondants = [];
         const cleanShifts = [];
+        const offeringId = offering.id;
+        console.log("!!!!!!!!!!!!!!!!!! Offering ID is: ", offeringId);
 
         // Isolate the respondants and their data
         offering.attributes.offering_response.data.attributes.respondants.data.forEach(respondant => {
@@ -193,7 +202,8 @@ const OfferingsRequests = () => {
         // Bundle everything into a nice, clean object
         cleanOfferingsWithResponses.push({
             shifts: cleanShifts,
-            responses: cleanResponses
+            responses: cleanResponses,
+            offeringId: offeringId
         });
     });
     console.log("cleanOfferingsWithResponses is: ", cleanOfferingsWithResponses);
@@ -214,7 +224,7 @@ const OfferingsRequests = () => {
         <div className="centered">
             {cleanOfferingsWithResponses.map((offering, i) => {
                 return (
-                    <OfferingRequestsResponse key={i} offering={offering} lastRecipient={lastAssigned}/>
+                    <OfferingRequestsResponse key={i} offering={offering} lastRecipient={lastAssigned} emails={emails}/>
                 )
             })}
         </div>

@@ -84,6 +84,7 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
   
 
   // Get the lifeguards in case of QuickAssign
+  //
   const {loading, error, data} = useQuery(GET_GUARDS, {fetchPolicy: 'network-only'});
     if (loading) return <p>Loading ...</p>;
     if (error) return <p>Error</p>;

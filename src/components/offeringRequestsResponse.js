@@ -1,10 +1,23 @@
 import axios from "axios";
 import React from "react";
 import { UserContext } from "../context/context";
+import MITCard from "./mitCard";
+import convertTime from "./timeConverter";
 
-const OfferingRequestsResponse = ({offering, lastRecipient}) => {
+const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
+    console.log("emails is: ", emails);
+    console.log("offering is: ", offering);
+    console.log(offering.offeringId);
+    let emailTemplate = "mailto:";
+    emails.forEach(email => emailTemplate += `${email},`);
+    console.log("emailTemplate is: ", emailTemplate);
+    emailTemplate.slice(0,-1);
+    emailTemplate += `?subject=New Overtime Shifts have been Assigned&body=Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard. Feel free to respond here if you have any questions. Thanks!`
     // Bring in the context in order to record who is doing the assigning
     const ctx = React.useContext(UserContext);
+    if (offering.responses.length == 0) {
+        return (<p>Nothing to see here yet.</p>)
+    }
     const responses = [];
     const shiftIds = [];
     const conflicts = [];
@@ -337,6 +350,19 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
                     .catch(error => {
                         console.log("An error occurred updating last recipient: ", error);
                     });
+                  // Make the current offering inactive
+                  let deactivateOffering = axios
+                    .put(`https://ottrack-backend.herokuapp.com/api/offerings/${offering.offeringId}`, {
+                        data: {
+                            active: false
+                        }
+                    })
+                    .then (response => {
+                        console.log("response to deactivating offering is: ", response);
+                    })
+                    .catch(error => {
+                        console.log("An error occurred deactivating the offering: ", error);
+                    })
                 }
             };
 
@@ -423,10 +449,13 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
               <h5>Shift</h5>
             </div>
             {offering.shifts.map((shift, i) => {
+              console.log("!!!!!shift data is: ", shift);
+              let cleanStart = convertTime(shift.startTime);
+              let cleanEnd = convertTime(shift.endTime);
               return (
                 <div key={i} className="response-shift">
                   <div>
-                    {shift.date} | {shift.startTime} - {shift.endTime}
+                    <strong>ID: {shift.id}</strong> | {shift.date} | {cleanStart} - {cleanEnd}
                   </div>
                   <div>
                     Starts at: {shift.startLocation} | Ends at: {shift.endLocation}
@@ -500,16 +529,19 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
             </div>
             </div>
             }
-            {showResults && <div className="offering-response">
+            {showResults && <div> 
+            <div className="offering-response">
                 <div className="response-shifts-column">
                     <div className="response-header">
                         <h5>Shift</h5>
                     </div>
                     {offering.shifts.map((shift, i) => {
+                        let cleanStart = convertTime(shift.startTime);
+                        let cleanEnd = convertTime(shift.endTime);
                         return (
                             <div key={i} className="response-shift">
                                 <div>
-                                    {shift.date} | {shift.startTime} - {shift.endTime}
+                                    <strong>ID: {shift.id}</strong> | {shift.date} | {cleanStart} - {cleanEnd}
                                 </div>
                                 <div>
                                     Starts at: {shift.startLocation} | Ends at: {shift.endLocation}
@@ -546,8 +578,12 @@ const OfferingRequestsResponse = ({offering, lastRecipient}) => {
                         </div>
                     )
                 })}
-                {JSON.stringify(assignmentLog)}
-            </div>}
+            </div>
+            <br/>
+            <a href={emailTemplate}>
+            <button>Notify Guards of Results</button></a>
+            </div>
+            }
             </div>
     )
         

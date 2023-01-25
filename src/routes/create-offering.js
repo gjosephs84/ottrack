@@ -133,11 +133,13 @@ const CreateOffering = () => {
           <p className="box-350">Alternatively, you may either quick-assign an extension of shift, or a call-in shift, also from Admin, or delete this active offering entirely.</p>
           {existingOffering.map((offering, i) =>
                 <div key={i}>
-                <ShiftTable key={i} 
+                <ShiftTable key={i}
+                title={"Current Offering"} 
                 shifts={offering}
                 editMode={true}
                 setConfirmState={setShowConfirmDelete}
                 buttonText="Delete Offering"
+                minWidth={"350px"}
                 />
                 <br/>
                 </div>
@@ -287,6 +289,7 @@ const CreateOffering = () => {
               editMode={true}
               setConfirmState={setShowConfirm}
               buttonText="Submit Offering"
+              minWidth={"350px"}
               /><br/>
           </div>
           </div>
