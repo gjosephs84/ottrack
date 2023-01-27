@@ -302,8 +302,8 @@ const SelectShifts = () => {
               />
               }
               <div className="centered">
-                  {showDecline && <button className="button-wide" onClick={() => {setConfirmDeclineAll(true)}}>Decline All</button>}
-                  {!showDecline && <button className="button-wide" onClick={handleSubmit}>Continue</button>}
+                  {showDecline && <button className="button-wide button-tall" onClick={() => {setConfirmDeclineAll(true)}}>Decline All</button>}
+                  {!showDecline && <button className="button-wide button-tall" onClick={handleSubmit}>Continue</button>}
               </div>
               <br/>
             <br/>
@@ -336,11 +336,11 @@ const SelectShifts = () => {
                 </div>
                 <br/>
                 <div className="centered">
-                  <button className="button-wide" onClick={goBack}>Go Back</button>
+                  <button className="button-wide button-tall" onClick={goBack}>Go Back</button>
                 </div>
                 <br/>
                 <div className="centered">
-                  <button className="button-wide" disabled={disableSubmit} onClick={submitResponse}>Submit</button>
+                  <button className="button-wide button-tall" disabled={disableSubmit} onClick={submitResponse}>Submit</button>
                 </div>
                 <div className="centered">
                   <div className="box-350">
