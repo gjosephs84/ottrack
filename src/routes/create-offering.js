@@ -46,6 +46,7 @@ query GetOfferings{
 
 const offering = [];
 const CreateOffering = () => {
+  console.log("Offering is: ", offering);
   // A state variable to hold all the shifts in the offering
   const [shifts, setShifts] = React.useState(offering);
   const [startTime, setStartTime] = React.useState(null);
@@ -172,6 +173,7 @@ const CreateOffering = () => {
 
   // A function to remove a submitted shift
   const removeShift = (index) => {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! Inside removeShift index is: ", index);
     let temp = [...shifts];
     temp.splice(index, 1);
     setShifts(temp);

@@ -30,7 +30,7 @@ const ShiftTable = ({shifts, removeShift, createMode, editMode, setConfirmState,
                                         }>{start} - {end}</h5>
                                         <p className="align-right">Start: {shift.startLocation}<br/>End: {shift.endLocation}</p>
                                     </div>
-                                    {createMode && <RemoveButton onClick={removeShift}/>}
+                                    {createMode && <RemoveButton onClick={() => removeShift(i)}/>}
                                 </div>
                             )
                         })
