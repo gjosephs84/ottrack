@@ -4,6 +4,7 @@ import { useQuery, gql } from "@apollo/client";
 import ShiftCreator from "../components/shiftCreator";
 import ShiftTable from "../components/shift-table";
 import ConfirmBox from "../components/confirmBox";
+import NotifyButton from "../components/notifyButton";
 import { cleanOfferingData } from "../components/cleanOfferingData";
 
 // The graphql query to retrieve all the offerings
@@ -253,6 +254,13 @@ const CreateOffering = () => {
             <p className="box-350">
               Success! The offering has been published. You may check for lifeguard responses and assign shifts from the Admin page.
             </p>
+          </div>
+          <div className="centered">
+          <NotifyButton 
+              subject={"New Overtime Shifts are Available"}
+              bodyText={"Hello Team, a new overtime offering is available. Please log in to OTTrack to submit your preferences. Thanks!"}
+              buttonText={"Notify Guards"}
+            />
           </div>
         </div>
       ) : (

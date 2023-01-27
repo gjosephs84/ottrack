@@ -1,18 +1,18 @@
 import axios from "axios";
 import React from "react";
 import { UserContext } from "../context/context";
-import MITCard from "./mitCard";
 import convertTime from "./timeConverter";
+import NotifyButton from "./notifyButton";
 
 const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
     console.log("emails is: ", emails);
     console.log("offering is: ", offering);
     console.log(offering.offeringId);
-    let emailTemplate = "mailto:";
-    emails.forEach(email => emailTemplate += `${email},`);
-    console.log("emailTemplate is: ", emailTemplate);
-    emailTemplate.slice(0,-1);
-    emailTemplate += `?subject=New Overtime Shifts have been Assigned&body=Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard. Feel free to respond here if you have any questions. Thanks!`
+    //let emailTemplate = "mailto:";
+    //emails.forEach(email => emailTemplate += `${email},`);
+    //console.log("emailTemplate is: ", emailTemplate);
+    //emailTemplate.slice(0,-1);
+    //emailTemplate += `?subject=New Overtime Shifts have been Assigned&body=Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard. Feel free to respond here if you have any questions. Thanks!`
     // Bring in the context in order to record who is doing the assigning
     const ctx = React.useContext(UserContext);
     if (offering.responses.length == 0) {
@@ -580,8 +580,11 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
                 })}
             </div>
             <br/>
-            <a href={emailTemplate}>
-            <button>Notify Guards of Results</button></a>
+            <NotifyButton 
+              subject={"New Overtime Shifts have been Assigned"}
+              bodyText={"Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard once you log in. Feel free to respond here if you have any questions. Thanks!"}
+              buttonText={"Notify Guards"}
+            />
             </div>
             }
             </div>
