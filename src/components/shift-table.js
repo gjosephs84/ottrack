@@ -4,7 +4,7 @@ import MITCard from "./mitCard";
 import DateBox from "./dateBox";
 import RemoveButton from "./removeButton";
 
-const ShiftTable = ({shifts, removeShift, createMode, editMode, setConfirmState, title, buttonText, minWidth, maxWidth}) => {
+const ShiftTable = ({shifts, removeShift, createMode, editMode, showAssigned, setConfirmState, title, buttonText, minWidth, maxWidth}) => {
     return (
         <div>
             <MITCard 
@@ -31,6 +31,7 @@ const ShiftTable = ({shifts, removeShift, createMode, editMode, setConfirmState,
                                         <p className="align-right">Start: {shift.startLocation}<br/>End: {shift.endLocation}</p>
                                     </div>
                                     {createMode && <RemoveButton onClick={() => removeShift(i)}/>}
+                                    {showAssigned && <p className="rotated">{shift.assignedTo}</p>}
                                 </div>
                             )
                         })

@@ -4,18 +4,24 @@ import { useQuery, gql } from "@apollo/client";
 // The graphql query to retrieve all the offerings
 const GET_OFFERINGS = gql`
 query GetOfferings{
-    offerings {
-      data {
-        attributes {
-          active
-          shifts {
-            data {
-              attributes {
-                date
-                startTime
-                endTime
-                startLocation
-                endLocation
+  offerings (sort: "createdAt:desc", pagination: { limit: 100 }) {
+    data {
+      attributes {
+        active
+        shifts {
+          data {
+            attributes {
+              date
+              startTime
+              endTime
+              startLocation
+              endLocation
+              assigned_to {
+                data {
+                  attributes {
+                    username
+                  }
+                }
               }
             }
           }
@@ -23,6 +29,7 @@ query GetOfferings{
       }
     }
   }
+}
 `;
 
 const History = () => {
@@ -46,7 +53,22 @@ const History = () => {
         // Begin with a place to hold the super-clean version
         const cleanOffering = [];
         for (let j=0; j<current.length; j++) {
-            cleanOffering.push(current[j].attributes);
+            let assigned;
+            if (current[j].attributes.assigned_to.data == null) {
+              assigned = "Not Assigned"
+            } else {
+              assigned = current[j].attributes.assigned_to.data.attributes.username
+            }
+            const shiftData = current[j].attributes;
+            const cleanShiftObject = {
+              startTime: shiftData.startTime,
+              endTime: shiftData.endTime,
+              startLocation: shiftData.startLocation,
+              endLocation: shiftData.endLocation,
+              date: shiftData.date,
+              assignedTo: assigned
+            }
+            cleanOffering.push(cleanShiftObject);
         };
         // Now push the clean offering into offerings
         console.log("cleanOffering is: ", cleanOffering);
@@ -59,7 +81,6 @@ const History = () => {
     };
     // Reverse the array so offerings appear with most recent first
     currentOfferings.reverse();
-    oldOfferings.reverse();
     return (
         <div className="centered">
             <div>
@@ -73,7 +94,14 @@ const History = () => {
             )}
             {oldOfferings.map((offering, i) =>
                 <div key={i}>
-                <ShiftTable key={i} shifts={offering} removeShift={null} title={"Previous Offerings"}/>
+                <ShiftTable 
+                  key={i} 
+                  shifts={offering} 
+                  removeShift={null} 
+                  title={"Previous Offering"} 
+                  minWidth={"350px"}
+                  showAssigned={true}
+                  />
                 <br/>
                 </div>
             )}

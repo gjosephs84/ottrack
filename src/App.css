@@ -549,3 +549,8 @@ button:disabled {
 .centered-text {
   text-align: center;
 }
+
+.rotated {
+  transform: rotate(90deg);
+  font-weight: bolder;
+}
