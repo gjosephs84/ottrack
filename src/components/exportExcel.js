@@ -1,9 +1,9 @@
-/*var XLSX = require("xlsx");
+import {utils, writeFileXLSX } from "xlsx"
 
 const ExportExcel = (offering) => {
     console.log("Offering coming in is: ", offering);
     // First create a workbook
-    var workbook = XLSX.utils.book_new();
+    var workbook = utils.book_new();
     // Create an array of arrays to populate the worksheet
     const wSheet = [];
     // First row will be the header
@@ -17,14 +17,14 @@ const ExportExcel = (offering) => {
     });
     console.log("wSheet is: ", wSheet);
     // Now, create the worksheet
-    var worksheet = XLSX.utils.aoa_to_sheet(wSheet);
+    var worksheet = utils.aoa_to_sheet(wSheet);
     console.log('worksheet is: ', worksheet);
 
     // Now add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, "shifts");
+    utils.book_append_sheet(workbook, worksheet, "shifts");
     // A function to actually try to export the file
     const handleClick = () => {
-        XLSX.writeFileXLSX(workbook, "OTShifts.xlsx");
+        writeFileXLSX(workbook, "OTShifts.xlsx");
         console.log("Triggered handleClick. Did it work?");
     }
     return (
@@ -33,4 +33,3 @@ const ExportExcel = (offering) => {
 }
 
 export default ExportExcel;
-*/
