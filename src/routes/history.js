@@ -85,7 +85,10 @@ const History = () => {
     return (
         <div className="centered">
             <div>
+            
                 <h2 className="centered">Offerings History</h2>
+                <ExportExcel/>
+                <br/>
                 <br/>
             {currentOfferings.map((offering, i) =>
                 <div key={i}>
@@ -104,7 +107,6 @@ const History = () => {
                   showAssigned={true}
                   />
                 <br/>
-                <ExportExcel offering={offering}/>
                 </div>
             )}
             </div>

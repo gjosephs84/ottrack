@@ -1,7 +1,36 @@
-import {utils, writeFileXLSX } from "xlsx"
+import {utils, writeFileXLSX } from "xlsx";
+import { useQuery, gql } from "@apollo/client";
 
-const ExportExcel = (offering) => {
-    console.log("Offering coming in is: ", offering);
+const GET_SHIFTS = gql`
+query getShifts {
+    shifts (sort: "date:desc", pagination: { limit: 100}) {
+      data {
+        attributes {
+          date
+          startTime
+          endTime
+          startLocation
+          endLocation
+          assigned_to {
+            data {
+              attributes {
+                username
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+const ExportExcel = () => {
+    const { loading, error, data } = useQuery(GET_SHIFTS, {
+        fetchPolicy: 'network-only'
+      });
+      if (loading) return <p>Loading ...</p>;
+      if (error) return <p>Error</p>
+      console.log("data is: ", data.shifts.data);
+      const offering = data.shifts.data;
     // First create a workbook
     var workbook = utils.book_new();
     // Create an array of arrays to populate the worksheet
@@ -9,11 +38,12 @@ const ExportExcel = (offering) => {
     // First row will be the header
     wSheet.push(['Date','Start Time','End Time','Start Location','End Location','Shift Length','Assigned To']);
     // Now generate the rows
-    console.log("I think I want ... ", offering.offering);
-    offering.offering.forEach(shift => {
-        const shiftLength = shift.endTime - shift.startTime;
+    console.log("I think I want ... ", offering);
+    offering.forEach(shift => {
+        const theShift = shift.attributes;
+        const shiftLength = theShift.endTime - theShift.startTime;
         console.log("Shift Length is: ", shiftLength);
-        wSheet.push([shift.date, shift.startTime, shift.endTime, shift.startLocation, shift.endLocation, shiftLength, shift.assignedTo]);
+        wSheet.push([theShift.date, theShift.startTime, theShift.endTime, theShift.startLocation, theShift.endLocation, shiftLength, theShift.assigned_to.data.attributes.username]);
     });
     console.log("wSheet is: ", wSheet);
     // Now, create the worksheet
