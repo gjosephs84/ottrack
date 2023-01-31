@@ -1,3 +1,5 @@
+/*
+
 var XLSX = require("xlsx");
 
 const ExportExcel = (offering) => {
@@ -33,3 +35,4 @@ const ExportExcel = (offering) => {
 }
 
 export default ExportExcel;
+*/
