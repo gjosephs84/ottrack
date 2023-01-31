@@ -1,5 +1,5 @@
 import ShiftTable from "../components/shift-table";
-import ExportExcel from "../components/exportExcel";
+//import ExportExcel from "../components/exportExcel";
 import { useQuery, gql } from "@apollo/client";
 
 // The graphql query to retrieve all the offerings
@@ -104,7 +104,6 @@ const History = () => {
                   showAssigned={true}
                   />
                 <br/>
-                <ExportExcel offering={offering}/>
                 </div>
             )}
             </div>

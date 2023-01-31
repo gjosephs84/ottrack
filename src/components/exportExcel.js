@@ -1,4 +1,4 @@
-var XLSX = require("xlsx");
+/*var XLSX = require("xlsx");
 
 const ExportExcel = (offering) => {
     console.log("Offering coming in is: ", offering);
@@ -33,3 +33,4 @@ const ExportExcel = (offering) => {
 }
 
 export default ExportExcel;
+*/
