@@ -85,7 +85,7 @@ const History = () => {
     return (
         <div className="centered">
             <div>
-                <h2 className="centered">Offerings History!!!</h2>
+                <h2 className="centered">Offerings History</h2>
                 <br/>
             {currentOfferings.map((offering, i) =>
                 <div key={i}>
