@@ -28,7 +28,7 @@ const ShiftTable = ({shifts, removeShift, createMode, editMode, showAssigned, se
                                             marginBottom: "-5px"
                                         }
                                         }>{start} - {end}</h5>
-                                        <p className="align-right">Start: {shift.startLocation}<br/>End: {shift.endLocation}</p>
+                                        <p className="align-right">Starts at: {shift.startLocation}<br/>Ends at: {shift.endLocation}</p>
                                     </div>
                                     {createMode && <RemoveButton onClick={() => removeShift(i)}/>}
                                     {showAssigned && <p className="rotated">{shift.assignedTo}</p>}

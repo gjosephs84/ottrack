@@ -3,6 +3,7 @@ import axios              from 'axios';
 import SelectableShifts   from "../components/selectableShifts";
 import ShiftRanker        from "../components/shiftRanker";
 import ConfirmBox         from "../components/confirmBox";
+import PartialAvailability from "../components/partial-availability";
 import { useQuery, gql }  from "@apollo/client";
 import { ShiftContext }   from "../context/shift-context";
 import { UserContext }    from "../context/context";
@@ -64,6 +65,7 @@ const SelectShifts = () => {
     const [show, setShow]                           = React.useState(true);
     const [showSuccess, setShowSuccess]             = React.useState(false);
     const [showDecline, setShowDecline]             = React.useState(true);
+    const [showPartial, setShowPartial]             = React.useState(false);
     const [disableSubmit, setDisableSubmit]         = React.useState(true);
     const [rankingError, setRankingError]           = React.useState(null);
     const [confirmDeclineAll, setConfirmDeclineAll] = React.useState(false);
@@ -242,8 +244,6 @@ const SelectShifts = () => {
         or has done so previously, so there are no shifts
         to select from.
 
-        That part will need to be added in ...
-
         */}
 
         {showSuccess ? (
@@ -301,6 +301,31 @@ const SelectShifts = () => {
                 buttonNo="No"
               />
               }
+              <div className="centered">
+                <h4>Add Partial Availability?</h4>
+              </div>
+              <div className="centered">
+                <select onChange={(e) => {
+                  if (e.target.value == "false") {
+                    setShowPartial(false);
+                  };
+                  if (e.target.value == "true") {
+                    setShowPartial(true);
+                  }
+                }}>
+                  <option value={"false"}>No</option>
+                  <option value={"true"}>Yes</option>
+                </select>
+              </div>
+              <br/>
+              {showPartial && <div>
+                <div className="centered">
+                <p className="box-350">Available to work just part of a shift listed above? Select the shift number and the hours you are available to work.</p>
+              </div>
+              <div className="centered">
+                <PartialAvailability offering={offerings[0]}/>
+              </div>
+              </div>}
               <div className="centered">
                   {showDecline && <button className="button-wide button-tall" onClick={() => {setConfirmDeclineAll(true)}}>Decline All</button>}
                   {!showDecline && <button className="button-wide button-tall" onClick={handleSubmit}>Continue</button>}

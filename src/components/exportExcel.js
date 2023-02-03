@@ -41,9 +41,11 @@ const ExportExcel = () => {
     console.log("I think I want ... ", offering);
     offering.forEach(shift => {
         const theShift = shift.attributes;
+        if (theShift.assigned_to.data !== null) {
         const shiftLength = theShift.endTime - theShift.startTime;
         console.log("Shift Length is: ", shiftLength);
         wSheet.push([theShift.date, theShift.startTime, theShift.endTime, theShift.startLocation, theShift.endLocation, shiftLength, theShift.assigned_to.data.attributes.username]);
+        }
     });
     console.log("wSheet is: ", wSheet);
     // Now, create the worksheet

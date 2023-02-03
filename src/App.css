@@ -415,7 +415,7 @@ button:disabled {
 
 .shift-layout {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 2fr 6fr 1fr;
 }
 
 .shift-layout-narrower {
@@ -553,4 +553,20 @@ button:disabled {
 .rotated {
   transform: rotate(90deg);
   font-weight: bolder;
+}
+
+.partial-shift {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  width: 350px;
+  text-align: center;
+}
+.partial-time {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  margin-left: 20px;
+  text-align: right;
+}
+.id-picker {
+  max-height: 30px;
 }

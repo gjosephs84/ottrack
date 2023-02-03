@@ -92,7 +92,9 @@ const History = () => {
                 <br/>
             {currentOfferings.map((offering, i) =>
                 <div key={i}>
-                <ShiftTable key={i} shifts={offering} removeShift={null} title={"Current Offering"}/>
+                <ShiftTable key={i} shifts={offering} removeShift={null} title={"Current Offering"}
+                minWidth={"350px"}
+                />
                 <br/>
                 </div>
             )}

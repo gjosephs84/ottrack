@@ -68,7 +68,7 @@ const AShift = (shift, i) => {
     const shiftCtx = React.useContext(ShiftContext);
     const [showDecline, setShowDecline] = shiftCtx.declineState;
      // Let's make life easier by doing a little destructuring:
-    const { date, startTime, endTime, startLocation, endLocation, holiday } = shift.shift;
+    const { id, date, startTime, endTime, startLocation, endLocation, holiday } = shift.shift;
     let unselectedClass;
     if (holiday == true) 
         {
@@ -130,6 +130,9 @@ const AShift = (shift, i) => {
                         <h6 style={{marginTop: "5px"}}>Starts at: {startLocation}</h6>
                         <h6 style={{marginTop: "-5px", marginBottom: "-5px"}}>Ends at: {endLocation}</h6>
                     </div>
+                    <div>
+                    <h6 className="rotated">{id}</h6>
+                    </div>
                 </div>
             </div>
         )   
@@ -142,6 +145,9 @@ const AShift = (shift, i) => {
                         <h4>{start} - {end}</h4>
                         <h6 style={{marginTop: "5px"}}>Starts at: {startLocation}</h6>
                         <h6 style={{marginTop: "-5px", marginBottom: "-5px"}}>Ends at: {endLocation}</h6>
+                    </div>
+                    <div>
+                    <h6 className="rotated">{id}</h6>
                     </div>
                 </div>
             </div>
