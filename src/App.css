@@ -570,3 +570,8 @@ button:disabled {
 .id-picker {
   max-height: 30px;
 }
+
+.pink {
+  background-color:#a66c76;
+
+}

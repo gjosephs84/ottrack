@@ -34,6 +34,9 @@
       "relation": "manyToOne",
       "target": "api::offering-response.offering-response",
       "inversedBy": "respondants"
+    },
+    "partials": {
+      "type": "json"
     }
   }
 }

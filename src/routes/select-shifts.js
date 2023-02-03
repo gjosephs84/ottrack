@@ -4,6 +4,7 @@ import SelectableShifts   from "../components/selectableShifts";
 import ShiftRanker        from "../components/shiftRanker";
 import ConfirmBox         from "../components/confirmBox";
 import PartialAvailability from "../components/partial-availability";
+import ShiftTable from "../components/shift-table";
 import { useQuery, gql }  from "@apollo/client";
 import { ShiftContext }   from "../context/shift-context";
 import { UserContext }    from "../context/context";
@@ -78,13 +79,18 @@ const SelectShifts = () => {
     // A function to handle submit of initial preferences
     const handleSubmit = () => {
       setShow(false);
+      if (shiftCtx.selected.length === 0) {
+        setDisableSubmit(false);
+      }
     };
 
     // A function to go back to selecting preferences
     const goBack = () => {
       shiftCtx.selected = [];
       shiftCtx.ranked = [];
+      shiftCtx.partial = [];
       setShow(true);
+      setShowPartial(false);
       setDisableSubmit(true);
       setShowDecline(true);
       setRankingError("");
@@ -171,8 +177,6 @@ const SelectShifts = () => {
               endLocation: endLocation,
               holiday: holiday
               };
-            console.log("Clean Shift is:");
-            console.log(cleanShift);
             cleanOffering.push(cleanShift);
         };
         // Now push the clean offering into offerings
@@ -200,7 +204,8 @@ const SelectShifts = () => {
           data: {
             offering_response: responseIds[0],
             users_permissions_user: ctx.currentUser.id,
-            name: ctx.currentUser.username
+            name: ctx.currentUser.username,
+            partials: shiftCtx.partial
           }
         })
         .then(response => {
@@ -283,8 +288,7 @@ const SelectShifts = () => {
                       shifts={offering} 
                       key={i} 
                       id={i}
-                      >
-                      </SelectableShifts> 
+                      />
                       )
                   })
                   }
@@ -346,9 +350,10 @@ const SelectShifts = () => {
                   <h2>Rank Assignment Preference</h2>
                 </div>
                 <div className="centered">
-                  <p style={{textAlign:"center"}}>Please rank the shifts below from 1 through {shiftCtx.selected.length},<br/>
+                  {shiftCtx.selected.length > 0 && <p style={{textAlign:"center"}}>Please rank the shifts below from 1 through {shiftCtx.selected.length},<br/>
                   with 1 being your first choice,<br/>and {shiftCtx.selected.length} being your
-                  last choice.</p>
+                  last choice.</p>}
+                  {shiftCtx.selected.length === 0 && <p style={{textAlign:"center"}}>Nothing here to rank! Submit or go back.</p>}
                 </div>
                 <div className="centered">
                   <div>
@@ -360,6 +365,15 @@ const SelectShifts = () => {
                   </div>
                 </div>
                 <br/>
+                {shiftCtx.partial.length > 0 && <div>
+                  <ShiftTable
+                    title={"My Partial Availability"}
+                    shifts={shiftCtx.partial}
+                    minWidth="350px"
+                  />
+                  <h5 className="box-350" style={{textAlign:"center"}}>NOTE: You will be assigned partial shifts in accordance with your preferences at a managers discretion, and only if the shift cannot be assigned in its entirety to another lifeguard.</h5>
+                  <br/>
+                  </div>}
                 <div className="centered">
                   <button className="button-wide button-tall" onClick={goBack}>Go Back</button>
                 </div>

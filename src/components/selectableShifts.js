@@ -160,8 +160,6 @@ const SelectableShifts = ({shifts, showDecline, setShowDecline}) => {
     
     const theDate = new Date(shifts[0].date);
     console.log(theDate);
-    console.log('showDecline inside selectableShifts is: ', showDecline)
-
     return (
         <div>
         {shifts.map((shift, i) => {

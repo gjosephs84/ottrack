@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2023-01-17T12:07:13.901Z"
+    "x-generation-date": "2023-02-03T14:47:40.371Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -899,6 +899,7 @@
                                                                     }
                                                                   }
                                                                 },
+                                                                "partials": {},
                                                                 "createdAt": {
                                                                   "type": "string",
                                                                   "format": "date-time"
@@ -1994,6 +1995,7 @@
                                                                     }
                                                                   }
                                                                 },
+                                                                "partials": {},
                                                                 "createdAt": {
                                                                   "type": "string",
                                                                   "format": "date-time"
@@ -3122,6 +3124,7 @@
                                                                     }
                                                                   }
                                                                 },
+                                                                "partials": {},
                                                                 "createdAt": {
                                                                   "type": "string",
                                                                   "format": "date-time"
@@ -4217,6 +4220,7 @@
                                                                     }
                                                                   }
                                                                 },
+                                                                "partials": {},
                                                                 "createdAt": {
                                                                   "type": "string",
                                                                   "format": "date-time"
@@ -5363,6 +5367,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -6458,6 +6463,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -7586,6 +7592,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -8681,6 +8688,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -9805,6 +9813,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -10897,6 +10906,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -12022,6 +12032,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -13114,6 +13125,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -14479,6 +14491,7 @@
                               }
                             }
                           },
+                          "partials": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -15571,6 +15584,7 @@
                               }
                             }
                           },
+                          "partials": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -16696,6 +16710,7 @@
                               }
                             }
                           },
+                          "partials": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -17788,6 +17803,7 @@
                               }
                             }
                           },
+                          "partials": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -17968,7 +17984,8 @@
                   }
                 ],
                 "example": "string or id"
-              }
+              },
+              "partials": {}
             }
           }
         }
@@ -18691,6 +18708,7 @@
                                                                                   }
                                                                                 }
                                                                               },
+                                                                              "partials": {},
                                                                               "createdAt": {
                                                                                 "type": "string",
                                                                                 "format": "date-time"
@@ -19038,6 +19056,7 @@
                   }
                 }
               },
+              "partials": {},
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -19806,6 +19825,7 @@
                                                                                   }
                                                                                 }
                                                                               },
+                                                                              "partials": {},
                                                                               "createdAt": {
                                                                                 "type": "string",
                                                                                 "format": "date-time"
@@ -20153,6 +20173,7 @@
                   }
                 }
               },
+              "partials": {},
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -20954,6 +20975,7 @@
                                                                                   }
                                                                                 }
                                                                               },
+                                                                              "partials": {},
                                                                               "createdAt": {
                                                                                 "type": "string",
                                                                                 "format": "date-time"
@@ -21301,6 +21323,7 @@
                   }
                 }
               },
+              "partials": {},
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -22069,6 +22092,7 @@
                                                                                   }
                                                                                 }
                                                                               },
+                                                                              "partials": {},
                                                                               "createdAt": {
                                                                                 "type": "string",
                                                                                 "format": "date-time"
@@ -22416,6 +22440,7 @@
                   }
                 }
               },
+              "partials": {},
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -23302,6 +23327,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -24429,6 +24455,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -25589,6 +25616,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -26716,6 +26744,7 @@
                                                                       }
                                                                     }
                                                                   },
+                                                                  "partials": {},
                                                                   "createdAt": {
                                                                     "type": "string",
                                                                     "format": "date-time"
@@ -32914,6 +32943,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -33985,6 +34015,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -35089,6 +35120,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -36160,6 +36192,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -37254,6 +37287,7 @@
                                                                                                               }
                                                                                                             }
                                                                                                           },
+                                                                                                          "partials": {},
                                                                                                           "createdAt": {
                                                                                                             "type": "string",
                                                                                                             "format": "date-time"
@@ -38354,6 +38388,7 @@
                                                                                                               }
                                                                                                             }
                                                                                                           },
+                                                                                                          "partials": {},
                                                                                                           "createdAt": {
                                                                                                             "type": "string",
                                                                                                             "format": "date-time"
@@ -39487,6 +39522,7 @@
                                                                                                               }
                                                                                                             }
                                                                                                           },
+                                                                                                          "partials": {},
                                                                                                           "createdAt": {
                                                                                                             "type": "string",
                                                                                                             "format": "date-time"
@@ -40587,6 +40623,7 @@
                                                                                                               }
                                                                                                             }
                                                                                                           },
+                                                                                                          "partials": {},
                                                                                                           "createdAt": {
                                                                                                             "type": "string",
                                                                                                             "format": "date-time"
@@ -41832,6 +41869,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -42949,6 +42987,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -44099,6 +44138,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
@@ -45216,6 +45256,7 @@
                                                                                                 }
                                                                                               }
                                                                                             },
+                                                                                            "partials": {},
                                                                                             "createdAt": {
                                                                                               "type": "string",
                                                                                               "format": "date-time"
