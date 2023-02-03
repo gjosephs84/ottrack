@@ -100,7 +100,8 @@ const AShift = (shift, i) => {
             console.log("Removed Shift:");
             console.log(shiftCtx.selected);
             console.log(shiftCtx.ranked);
-            if (shiftCtx.selected.length == 0) {
+            console.log(shiftCtx.partial);
+            if (shiftCtx.selected.length === 0 && shiftCtx.partial.length === 0) {
                 setShowDecline(true);
             }
 

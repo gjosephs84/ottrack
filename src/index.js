@@ -57,6 +57,7 @@ root.render(
         <ShiftContext.Provider value={
           { selected: [],
             ranked: [],
+            partial: [],
             schedule: {
               monday: {
                 start: 0,

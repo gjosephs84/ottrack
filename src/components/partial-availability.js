@@ -1,10 +1,13 @@
 import React from "react";
+import { ShiftContext } from "../context/shift-context";
 import TimePicker from "./timePicker";
 import ShiftTable from "./shift-table";
 
 const PartialAvailability = ({offering}) => {
+    const shiftCtx = React.useContext(ShiftContext);
     const shiftIds = [];
     const [partialShifts, setPartialShifts] = React.useState([]);
+    const [showDecline, setShowDecline] = shiftCtx.declineState;
     offering.forEach(shift => {
         shiftIds.push({
             shift: shift.id,
@@ -23,6 +26,11 @@ const PartialAvailability = ({offering}) => {
             let temp = [...partialShifts];
             temp.splice(index, 1);
             setPartialShifts(temp);
+            shiftCtx.partial = temp;
+            if (temp.length == 0 && shiftCtx.selected.length == 0) {
+                console.log("shiftCtx.partial is: ", shiftCtx.partial);
+                setShowDecline(true);
+            }
         }
         // A function to add the partial availability shift
         const handleClick = (id, start, end) => {
@@ -42,6 +50,8 @@ const PartialAvailability = ({offering}) => {
                 endLocation: "TBD"
             });
             setPartialShifts(tempShifts);
+            shiftCtx.partial = tempShifts;
+            setShowDecline(false);
 
         }
         return (
