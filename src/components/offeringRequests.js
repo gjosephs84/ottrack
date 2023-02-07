@@ -29,6 +29,7 @@ query GetActiveOfferingsResponses{
                 respondants {
                   data {
                     attributes {
+                      partials
                       users_permissions_user {
                         data {
                           id
@@ -179,6 +180,7 @@ const OfferingsRequests = () => {
         rawRespondants.forEach(respondant => {
 
             // Begin by isolating the user data
+            const partials = respondant.attributes.partials;
             const { username, seniority } = respondant.attributes.users_permissions_user.data.attributes;
             const id = respondant.attributes.users_permissions_user.data.id;
 
@@ -195,7 +197,8 @@ const OfferingsRequests = () => {
                 username: username,
                 userId: id,
                 seniority: seniority,
-                shiftResponses: cleanShifts
+                shiftResponses: cleanShifts,
+                partials: partials
             });
         });
 

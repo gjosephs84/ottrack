@@ -20,7 +20,6 @@ const convertTime = (time) => {
         };
     minute = time.toString().slice(-2);
     let minuteString = minute[0].toString() + minute[1].toString();
-    console.log('minuteString is: ', minuteString);
     hour -= Number(minute);
     hour = hour / 100;
     let timeString = `${hour}:${minuteString} ${amPm}`;

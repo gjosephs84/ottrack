@@ -3,8 +3,10 @@ import convertTime from "./timeConverter";
 import MITCard from "./mitCard";
 import DateBox from "./dateBox";
 import RemoveButton from "./removeButton";
+import ConfirmButton from "./confirmButton";
 
-const ShiftTable = ({shifts, removeShift, createMode, editMode, showAssigned, setConfirmState, title, buttonText, minWidth, maxWidth}) => {
+const ShiftTable = ({shifts, addShift, removeShift, createMode, editMode, partialAvailability, showAssigned, setConfirmState, title, buttonText, minWidth, maxWidth, onPartialsConfirm}) => {
+    console.log("shifts coming into shiftTable is: ", shifts);
     return (
         <div>
             <MITCard 
@@ -28,9 +30,13 @@ const ShiftTable = ({shifts, removeShift, createMode, editMode, showAssigned, se
                                             marginBottom: "-5px"
                                         }
                                         }>{start} - {end}</h5>
-                                        <p className="align-right">Starts at: {shift.startLocation}<br/>Ends at: {shift.endLocation}</p>
+                                        {!partialAvailability && <p className="align-right">Starts at: {shift.startLocation}<br/>Ends at: {shift.endLocation}</p>}
+                                        {partialAvailability && <p className="align-right">
+                                        Requested by: {shift.username}<br/>
+                                        Shift ID: {shift.id}</p>}
                                     </div>
                                     {createMode && <RemoveButton onClick={() => removeShift(i)}/>}
+                                    {(partialAvailability && !createMode) && <ConfirmButton onClick={() => addShift(i)}/>}
                                     {showAssigned && <p className="rotated">{shift.assignedTo}</p>}
                                 </div>
                             )
@@ -38,11 +44,14 @@ const ShiftTable = ({shifts, removeShift, createMode, editMode, showAssigned, se
                         }
                         {editMode && 
                         <div style={{marginTop:"20px"}}>
-                            {shifts.length > 0 && <button 
+                            {(shifts.length > 0 && !onPartialsConfirm) &&<button 
                             className="button-full"
                             onClick={() => {setConfirmState(true)}}>
                             {buttonText}    
                             </button>}
+                            {(shifts.length > 0 && onPartialsConfirm) && <button
+                            className="button-full"
+                            onClick={onPartialsConfirm}>{buttonText}</button>}
                         </div>}
                     </div>
                 }

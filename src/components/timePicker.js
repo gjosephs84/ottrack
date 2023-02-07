@@ -52,7 +52,6 @@ const TimePicker = ({parentState, setParentState, name}) => {
         // Now, convert all the data we're getting to 24 hour time:
 
         let time = convertToTwentyFour();
-        console.log(`Time in handleChange is: `, time);
         setParentState(time);
     };
 

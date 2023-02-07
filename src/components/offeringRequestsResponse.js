@@ -3,6 +3,7 @@ import React from "react";
 import { UserContext } from "../context/context";
 import convertTime from "./timeConverter";
 import NotifyButton from "./notifyButton";
+import AssignPartial from "./assignPartial";
 
 const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
     console.log("emails is: ", emails);
@@ -22,6 +23,8 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
     const shiftIds = [];
     const conflicts = [];
     const assignmentLog = [];
+    const unassignedShifts = [];
+    const eligiblePartials = [];
     let defaultFirstGuard;
     let defaultFirstGuardIndex;
     let alternateFirstGuard;
@@ -123,10 +126,12 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
         username: response.username,
         seniority: response.seniority,
         userId: response.userId,
-        responses: responsesToMap
+        responses: responsesToMap,
+        partials: response.partials
       })  
     }
     );
+    console.log('          responses is: ', responses);
 
 /*****
   * * * * *
@@ -379,6 +384,8 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
             assignedShifts.forEach(shift => {
               const { id, assignedTo } = shift;
               if (assignedTo == null) {
+                // If a shift didn't get assigned, put it here so we can see if there are any partials.
+                unassignedShifts.push(shift);
                 return;
               }
               // Find the right respondant
@@ -392,12 +399,35 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
                 }
               }
             });
+            console.log('--------------------------unassigned shifts is: *', unassignedShifts);
     
             // Make sure shifts in responses show up in the correct order
             responses.forEach(response => {
               response.responses.sort((a,b) => (a.id > b.id) ? 1 : -1);
             });
-            
+
+// LET'S SEE IF ANY UNASSIGNED SHIFTS HAVE MATCHING PARTIALS
+            console.log("RESPONSES IS:::::", responses)
+            unassignedShifts.forEach(shift => {
+                responses.forEach(response => {
+                    const {username, userId} = response;
+                    response.partials.forEach(partial => {
+                        if (partial.id === shift.id) {
+                            const {id, date, startTime, endTime} = partial;
+                            const partialWithUser = {
+                                username: username,
+                                userId: userId,
+                                id: id,
+                                date: date,
+                                startTime: startTime,
+                                endTime: endTime
+                            }
+                            eligiblePartials.push(partialWithUser);
+                        }
+                    })
+                })
+            })
+            console.log("eligible partials is: ", eligiblePartials);
 // LETS UPDATE THE DATABASE TO ACTUALLY ATTACH GUARDS TO SHIFTS!!!!!!!!!!!!!!
             console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             assignedShifts.forEach(shift => {
@@ -585,6 +615,8 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
               bodyText={"Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard once you log in. Feel free to respond here if you have any questions. Thanks!"}
               buttonText={"Notify Guards"}
             />
+            {JSON.stringify(unassignedShifts)}
+            <AssignPartial shifts={eligiblePartials}/>
             </div>
             }
             </div>
