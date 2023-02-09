@@ -1,7 +1,7 @@
 {
   "name": "ottrack",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "homepage": "http://gjosephs84.github.io/ottrack/",
   "dependencies": {
     "@apollo/client": "^3.6.9",
