@@ -24,7 +24,7 @@ function NavigationBar() {
     return (
         <div>
             {/* Here is the navbar before a successful login */}
-            {!loggedIn && <Navbar className="color-nav" variant="light" expand="lg">
+            {!loggedIn && <Navbar className="color-nav" variant="dark" collapseOnSelect expand="lg">
                 <Container>
                     <Navbar.Brand href="/">OTTrack</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -41,7 +41,7 @@ function NavigationBar() {
                 </Container>
             </Navbar>}
             {/* Here is the navbar after a successful login */}
-            {loggedIn && <Navbar className="color-nav" variant="light" expand="lg">
+            {loggedIn && <Navbar className="color-nav" variant="dark" collapseOnSelect expand="lg">
                 <Container>
                     <Navbar.Brand href="/">OTTrack</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>

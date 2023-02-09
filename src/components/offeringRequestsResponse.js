@@ -9,16 +9,14 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
     console.log("emails is: ", emails);
     console.log("offering is: ", offering);
     console.log(offering.offeringId);
-    //let emailTemplate = "mailto:";
-    //emails.forEach(email => emailTemplate += `${email},`);
-    //console.log("emailTemplate is: ", emailTemplate);
-    //emailTemplate.slice(0,-1);
-    //emailTemplate += `?subject=New Overtime Shifts have been Assigned&body=Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard. Feel free to respond here if you have any questions. Thanks!`
+    
     // Bring in the context in order to record who is doing the assigning
     const ctx = React.useContext(UserContext);
     if (offering.responses.length == 0) {
         return (<p>Nothing to see here yet.</p>)
     }
+    const theOfferingId = offering.offeringId;
+    console.log("theOfferingId is: ", theOfferingId);
     const responses = [];
     const shiftIds = [];
     const conflicts = [];
@@ -610,13 +608,17 @@ const OfferingRequestsResponse = ({offering, lastRecipient, emails}) => {
                 })}
             </div>
             <br/>
+            <AssignPartial 
+                shifts={eligiblePartials}
+                offeringId={theOfferingId}/>
+            <br/>
+            <div className="box-350">
             <NotifyButton 
               subject={"New Overtime Shifts have been Assigned"}
               bodyText={"Hello team, new overtime shifts have been assigned. To check results, please visit OTTrack. Any upcoming shifts you were awarded will appear on your dashboard once you log in. Feel free to respond here if you have any questions. Thanks!"}
               buttonText={"Notify Guards"}
             />
-            {JSON.stringify(unassignedShifts)}
-            <AssignPartial shifts={eligiblePartials}/>
+            </div>
             </div>
             }
             </div>
