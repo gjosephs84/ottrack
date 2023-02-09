@@ -115,12 +115,6 @@ const ShiftCreator = ({title, createOffering, quickAssign, shifts, setShifts, of
 
   console.log("Past recipient data is: ", lastRecipients);
   console.log("lastRecipients[0].employeeId is: ", lastRecipients[0].employee);
-
-  const lastRecipInfo = guards.filter(guard => 
-    guard.id == lastRecipients[0].employee
-  );
-
-  console.log("Last recip is: ", lastRecipInfo[0].name);
    
 
   // A function to validate fields and see if the submit button shoudld enable
