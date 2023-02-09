@@ -47,7 +47,7 @@ EXPLANATION OF THE FOLLOWING:
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <BrowserRouter>
+      <BrowserRouter basename="https://gjosephs84.github.io/ottrack">
         <UserContext.Provider value={
           {currentUser: null,
           loginState: null,
