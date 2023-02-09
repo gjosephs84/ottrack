@@ -78,6 +78,7 @@ const SelectShifts = () => {
 
     // A function to handle submit of initial preferences
     const handleSubmit = () => {
+      window.scrollTo(0,0);
       setShow(false);
       if (shiftCtx.selected.length === 0) {
         setDisableSubmit(false);
@@ -86,6 +87,7 @@ const SelectShifts = () => {
 
     // A function to go back to selecting preferences
     const goBack = () => {
+      window.scrollTo(0,0);
       shiftCtx.selected = [];
       shiftCtx.ranked = [];
       shiftCtx.partial = [];
@@ -196,6 +198,7 @@ const SelectShifts = () => {
     
     // Here we submit the responses
     const submitResponse = async() => {
+      window.scrollTo(0,0);
       let respondantId;
 
       // First let's create a respondant
