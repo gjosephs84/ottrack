@@ -26,7 +26,7 @@ function NavigationBar() {
             {/* Here is the navbar before a successful login */}
             {!loggedIn && <Navbar className="color-nav" variant="dark" collapseOnSelect expand="lg">
                 <Container>
-                    <Navbar.Brand href="/">OTTrack</Navbar.Brand>
+                    <Navbar.Brand href="#">OTTrack</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
