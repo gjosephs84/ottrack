@@ -18,6 +18,7 @@ function NavigationBar() {
     // A function to handle logging out
     const logout = () => {
         setLoggedIn(false);
+        sessionStorage.removeItem('ctx');
         ctx.currentUser = null;
         setUserRole(null);
     }

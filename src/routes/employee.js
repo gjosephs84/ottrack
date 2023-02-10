@@ -5,6 +5,7 @@ import { ShiftContext } from "../context/shift-context";
 import MITCard from "../components/mitCard";
 import AssignedShifts from "../components/assignedShifts";
 import Day from "../components/dailySchedulePicker";
+import restoreSession from "../components/restoreSession";
 const daysOfWeek = [
     'Monday',
     'Tuesday',
@@ -20,6 +21,17 @@ const Employee = () => {
     // Bring in the contexts
     const ctx = React.useContext(UserContext);
     const shiftCtx = React.useContext(ShiftContext);
+
+    const [loggedIn, setLoggedIn]               = ctx.loginState;
+    const [userRole, setUserRole]               = ctx.userRole;
+
+    const restored = restoreSession();
+    console.log('restored is: ', restored);
+    if (restored === true) {
+        setLoggedIn(true);
+        setUserRole(ctx.currentUser.type);
+    }
+    console.log('ctx in its entirety is: ', ctx);
 
     // A function for updating a user's schedule
     const updateSchedule = async () => {

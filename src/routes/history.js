@@ -1,6 +1,9 @@
+import React from "react";
 import ShiftTable from "../components/shift-table";
 import ExportExcel from "../components/exportExcel";
 import { useQuery, gql } from "@apollo/client";
+import { UserContext } from "../context/context";
+import restoreSession from "../components/restoreSession";
 
 // The graphql query to retrieve all the offerings
 const GET_OFFERINGS = gql`
@@ -34,6 +37,17 @@ query GetOfferings{
 `;
 
 const History = () => {
+    const ctx = React.useContext(UserContext);
+    const [loggedIn, setLoggedIn]               = ctx.loginState;
+    const [userRole, setUserRole]               = ctx.userRole;
+
+    const restored = restoreSession();
+    console.log('restored is: ', restored);
+    if (restored === true) {
+        setLoggedIn(true);
+        setUserRole(ctx.currentUser.type);
+    }
+    console.log('ctx in its entirety is: ', ctx);
     const { loading, error, data } = useQuery(GET_OFFERINGS, {
       fetchPolicy: 'network-only'
     });

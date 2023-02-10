@@ -1,11 +1,13 @@
 import React from "react";
 import axios from 'axios';
 import { useQuery, gql } from "@apollo/client";
+import { UserContext } from "../context/context";
 import ShiftCreator from "../components/shiftCreator";
 import ShiftTable from "../components/shift-table";
 import ConfirmBox from "../components/confirmBox";
 import NotifyButton from "../components/notifyButton";
 import { cleanOfferingData } from "../components/cleanOfferingData";
+import restoreSession from "../components/restoreSession";
 
 // The graphql query to retrieve all the offerings
 const GET_OFFERINGS = gql`
@@ -56,6 +58,18 @@ const CreateOffering = () => {
   const [showConfirmDelete, setShowConfirmDelete] = React.useState(false);
   const [showSubmitted, setShowSubmitted] = React.useState(false);
   const [showDeleted, setShowDeleted] = React.useState(false);
+  const ctx = React.useContext(UserContext);
+  const [loggedIn, setLoggedIn]               = ctx.loginState;
+  const [userRole, setUserRole]               = ctx.userRole;
+
+  const restored = restoreSession();
+    console.log('restored is: ', restored);
+    if (restored === true) {
+        setLoggedIn(true);
+        setUserRole(ctx.currentUser.type);
+    }
+    console.log('ctx in its entirety is: ', ctx);
+
 
   // Check to see if an offering already exists
   const { loading, error, data } = useQuery(GET_OFFERINGS, {

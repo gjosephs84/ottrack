@@ -69,11 +69,18 @@ const LoginForm = ({loginSuccess, setLoginSuccess}) => {
                 ctx.currentUser = response.data.user;
                 // Set the user as logged in and update the type for
                 // conditional rendering of options in the navbar
+                ;
                 setLoggedIn(true);
                 setShow(false);
                 setUserRole(ctx.currentUser.type);
                 console.log(`ctx user is ${ctx.currentUser.username} and is of type ${ctx.currentUser.type}`);
                 console.log("Setting login success, hopefully");
+                console.log('ctx in its entirety is: ', ctx)
+                const stringified = JSON.stringify(ctx);
+                console.log(stringified);
+                sessionStorage.setItem('ctx', stringified);
+                const unstringed = JSON.parse(stringified);
+                console.log('unstringed is: ', unstringed);
                 if (ctx.currentUser.type == "Lifeguard") {
                     setLoginSuccess(true);
                 };

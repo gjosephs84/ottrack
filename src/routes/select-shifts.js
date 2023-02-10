@@ -8,6 +8,7 @@ import ShiftTable from "../components/shift-table";
 import { useQuery, gql }  from "@apollo/client";
 import { ShiftContext }   from "../context/shift-context";
 import { UserContext }    from "../context/context";
+import restoreSession from "../components/restoreSession";
 
 // The graphql query to retrieve all the active offerings
 /* 
@@ -70,6 +71,16 @@ const SelectShifts = () => {
     const [disableSubmit, setDisableSubmit]         = React.useState(true);
     const [rankingError, setRankingError]           = React.useState(null);
     const [confirmDeclineAll, setConfirmDeclineAll] = React.useState(false);
+    const [loggedIn, setLoggedIn]               = ctx.loginState;
+    const [userRole, setUserRole]               = ctx.userRole;
+
+    const restored = restoreSession();
+    console.log('restored is: ', restored);
+    if (restored === true) {
+        setLoggedIn(true);
+        setUserRole(ctx.currentUser.type);
+    }
+    console.log('ctx in its entirety is: ', ctx);
     
     // Inject the state variables into the shift context
     shiftCtx.declineState = [showDecline, setShowDecline];

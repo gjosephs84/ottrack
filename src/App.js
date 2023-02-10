@@ -4,6 +4,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { UserContext } from './context/context';
 import NavigationBar from './components/navbar';
+import restoreSession from './components/restoreSession';
 
 
 
